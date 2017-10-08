@@ -1,3 +1,6 @@
+#ifndef __INSTR_H__
+#define __INSTR_H__
+
 /* Códigos das instruções */
 typedef enum {
   PUSH,
@@ -56,3 +59,5 @@ typedef struct {
   OpCode instr;
   OPERANDO op;
 } INSTR;
+
+#endif
