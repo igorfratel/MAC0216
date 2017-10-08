@@ -19,8 +19,6 @@ char *CODES[] = {
   "JIF",
   "CALL",
   "RET",
-  "STS",
-  "RCS",
   "EQ",
   "GT",
   "GE",
@@ -30,7 +28,13 @@ char *CODES[] = {
   "STO",
   "RCL",
   "END",
-  "PRN"
+  "PRN",
+  "STL", //!!!
+  "RCE", //!!!
+  "FRE", //!!!
+  "ALC", //!!!
+  "SAVE", //!!!
+  "REST" //!!!
 };
 #else
 #  define D(X)
@@ -117,11 +121,13 @@ void exec_maquina(Maquina *m, int n) {
 	  }
 	  break;
 	case CALL:
-	  empilha(exec, ip);
+	  empilha(exec, ip); 
+	  empilha(exec, rbp); //!!! SAVE
+	  rbp = exec->topo - 1; //!!! SAVE
 	  ip = arg;
 	  continue;
 	case RET:
-	  rbp = desempilha(pil); //!!! REST 
+	  rbp = desempilha(exec); //!!! REST 
 	  ip = desempilha(exec);
 	  break;
 	case EQ:
@@ -167,22 +173,23 @@ void exec_maquina(Maquina *m, int n) {
 	  empilha(pil,m->Mem[arg]);
 	  break;
 	case STL: //!!!
-	  exec[arg + rbp] = desempilha(pil);
+	  exec->val[arg + rbp] = desempilha(pil);
 	  break;
 	case RCE: //!!!
-		empilha(pil, exec[arg + rbp]);
+		empilha(pil, exec->val[arg + rbp]);
 		break;
 	case ALC: //!!! malloc
-		exec->topo = rbp + arg;
+		exec->topo = exec->topo + arg;
 		break;
 	case FRE: //!!! free
-		exec->topo = rbp - arg;
+		exec->topo = exec->topo - arg;
 		break;
 	case SAVE: //!!!
-		empilha(pil, rbp)
+		empilha(exec, rbp);
+		rbp = exec->topo - 1;
 		break;
 	case REST: //!!!
-		rbp = desempilha(pil);
+		rbp = desempilha(exec);
 		break;
 	case END:
 	  return;

@@ -11,9 +11,13 @@ from sys import stdin
 
 l = stdin.readline()
 ip = 0
+num_instr = 0 #!!!
 
 tabsim = {}
 
+print("#include <stdio.h>")
+print("#include \"maq.h\"")
+print()
 print("INSTR prog[] = {")
 while l:
     label = op = ""
@@ -35,16 +39,22 @@ while l:
             arg = tabsim[arg]
     if op != "":
         print("  {%s, %s},"%(op,arg))
+        num_instr += 1 #!!!
+        ip += 1
     else:
         print()
     l = stdin.readline()
-    ip += 1
 print("};")
+
+#parte que eu fiz !!!
+print()
+print("int main(int ac, char **av) {")
+print("  Maquina *maq = cria_maquina(prog);")
+print("  exec_maquina(maq, 100000);") #% num_instr <- estava usando isso, mas troquei por um número fixo
+print("  destroi_maquina(maq);")
+print ("  return 0;")
+print("}")
     
-
-
-
-
 # Local variables:
 # mode: python
 # End:
