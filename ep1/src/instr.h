@@ -40,7 +40,8 @@ typedef enum {
 typedef enum {
   NUM,
   ACAO,
-  VAR
+  VAR,
+
 } Tipo;
 
 /* Operando */
@@ -52,7 +53,11 @@ typedef enum {
 /* 	int v; */
 /*   }; */
 /* } OPERANDO; */
-typedef int OPERANDO;
+//@@@@
+typedef struct{
+  Tipo t;
+  int n;
+} OPERANDO;
 
 /* Instrução */
 typedef struct {
