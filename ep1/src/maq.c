@@ -34,7 +34,8 @@ char *CODES[] = {
   "FRE", //!!!
   "ALC", //!!!
   "SAVE", //!!!
-  "REST" //!!!
+  "REST", //!!!
+  "ATR" //$$
 };
 #else
 #  define D(X)
