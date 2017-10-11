@@ -197,6 +197,9 @@ void exec_maquina(Maquina *m, int n) {
 	case PRN:
 	  printf("%d\n", desempilha(pil));
 	  break;
+	case ATR: //$$
+	  break; 
+
 	}
 	D(imprime(pil,5));
 	D(puts("\n"));

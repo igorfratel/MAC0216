@@ -32,7 +32,8 @@ typedef enum {
   ALC, //!!!
   FRE, //!!!
   SAVE, //!!!
-  REST //!!!
+  REST, //!!!
+  ATR //$$
 } OpCode;
 
 /* Tipos dos operandos */
