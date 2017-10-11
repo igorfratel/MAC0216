@@ -1,6 +1,9 @@
-
+#include <stdio.h>
+#include <stdlib.h>
+#include "arena.h"
+#include "celula.h"
 typedef struct {
-	Terreno **matriz; //A arena é uma matriz de posições/terrenos
+	Celula **matriz; //A arena é uma matriz de posições/celulas
 	int x; //número de posições em cada linha da matriz
 	int y; //número de posições em cada coluna da matriz
 	Maquina *vetor_maq[VET_MAX] //vetor de ponteiros para máquinas virtuais com tamanho VET_MAX
@@ -21,8 +24,8 @@ Arena *cria_arena(int linhas, int colunas) {
 	a->x = colunas;
 	a->y = linhas;
 
-	//Aloca as linhas da arena	
-	a->matriz = (Terreno**)malloc(linhas*sizeof(Terreno*));
+	//Aloca as linhas da arena
+	a->matriz = (Celula**)malloc(linhas*sizeof(Celula*));
 	if (a->matriz == NULL) {
 		printf("(cria_arena) Erro na alocação da matriz de terrenos\n");
 		exit(1);
@@ -30,9 +33,9 @@ Arena *cria_arena(int linhas, int colunas) {
 
 	//Para cada linhas, aloca o número especificado de colunas
 	for (i = 0; i < linhas; i++) {
-		a->matriz[i] = (Terreno*)malloc(colunas*sizeof(Terreno));
+		a->matriz[i] = (Celula*)malloc(colunas*sizeof(Celula));
 		if (a->matriz[i] == NULL) {
-			printf("(cria_arena) Erro na alocação da matriz de terrenos (2)\n");
+			printf("(cria_arena) Erro na alocação da matriz de celulas (2)\n");
 			exit(1);
 		}
 	}
@@ -54,7 +57,7 @@ void destroi_arena(Arena *a) {
 }
 
 void imprime_arena(Arena *a) {
-//Imprime a Arena linha por linha, onde cada tipo de Terreno é representado por um símbolo
+//Imprime a Arena linha por linha, onde cada tipo de celula é representado por um símbolo
 
 }
 
@@ -76,5 +79,5 @@ void escalonador(Arena *a) {
 //Percorre o vetor de máquinas e manda cada uma executar NUM_INSTR instruções;
 	int i;
 	for (i = 0; i < VET_MAX; i++)
-		exec_maquina(a->vetor_maq[i], NUM_INSTR);	
+		exec_maquina(a->vetor_maq[i], NUM_INSTR);
 }
