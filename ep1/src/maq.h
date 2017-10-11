@@ -16,8 +16,8 @@ typedef struct {
   Pilha exec;
   OPERANDO Mem[MAXMEM];
   INSTR *prog;
-  int rbp; //!!!
-  int ip;
+  OPERANDO rbp; //!!!
+  OPERANDO ip;
 } Maquina;
 
 Maquina *cria_maquina(INSTR *p);

@@ -53,9 +53,11 @@ static void Fatal(char *msg, int cod) {
 Maquina *cria_maquina(INSTR *p) {
   Maquina *m = (Maquina*)malloc(sizeof(Maquina));
   if (!m) Fatal("Memória insuficiente",4);
-  m->ip = 0;
+  m->ip.t = NUM;//@@
+  m->ip.n = 0;//@@
   m->prog = p;
-  m->rbp = 0; //!!!
+  m->rbp.t = NUM;//@@
+  m->rbp.n = 0; //!!!
   return m;
 }
 
@@ -81,6 +83,7 @@ void exec_maquina(Maquina *m, int n) {
 
 	switch (opc) {
 	  OPERANDO tmp;
+    OPERANDO tmp1;
 	case PUSH:
 	  empilha(pil, arg);
 	  break;
@@ -92,56 +95,97 @@ void exec_maquina(Maquina *m, int n) {
 	  empilha(pil, tmp);
 	  empilha(pil, tmp);
 	  break;
-	case ADD:
-	  empilha(pil, desempilha(pil)+desempilha(pil));
+	case ADD://@@@
+    tmp = desempilha(pil);
+    tmp1 = desempilha(pil);
+    if(tmp.t == tmp1.t) {
+      tmp.n += tmp1.n;
+      empilha(pil, tmp);
+    }
+    else
+      Erro("nao e possivel somar dois tipos diferentes de dados");
+
 	  break;
-	case SUB:
+	case SUB://@@@
 	  tmp = desempilha(pil);
-	  empilha(pil, desempilha(pil)-tmp);
+    tmp1 = desempilha(pil);
+    if(tmp.t == tmp1.t){
+      tmp1.n -= tmp.n;
+      empilha(pil, tmp1);
+    }
+    else
+      Erro("nao e possivel realizar subtrair dois tipos diferentes de dados");
 	  break;
-	case MUL:
-	  empilha(pil, desempilha(pil)*desempilha(pil));
+	case MUL://@@@@
+    tmp = desempilha(pil);
+    tmp1 = desempilha(pil);
+    if(tmp.t == tmp1.t) {
+      tmp.n *= tmp1.n;
+      empilha(pil, tmp);
+    }
+    else
+      Erro("nao e possivel realizar multiplicacao entre dois tipos diferentes de dados");
 	  break;
-	case DIV:
+	case DIV://@@@
 	  tmp = desempilha(pil);
-	  empilha(pil, desempilha(pil)/tmp);
+    tmp1 = desempilha(pil);
+    if(tmp.t == tmp1.t){
+      tmp1.n /= tmp.n;
+      empilha(pil, tmp1);
+    }
+    else
+      Erro("nao e possivel realizar divisao entre dois tipos diferentes de dados");
 	  break;
+  // não sei se o ip recebe um tipo que não seja NUM
 	case JMP:
-	  ip = arg;
-	  continue;
+      ip.n = arg.n;
+      continue;
 	case JIT:
-	  if (desempilha(pil) != 0) {
-		ip = arg;
-		continue;
+    tmp = desempilha(pil);
+	  if (tmp.n != 0) {
+  		ip.n = arg.n;
+  		continue;
 	  }
 	  break;
 	case JIF:
-	  if (desempilha(pil) == 0) {
-		ip = arg;
+  tmp = desempilha(pil);
+	  if (tmp.n == 0) {
+		ip.n = arg.n;
 		continue;
 	  }
 	  break;
 	case CALL:
-	  empilha(exec, ip); 
+	  empilha(exec, ip);
 	  empilha(exec, rbp); //!!! SAVE
-	  rbp = exec->topo - 1; //!!! SAVE
-	  ip = arg;
+	  rbp.n = exec->topo - 1; //!!! SAVE
+	  ip.n = arg.n;
 	  continue;
 	case RET:
-	  rbp = desempilha(exec); //!!! REST 
+	  rbp = desempilha(exec); //!!! REST
 	  ip = desempilha(exec);
 	  break;
+  //testar para ver se funciona sem o uso de tmp e tmp1
 	case EQ:
-	  if (desempilha(pil) == desempilha(pil))
-		empilha(pil, 1);
-	  else
-		empilha(pil, 0);
+    tmp.t = NUM;
+	  if (desempilha(pil).n == desempilha(pil).n) {
+      tmp.n = 1;
+      empilha(pil, tmp);
+    }
+	  else{
+      tmp.n = 0;
+      empilha(pil, tmp);
+    }
 	  break;
 	case GT:
-	  if (desempilha(pil) < desempilha(pil))
-		empilha(pil, 1);
-	  else
-		empilha(pil, 0);
+    tmp.t = NUM;
+	  if (desempilha(pil).n < desempilha(pil).n) {
+      tmp.n = 1;
+      empilha(pil, tmp);
+    }
+	  else{
+      tmp.n = 0;
+      empilha(pil, tmp);
+    }
 	  break;
 	case GE:
 	  if (desempilha(pil) <= desempilha(pil))
