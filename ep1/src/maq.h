@@ -4,8 +4,14 @@
 #include "pilha.h"
 
 #define MAXMEM 100
-
 typedef struct {
+  //@@
+  typedef struct {
+    int x;
+    int y;
+  } posicao;
+  int cristais;
+
   Pilha pil;
   Pilha exec;
   OPERANDO Mem[MAXMEM];
