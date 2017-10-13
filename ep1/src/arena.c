@@ -75,9 +75,16 @@ int salva_maquina(Arena *a, *Maquina m) {
 	return 0;
 }
 
-void escalonador(Arena *a) {
+
+//$$ adicao do numero de rodadas
+void escalonador(Arena *a, int rodadas) { 
 //Percorre o vetor de máquinas e manda cada uma executar NUM_INSTR instruções;
 	int i;
-	for (i = 0; i < VET_MAX; i++)
-		exec_maquina(a->vetor_maq[i], NUM_INSTR);
+	int j;
+	
+	for (j = 0; j < rodadas; j++){
+		for (i = 0; i < VET_MAX; i++){
+			exec_maquina(a->vetor_maq[i], NUM_INSTR);
+		}
+	}
 }
