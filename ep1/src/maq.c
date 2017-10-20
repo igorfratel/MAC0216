@@ -104,7 +104,6 @@ void exec_maquina(Maquina *m, int n) {
     }
     else
       Erro("nao e possivel somar dois tipos diferentes de dados");
-
 	  break;
 	case SUB://@@@
 	  tmp = desempilha(pil);
