@@ -39,7 +39,7 @@ while l:
         if arg in tabsim:
             arg = tabsim[arg]
     if op != "":
-        print("  {%s, NUM, %s},"%(op,arg)) #$$
+        print("  {%s, %s},"%(op,arg)) #$$
         num_instr += 1 #!!!
         ip += 1
     else:

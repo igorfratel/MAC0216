@@ -2,7 +2,9 @@
 #define __MAQ_H__
 #include <stdio.h>
 #include <stdlib.h>
+#include "arena.h"
 #include "pilha.h"
+#include "utils.h"
 
 #define MAXMEM 100
 typedef struct {

@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "pilha.h"
 
 static void Erro(char *msg) {
