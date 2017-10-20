@@ -13,6 +13,7 @@ typedef struct {
 	int x; //número de posições em cada linha da matriz
 	int y; //número de posições em cada coluna da matriz
 	Maquina *vetor_maq[VET_MAX] //vetor de ponteiros para máquinas virtuais com tamanho VET_MAX
+	int robos;
 } Arena;
 
 //Recebe um número de linhas e colunas. Cria e inicializa uma Arena com essas dimensões
@@ -30,5 +31,8 @@ int salva_maquina(Arena *a, *Maquina m);
 
 //Percorre o vetor de máquinas e manda cada uma executar NUM_INSTR instruções;
 void escalonador(Arena *a);
+
+//Funcao auxiliar para criar robos e colocar na arena
+Maquina *cria_robo(Arena * arena, int time, INSTR * p)
 
 #endif
