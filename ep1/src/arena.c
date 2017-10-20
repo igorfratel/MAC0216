@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "arena.h"
-#include "celula.h"
+#include "instr.h"
 typedef struct {
 	Celula **matriz; //A arena é uma matriz de posições/celulas
 	int x; //número de posições em cada linha da matriz
@@ -77,7 +77,7 @@ int salva_maquina(Arena *a, *Maquina m) {
 
 
 //$$ adicao do numero de rodadas
-void escalonador(Arena *a, int rodadas) { 
+void escalonador(Arena *a, int rodadas) {
 //Percorre o vetor de máquinas e manda cada uma executar NUM_INSTR instruções;
 	int i;
 	int j;

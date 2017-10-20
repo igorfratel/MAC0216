@@ -6,10 +6,7 @@
 #define MAXMEM 100
 typedef struct {
   //@@
-  typedef struct {
-    int x;
-    int y;
-  } posicao;
+  int pos[2];
   int cristais;
 
   Pilha pil;

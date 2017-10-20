@@ -9,7 +9,7 @@
 #define NUM_INSTR 50
 
 typedef struct {
-	Terreno **matriz; //A arena é uma matriz de posições/terrenos
+	Celula **matriz; //A arena é uma matriz de celulas
 	int x; //número de posições em cada linha da matriz
 	int y; //número de posições em cada coluna da matriz
 	Maquina *vetor_maq[VET_MAX] //vetor de ponteiros para máquinas virtuais com tamanho VET_MAX
