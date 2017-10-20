@@ -11,3 +11,13 @@ ESUP 5		    DSUP 1
 
 EINF 4		    DINF 2
 	   BAIXO 3
+
+
+exemplo de arena 2x2
+
+      _
+  _ / 01\
+/ 00\ _ /
+\ _ / 11\
+/ 10\ _ /
+\ _ /
