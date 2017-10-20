@@ -1,15 +1,14 @@
 #ifndef __MAQ_H__
 #define __MAQ_H__
-
+#include <stdio.h>
+#include <stdlib.h>
 #include "pilha.h"
 
 #define MAXMEM 100
 typedef struct {
   //@@
-  typedef struct {
-    int x;
-    int y;
-  } posicao;
+  int time;
+  int pos[2];
   int cristais;
 
   Pilha pil;
@@ -20,7 +19,7 @@ typedef struct {
   OPERANDO ip;
 } Maquina;
 
-Maquina *cria_maquina(INSTR *p);
+Maquina *cria_maquina(int time, INSTR *p);
 
 void destroi_maquina(Maquina *m);
 

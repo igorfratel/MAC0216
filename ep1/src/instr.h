@@ -27,38 +27,48 @@ typedef enum {
   RCL,
   END,
   PRN,
-  STL, //!!!
-  RCE, //!!!
-  ALC, //!!!
-  FRE, //!!!
-  SAVE, //!!!
-  REST, //!!!
+  STL,
+  RCE,
+  ALC,
+  FRE,
+  SAVE,
+  REST,
   ATR //$$
 } OpCode;
 
 /* Tipos dos operandos */
-/* no momento, são todos inteiros */
 typedef enum {
   NUM,
   ACAO,
   VAR,
-
+  CELULA
 } Tipo;
 
 /* Operando */
-/* typedef struct { */
-/*   Tipo t; */
-/*   union { */
-/* 	int n; */
-/* 	int ac; */
-/* 	int v; */
-/*   }; */
-/* } OPERANDO; */
-//@@@@
-typedef struct{
+typedef struct {
   Tipo t;
-  int n;
+  union {
+   	int n;
+   	int ac;
+   	int v;
+    Celula cel;
+  };
 } OPERANDO;
+
+/* Tipo de terreno */
+typedef enum {
+  ESTRADA,
+  MONTANHA,
+  RIO,
+  BASE
+} Terreno;
+
+/* Célula */
+typedef struct {
+  Terreno terreno;
+  short int cristais;
+  Maquina *ocupado; //Indica qual robô está na posição ocupada. NULL caso não esteja ocupada
+} Celula;
 
 /* Instrução */
 typedef struct {

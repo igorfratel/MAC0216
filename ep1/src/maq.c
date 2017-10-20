@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "maq.h"
 
 /* #define DEBUG */
@@ -50,7 +48,7 @@ static void Fatal(char *msg, int cod) {
   exit(cod);
 }
 
-Maquina *cria_maquina(INSTR *p) {
+Maquina *cria_maquina(int time, INSTR *p) {
   Maquina *m = (Maquina*)malloc(sizeof(Maquina));
   if (!m) Fatal("Memória insuficiente",4);
   m->ip.t = NUM;//@@
@@ -58,6 +56,7 @@ Maquina *cria_maquina(INSTR *p) {
   m->prog = p;
   m->rbp.t = NUM;//@@
   m->rbp.n = 0; //!!!
+  m->time = time;
   return m;
 }
 
@@ -104,7 +103,6 @@ void exec_maquina(Maquina *m, int n) {
     }
     else
       Erro("nao e possivel somar dois tipos diferentes de dados");
-
 	  break;
 	case SUB://@@@
 	  tmp = desempilha(pil);
@@ -188,50 +186,70 @@ void exec_maquina(Maquina *m, int n) {
     }
 	  break;
 	case GE:
-	  if (desempilha(pil) <= desempilha(pil))
-		empilha(pil, 1);
-	  else
-		empilha(pil, 0);
+    tmp.t = NUM;
+	  if (desempilha(pil).n <= desempilha(pil).n){
+      tmp.n = 1;
+      empilha(pil, tmp);
+    }
+	  else{
+      tmp.n = 0;
+		  empilha(pil, tmp);
+    }
 	  break;
 	case LT:
-	  if (desempilha(pil) > desempilha(pil))
-		empilha(pil, 1);
-	  else
-		empilha(pil, 0);
+    tmp.t = NUM;
+	  if (desempilha(pil).n > desempilha(pil).n) {
+      tmp.n = 1;
+      empilha(pil, tmp);
+    }
+	  else {
+      tmp.n = 0;
+	    empilha(pil, tmp);
+    }
 	  break;
 	case LE:
-	  if (desempilha(pil) >= desempilha(pil))
-		empilha(pil, 1);
-	  else
-		empilha(pil, 0);
+    tmp.t = NUM;
+	  if (desempilha(pil).n >= desempilha(pil).n) {
+      tmp.n = 1;
+	    empilha(pil, tmp);
+    }
+	  else {
+      tmp.n = 0;
+	    empilha(pil, tmp);
+    }
 	  break;
 	case NE:
-	  if (desempilha(pil) != desempilha(pil))
-		empilha(pil, 1);
-	  else
-		empilha(pil, 0);
+    tmp.t = NUM;
+	  if (desempilha(pil) != desempilha(pil)) {
+      tmp.n = 1;
+	    empilha(pil, tmp);
+    }
+	  else {
+      tmp.n = 0;
+	    empilha(pil, tmp);
+    }
 	  break;
 	case STO:
-	  m->Mem[arg] = desempilha(pil);
+	  m->Mem[arg.n] = desempilha(pil);
 	  break;
 	case RCL:
-	  empilha(pil,m->Mem[arg]);
+	  empilha(pil,m->Mem[arg.n]);
 	  break;
 	case STL: //!!!
-	  exec->val[arg + rbp] = desempilha(pil);
+	  exec->val[arg.n + rbp.n] = desempilha(pil);
 	  break;
 	case RCE: //!!!
-		empilha(pil, exec->val[arg + rbp]);
+		empilha(pil, exec->val[arg.n + rbp.n]);
 		break;
 	case ALC: //!!! malloc
-		exec->topo = exec->topo + arg;
+		exec->topo = exec->topo + arg.n;
 		break;
 	case FRE: //!!! free
-		exec->topo = exec->topo - arg;
+		exec->topo = exec->topo - arg.n;
 		break;
 	case SAVE: //!!!
 		empilha(exec, rbp);
-		rbp = exec->topo - 1;
+		rbp.n = exec->topo - 1;
 		break;
 	case REST: //!!!
 		rbp = desempilha(exec);
@@ -239,15 +257,15 @@ void exec_maquina(Maquina *m, int n) {
 	case END:
 	  return;
 	case PRN:
-	  printf("%d\n", desempilha(pil));
+	  printf("%d\n", desempilha(pil.n));
 	  break;
 	case ATR: //$$
-	  break; 
+	  break;
 
 	}
 	D(imprime(pil,5));
 	D(puts("\n"));
 
-	ip++;
+	ip.n++;
   }
 }
