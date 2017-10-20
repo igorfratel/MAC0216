@@ -85,7 +85,8 @@ void escalonador(Arena *a, int rodadas) {
 
 	for (j = 0; j < rodadas; j++){
 		for (i = 0; i < a -> robos; i++){
-			exec_maquina(a->vetor_maq[i], NUM_INSTR);
+			if(a->vetor_maq[i] != NULL)
+				exec_maquina(a->vetor_maq[i], NUM_INSTR);
 		}
 	}
 }
@@ -127,5 +128,34 @@ Maquina *cria_robo(Arena * arena, int time, INSTR * p) {
 
 }
 
-void remove_exercito(Arena * a, int time){
+void remove_exercito(Arena * arena, int time){
+	int i, x, y;
+	i = 0;
+	while(i < arena->robos) {
+		if(arena->vetor_maq[i] != NULL && arena->vetor_maq[i].time == time) {
+			x = arena->vetor_maq[i].pos[0];
+			y = arena->vetor_maq[i].pos[1];
+			arena->matriz[x][y].ocupado = 0;
+			arena->vetor_maq[i] = NULL;
+		}
+		i++;
+	}
 }
+
+// void remove_exercito(Arena * arena, int time){
+// 	int i, max, x, y;
+// 	i = 0;
+// 	max = arena->robos;
+// 	int removeu = 0;
+// 	while(i < max && removeu == 0) {
+// 		while(arena->vetor_maq[i] != NULL && arena->vetor_maq[i].time == time) {
+// 			x = arena->vetor_maq[i].pos[0];
+// 			y = arena->vetor_maq[i].pos[1];
+// 			arena->matriz[x][y].ocupado = 0;
+// 			arena->vetor_maq[i] = NULL;
+// 			removeu = 1;
+// 			i++;
+// 		}
+// 		i++;
+// 	}
+// }

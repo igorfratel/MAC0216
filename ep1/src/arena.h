@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "maq.h"
 #include "terreno.h"
+#include "utils.h"
 #define VET_MAX 100
 #define NUM_INSTR 50
 
@@ -33,6 +34,9 @@ int salva_maquina(Arena *a, *Maquina m);
 void escalonador(Arena *a);
 
 //Funcao auxiliar para criar robos e colocar na arena
-Maquina *cria_robo(Arena * arena, int time, INSTR * p)
+Maquina *cria_robo(Arena * arena, int time, INSTR * p);
+
+//Funcao que remove da matriz da arena e do vetor de robos da arena, os exercitos pertencentes ao time x
+void remove_exercito(Arena * arena, int time);
 
 #endif
