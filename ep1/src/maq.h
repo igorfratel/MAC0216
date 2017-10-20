@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pilha.h"
+#include "utils.h"
 
 #define MAXMEM 100
 typedef struct {

@@ -1,7 +1,10 @@
 #ifndef __PILHA_H__
 #define __PILHA_H__
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "instr.h"
+#include "utils.h"
 
 #define PILMAX 99
 

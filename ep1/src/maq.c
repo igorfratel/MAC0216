@@ -39,23 +39,14 @@ char *CODES[] = {
 #  define D(X)
 #endif
 
-static void Erro(char *msg) {
-  fprintf(stderr, "%s\n", msg);
-}
-
-static void Fatal(char *msg, int cod) {
-  Erro(msg);
-  exit(cod);
-}
-
 Maquina *cria_maquina(int time, INSTR *p) {
   Maquina *m = (Maquina*)malloc(sizeof(Maquina));
   if (!m) Fatal("Memória insuficiente",4);
   m->ip.t = NUM;//@@
-  m->ip.n = 0;//@@
+  m->ip.val.n = 0;//@@
   m->prog = p;
   m->rbp.t = NUM;//@@
-  m->rbp.n = 0; //!!!
+  m->rbp.val.n = 0; //!!!
   m->time = time;
   return m;
 }
@@ -76,8 +67,9 @@ void exec_maquina(Maquina *m, int n) {
 
   for (i = 0; i < n; i++) {
 	OpCode   opc = prg[ip].instr;
-	OPERANDO arg = prg[ip].op;
-
+	OPERANDO arg; //Cria operando
+  arg.t = NUM; //O operando sempre vai ser um NUM
+  arg.val.n = prg[ip].op; //Preenche o valor do operando
 	D(printf("%3d: %-4.4s %d\n     ", ip, CODES[opc], arg));
 
 	switch (opc) {
@@ -94,162 +86,195 @@ void exec_maquina(Maquina *m, int n) {
 	  empilha(pil, tmp);
 	  empilha(pil, tmp);
 	  break;
-	case ADD://@@@
+	case ADD:
     tmp = desempilha(pil);
     tmp1 = desempilha(pil);
-    if(tmp.t == tmp1.t) {
-      tmp.n += tmp1.n;
+    if(tmp.t == NUM && tmp1.t == NUM) { //Só funciona com NUM
+      tmp.val.n += tmp1.val.n;
       empilha(pil, tmp);
     }
-    else
-      Erro("nao e possivel somar dois tipos diferentes de dados");
+    else { //Devolve a pilha no estado em que recebeu
+      empilha(pil, tmp1);
+      empilha(pil, tmp);
+      Erro("(ADD): Dados incompatíveis");
+    }
 	  break;
-	case SUB://@@@
+	case SUB:
 	  tmp = desempilha(pil);
     tmp1 = desempilha(pil);
-    if(tmp.t == tmp1.t){
-      tmp1.n -= tmp.n;
+    if(tmp.t == NUM && tmp1.t == NUM){
+      tmp1.val.n -= tmp.val.n;
       empilha(pil, tmp1);
     }
-    else
-      Erro("nao e possivel realizar subtrair dois tipos diferentes de dados");
+    else { //Devolve a pilha no estado em que recebeu
+      empilha(pil, tmp1);
+      empilha(pil, tmp);
+      Erro("(SUB): Dados incompatíveis");
+    }
 	  break;
-	case MUL://@@@@
+	case MUL:
     tmp = desempilha(pil);
     tmp1 = desempilha(pil);
-    if(tmp.t == tmp1.t) {
-      tmp.n *= tmp1.n;
+    if(tmp.t == NUM && tmp1.t == NUM) {
+      tmp.val.n *= tmp1.val.n;
       empilha(pil, tmp);
     }
-    else
-      Erro("nao e possivel realizar multiplicacao entre dois tipos diferentes de dados");
+    else { //Devolve a pilha no estado em que recebeu
+      empilha(pil, tmp1);
+      empilha(pil, tmp);
+      Erro("(MUL): Dados incompatíveis");
+    }
 	  break;
-	case DIV://@@@
+	case DIV:
 	  tmp = desempilha(pil);
     tmp1 = desempilha(pil);
-    if(tmp.t == tmp1.t){
-      tmp1.n /= tmp.n;
+    if(tmp.t == NUM && tmp1.t == NUM){
+      tmp1.val.n /= tmp.val.n;
       empilha(pil, tmp1);
     }
-    else
-      Erro("nao e possivel realizar divisao entre dois tipos diferentes de dados");
+    else { //Devolve a pilha no estado em que recebeu
+      empilha(pil, tmp1);
+      empilha(pil, tmp);
+      Erro("(DIV): Dados incompatíveis");
+    }
 	  break;
-  // não sei se o ip recebe um tipo que não seja NUM
 	case JMP:
-      ip.n = arg.n;
-      continue;
+        ip.val.n = arg.val.n;
+        continue;
 	case JIT:
     tmp = desempilha(pil);
-	  if (tmp.n != 0) {
-  		ip.n = arg.n;
-  		continue;
-	  }
+    if (tmp.t == NUM && tmp.val.n != 0) {
+  		  ip.val.n = arg.val.n;
+  	 	  continue;
+    }
+    else {
+      empilha(pil, tmp); //Devolve a pilha no estado em que recebeu
+      Erro("(JIT): Dado incompatível");
+    }
 	  break;
 	case JIF:
-  tmp = desempilha(pil);
-	  if (tmp.n == 0) {
-		ip.n = arg.n;
-		continue;
+    tmp = desempilha(pil);
+	  if (tmp.val == NUM && tmp.val.n == 0) {
+		  ip.val.n = arg.val.n;
+		  continue;
 	  }
+    else {
+      empilha(pil, tmp); //Devolve a pilha no estado em que recebeu
+      Erro("(JIF): Dado incompatível");
+    }
 	  break;
 	case CALL:
 	  empilha(exec, ip);
 	  empilha(exec, rbp); //!!! SAVE
-	  rbp.n = exec->topo - 1; //!!! SAVE
-	  ip.n = arg.n;
+	  rbp.val.n = exec->topo - 1; //!!! SAVE
+	  ip.val.n = arg.val.n;
 	  continue;
 	case RET:
-	  rbp = desempilha(exec); //!!! REST
-	  ip = desempilha(exec);
+    tmp = desempilha(exec);
+    tmp2 = desempilha(exec);
+    if (tmp.t == NUM && tmp2.t == NUM) {
+	   rbp = tmp; //!!! REST
+	   ip = tmp2;
+    }
+    else {
+      empilha(pil, tmp2);
+      empilha(pil, tmp);
+      Erro("(RET): Dados incompatíveis");
+    }
 	  break;
-  //testar para ver se funciona sem o uso de tmp e tmp1
 	case EQ:
-    tmp.t = NUM;
-	  if (desempilha(pil).n == desempilha(pil).n) {
-      tmp.n = 1;
+    tmp = desempilha(pil);
+    tmp2 = desempilha(pil);
+	  if (tmp == NUM && tmp2 == NUM && tmp.val.n == tmp2.val.n) { //Verifica se são números e se são iguais
+      tmp.val.n = 1;
       empilha(pil, tmp);
     }
-	  else{
-      tmp.n = 0;
+	  else { //Retorna 0 caso os números sejam diferentes ou caso os tipos dos operandos sejam diferentes
+      tmp.val.n = 0;
       empilha(pil, tmp);
     }
 	  break;
 	case GT:
-    tmp.t = NUM;
-	  if (desempilha(pil).n < desempilha(pil).n) {
-      tmp.n = 1;
+    tmp = desempilha(pil);
+    tmp2 = desempilha(pil);
+    if (tmp == NUM && tmp2 == NUM && tmp.val.n < tmp2.val.n) {
+      tmp.val.n = 1;
       empilha(pil, tmp);
     }
-	  else{
-      tmp.n = 0;
+	  else {
+      tmp.val.n = 0;
       empilha(pil, tmp);
     }
 	  break;
 	case GE:
-    tmp.t = NUM;
-	  if (desempilha(pil).n <= desempilha(pil).n){
-      tmp.n = 1;
+    tmp = desempilha(pil);
+    tmp2 = desempilha(pil);
+    if (tmp == NUM && tmp2 == NUM && tmp.val.n <= tmp2.val.n) {
+      tmp.val.n = 1;
       empilha(pil, tmp);
     }
 	  else{
-      tmp.n = 0;
+      tmp.val.n = 0;
 		  empilha(pil, tmp);
     }
 	  break;
 	case LT:
-    tmp.t = NUM;
-	  if (desempilha(pil).n > desempilha(pil).n) {
-      tmp.n = 1;
+    tmp = desempilha(pil);
+    tmp2 = desempilha(pil);
+    if (tmp == NUM && tmp2 == NUM && tmp.val.n > tmp2.val.n) {
+      tmp.val.n = 1;
       empilha(pil, tmp);
     }
 	  else {
-      tmp.n = 0;
+      tmp.val.n = 0;
 	    empilha(pil, tmp);
     }
 	  break;
 	case LE:
-    tmp.t = NUM;
-	  if (desempilha(pil).n >= desempilha(pil).n) {
-      tmp.n = 1;
+    tmp = desempilha(pil);
+    tmp2 = desempilha(pil);
+    if (tmp == NUM && tmp2 == NUM && tmp.val.n >= tmp2.val.n) {
+      tmp.val.n = 1;
 	    empilha(pil, tmp);
     }
 	  else {
-      tmp.n = 0;
+      tmp.val.n = 0;
 	    empilha(pil, tmp);
     }
 	  break;
 	case NE:
-    tmp.t = NUM;
-	  if (desempilha(pil) != desempilha(pil)) {
-      tmp.n = 1;
+    tmp = desempilha(pil);
+    tmp2 = desempilha(pil);
+    if (tmp == NUM && tmp2 == NUM && tmp.val.n != tmp2.val.n) {
+      tmp.val.n = 1;
 	    empilha(pil, tmp);
     }
 	  else {
-      tmp.n = 0;
+      tmp.val.n = 0;
 	    empilha(pil, tmp);
     }
 	  break;
 	case STO:
-	  m->Mem[arg.n] = desempilha(pil);
+	  m->Mem[arg.val.n] = desempilha(pil);
 	  break;
 	case RCL:
-	  empilha(pil,m->Mem[arg.n]);
+	  empilha(pil,m->Mem[arg.val.n]);
 	  break;
 	case STL: //!!!
-	  exec->val[arg.n + rbp.n] = desempilha(pil);
+	  exec->val[arg.val.n + rbp.val.n] = desempilha(pil);
 	  break;
 	case RCE: //!!!
-		empilha(pil, exec->val[arg.n + rbp.n]);
+		empilha(pil, exec->val[arg.val.n + rbp.val.n]);
 		break;
 	case ALC: //!!! malloc
-		exec->topo = exec->topo + arg.n;
+		exec->topo = exec->topo + arg.val.n;
 		break;
 	case FRE: //!!! free
-		exec->topo = exec->topo - arg.n;
+		exec->topo = exec->topo - arg.val.n;
 		break;
 	case SAVE: //!!!
 		empilha(exec, rbp);
-		rbp.n = exec->topo - 1;
+		rbp.val.n = exec->topo - 1;
 		break;
 	case REST: //!!!
 		rbp = desempilha(exec);
@@ -257,12 +282,46 @@ void exec_maquina(Maquina *m, int n) {
 	case END:
 	  return;
 	case PRN:
-	  printf("%d\n", desempilha(pil.n));
+    tmp = desempilha(pil);
+    switch (tmp.t) {
+      case NUM:
+        printf("%d\n", tmp.val.n);
+        break;
+      case ACAO:
+        printf("%d\n", tmp.val.ac);
+        break;
+      case VAR:
+        printf("%d\n", tmp.val.v);
+        break;
+      case CELULA:
+        printf("Terreno: %d, ", tmp.val.cel.terreno); //terreno
+        printf("Cristais: %d, ", tmp.val.cel.cristais); //cristais
+        if (tmp.val.cel.ocupado) printf("Ocupado\n"); //ocupado
+        else printf("Livre\n");//livre
+        break;
+    }
 	  break;
-	case ATR: //$$
-	  break;
-
+	case ATR:
+    tmp = desempilha(pil);
+    tmp2.t = NUM;
+    if (tmp.t == CELULA) { //É uma célula
+      switch(arg.n) { //Qual argumento da célula você quer?
+        case 0: //terreno
+          tmp2.val.n = tmp.val.cel.terreno;
+        case 1: //cristais
+          tmp2.val.n = tmp.val.cel.cristais;
+        case 2: //ocupado
+          tmp2.val.n = tmp.val.cel.terreno.ocupado;
+      }
+      empilha(pil, tmp2);
+    }
+    else { //Não é uma célula
+      empilha(pil, tmp); //Devolve a pilha no estado original
+      Erro("(ATR): Dado incompatível");
+    }
+	 break;
 	}
+  
 	D(imprime(pil,5));
 	D(puts("\n"));
 

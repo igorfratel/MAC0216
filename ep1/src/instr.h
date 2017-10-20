@@ -67,13 +67,13 @@ typedef enum {
 typedef struct {
   Terreno terreno;
   short int cristais;
-  Maquina *ocupado; //Indica qual robô está na posição ocupada. NULL caso não esteja ocupada
+  short int ocupado;
 } Celula;
 
 /* Instrução */
 typedef struct {
   OpCode instr;
-  OPERANDO op;
+  int op;
 } INSTR;
 
 #endif
