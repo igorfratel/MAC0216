@@ -13,6 +13,7 @@ typedef struct {
 	int x; //número de posições em cada linha da matriz
 	int y; //número de posições em cada coluna da matriz
 	Maquina *vetor_maq[VET_MAX] //vetor de ponteiros para máquinas virtuais com tamanho VET_MAX
+	int robos;
 } Arena;
 
 //Recebe um número de linhas e colunas. Cria e inicializa uma Arena com essas dimensões

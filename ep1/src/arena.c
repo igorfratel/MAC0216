@@ -2,12 +2,13 @@
 #include <stdlib.h>
 #include "arena.h"
 #include "instr.h"
-typedef struct {
-	Celula **matriz; //A arena é uma matriz de posições/celulas
-	int x; //número de posições em cada linha da matriz
-	int y; //número de posições em cada coluna da matriz
-	Maquina *vetor_maq[VET_MAX] //vetor de ponteiros para máquinas virtuais com tamanho VET_MAX
-} Arena;
+// typedef struct {
+// 	Celula **matriz; //A arena é uma matriz de posições/celulas
+// 	int x; //número de posições em cada linha da matriz
+// 	int y; //número de posições em cada coluna da matriz
+// 	Maquina *vetor_maq[VET_MAX] //vetor de ponteiros para máquinas virtuais com tamanho VET_MAX
+// 	int robos;
+// } Arena;
 
 Arena *cria_arena(int linhas, int colunas) {
 //Recebe um número de linhas e colunas. Cria e inicializa uma Arena com essas dimensões
@@ -81,9 +82,9 @@ void escalonador(Arena *a, int rodadas) {
 //Percorre o vetor de máquinas e manda cada uma executar NUM_INSTR instruções;
 	int i;
 	int j;
-	
+
 	for (j = 0; j < rodadas; j++){
-		for (i = 0; i < VET_MAX; i++){
+		for (i = 0; i < a -> robos; i++){
 			exec_maquina(a->vetor_maq[i], NUM_INSTR);
 		}
 	}
@@ -93,7 +94,30 @@ void escalonador(Arena *a, int rodadas) {
 void Atualiza(){
 }
 
-void InsereExercito(){
+void insere_exercito(Arena * a, int n, INSTR * p){
+	arena -> robos = n;
+	for(int i = 0; i < n; i++)
+		criaRobo(a, p);
+}
+
+void cria_robo(Arena * a, INSTR * p) {
+	int x, y;
+
+	srand(time(NULL));
+  x = rand() % a -> x;
+
+	srand(time(NULL));
+	y = rand() % a -> y;
+
+	while(a -> matriz[x][y].ocupado == NULL) {
+		srand(time(NULL));
+	  x = rand() % a -> x;
+
+		srand(time(NULL));
+		y = rand() % a -> y;
+	}
+	Maquina * maquina = cria_maquina(p);
+	a -> matriz[x][y].ocupado = maquina;
 }
 
 void RemoveExercito(){
