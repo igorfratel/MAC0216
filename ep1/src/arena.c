@@ -142,20 +142,100 @@ void remove_exercito(Arena * arena, int time){
 	}
 }
 
-// void remove_exercito(Arena * arena, int time){
-// 	int i, max, x, y;
-// 	i = 0;
-// 	max = arena->robos;
-// 	int removeu = 0;
-// 	while(i < max && removeu == 0) {
-// 		while(arena->vetor_maq[i] != NULL && arena->vetor_maq[i].time == time) {
-// 			x = arena->vetor_maq[i].pos[0];
-// 			y = arena->vetor_maq[i].pos[1];
-// 			arena->matriz[x][y].ocupado = 0;
-// 			arena->vetor_maq[i] = NULL;
-// 			removeu = 1;
-// 			i++;
-// 		}
-// 		i++;
-// 	}
-// }
+int move(Arena * arena, Maquina * robo, int movimento) {
+	switch (movimento) {
+		int i, j;
+		int max_i = arena->y;
+		int max_j = arena->x;
+
+		case 0:
+			i = robo->pos[0] - 1;
+			j = robo->post[1];
+			if(i >= 0 && !arena->matriz[i][j].ocupado) {
+				matriz[i][j].ocupado = 1;
+				robo->pos[1] = j;
+				robo->pos[0] = i;
+			}
+			break;
+		case 1:
+			j = robo->pos[1] + 1;
+
+			if(robo->pos[0] % 2 != 0)
+				i = robo->pos[0] - 1;
+			else
+				i = robo->pos[0];
+
+			if(i >= 0 && j < max_j && !arena->matriz[i][j].ocupado) {
+				matriz[i][j].ocupado = 1;
+				robo->pos[1] = j;
+				robo->pos[0] = i;
+			}
+			break;
+		case 2:
+			j = robo->pos[1] + 1;
+
+			if(robo->pos[0] % 2 != 0)
+				i = robo->pos[0];
+			else
+				i = robo->pos[0] + 1;
+
+			if(i < max_i && j < max_j && !arena->matriz[i][j].ocupado) {
+				matriz[i][j].ocupado = 1;
+				robo->pos[1] = j;
+				robo->pos[0] = i;
+			}
+			break;
+		case 3:
+			i = robo->pos[0] + 1;
+			j = robo->post[1];
+			if(i < max_i && !arena->matriz[i][j].ocupado) {
+				matriz[i][j].ocupado = 1;
+				robo->pos[1] = j;
+				robo->pos[0] = i;
+			}
+			break;
+		case 4:
+			j = robo->pos[1] - 1;
+
+			if(robo->pos[0] % 2 != 0)
+				i = robo->pos[0];
+			else
+				i = robo->pos[0] + 1;
+
+			if(i < max_i && j >= 0 && !arena->matriz[i][j].ocupado) {
+				matriz[i][j].ocupado = 1;
+				robo->pos[1] = j;
+				robo->pos[0] = i;
+			}
+			break;
+		case 5:
+			j = robo->pos[1] - 1;
+
+			if(robo->pos[0] % 2 != 0)
+				i = robo->pos[0] - 1;
+			else
+				i = robo->pos[0];
+
+			if(i >= 0 && j >= 0 && !arena->matriz[i][j].ocupado) {
+				matriz[i][j].ocupado = 1;
+				robo->pos[1] = j;
+				robo->pos[0] = i;
+			}
+			break;
+	}
+}
+
+switch (opc) {
+	OPERANDO tmp;
+	OPERANDO tmp1;
+case PUSH:
+	empilha(pil, arg);
+	break;
+case POP:
+	desempilha(pil);
+	break;
+case DUP:
+	tmp = desempilha(pil);
+	empilha(pil, tmp);
+	empilha(pil, tmp);
+	break;
