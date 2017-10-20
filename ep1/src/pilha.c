@@ -1,15 +1,5 @@
 #include "pilha.h"
 
-static void Erro(char *msg) {
-  fprintf(stderr,"%s\n", msg);
-}
-
-static void Fatal(char *msg, int cod) {
-  Erro(msg);
-  exit(cod);
-}
-
-
 Pilha *cria_pilha() {
   Pilha *p = (Pilha*)malloc(sizeof(Pilha));
   if (!p) Fatal("Memória insuficiente",4);
