@@ -31,14 +31,35 @@ OPERANDO desempilha(Pilha *p) {
   if (p->topo > 0)
 	return p->val[--p->topo];
   else Erro("Pilha vazia");
+  OPERANDO lixo; //O compilador precisa que a função retorne um OPERANDO
+  return lixo;
 }
 
 void imprime(Pilha *p, int n) {
   int t = p->topo-1;
   int i;
   printf("[");
-  for (i = t; i >= 0 && i > p->topo-n; i--) 
-	printf("%4d, ", p->val[i]);
+  for (i = t; i >= 0 && i > p->topo-n; i--) {
+   switch (p->val[i].t) {
+    case(NUM):
+	   printf("NUM %4d, ", p->val[i].val.n);
+     break;
+    case(ACAO):
+     printf("ACAO %4d, ", p->val[i].val.ac);
+     break;
+    case(VAR):
+     printf("VAR %4d, ", p->val[i].val.v);
+     break;
+    case(CELULA):
+      printf("Terreno: %4d, ", p->val[i].val.cel.terreno); //terreno
+      printf("Cristais: %4d, ", p->val[i].val.cel.cristais); //cristais
+      if (p->val[i].val.cel.ocupado) printf("Ocupado\n"); //ocupado
+      else printf("Livre\n");//livre
+     break;
+    
+   }
+    
+  } 
   printf("]");
   return;
 }

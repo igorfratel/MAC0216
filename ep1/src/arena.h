@@ -3,8 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "instr.h"
 #include "maq.h"
-#include "terreno.h"
 #include "utils.h"
 #define VET_MAX 100
 #define NUM_INSTR 50
@@ -13,7 +13,7 @@ typedef struct {
 	Celula **matriz; //A arena é uma matriz de celulas
 	int x; //número de posições em cada linha da matriz
 	int y; //número de posições em cada coluna da matriz
-	Maquina *vetor_maq[VET_MAX] //vetor de ponteiros para máquinas virtuais com tamanho VET_MAX
+	Maquina *vetor_maq[VET_MAX]; //vetor de ponteiros para máquinas virtuais com tamanho VET_MAX
 	int robos;
 } Arena;
 
@@ -28,7 +28,7 @@ void imprime_arena(Arena *a);
 
 //Recebe uma Arena e uma máquina virtual. Salva a máquina virtual na primeira posição livre do vetor_maq da Arena.
 //Retorna 1 caso seja bem sucedida e 0 caso não haja espaço para salvar a máquina virtual
-int salva_maquina(Arena *a, *Maquina m);
+int salva_maquina(Arena *a, Maquina *m);
 
 //Percorre o vetor de máquinas e manda cada uma executar NUM_INSTR instruções;
 void escalonador(Arena *a);

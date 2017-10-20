@@ -3,8 +3,8 @@
 
 #include <stdio.h>
 
-static void Erro(char *msg);
+void Erro(char *msg);
 
-static void Fatal(char *msg, int cod);
+void Fatal(char *msg, int cod);
 
 #endif

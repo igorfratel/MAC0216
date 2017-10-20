@@ -15,8 +15,6 @@ typedef enum {
   JIF,
   CALL,
   RET,
-  STS,
-  RCS,
   EQ,
   GT,
   GE,
@@ -33,7 +31,8 @@ typedef enum {
   FRE,
   SAVE,
   REST,
-  ATR //$$
+  ATR, //$$
+  SYS
 } OpCode;
 
 /* Tipos dos operandos */
@@ -43,17 +42,6 @@ typedef enum {
   VAR,
   CELULA
 } Tipo;
-
-/* Operando */
-typedef struct {
-  Tipo t;
-  union {
-   	int n;
-   	int ac;
-   	int v;
-    Celula cel;
-  };
-} OPERANDO;
 
 /* Tipo de terreno */
 typedef enum {
@@ -69,6 +57,17 @@ typedef struct {
   short int cristais;
   short int ocupado;
 } Celula;
+
+/* Operando */
+typedef struct {
+  Tipo t;
+  union {
+   	int n;
+   	int ac;
+   	int v;
+    Celula cel;
+  }val;
+} OPERANDO;
 
 /* Instrução */
 typedef struct {

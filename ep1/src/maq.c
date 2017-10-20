@@ -33,7 +33,8 @@ char *CODES[] = {
   "ALC", //!!!
   "SAVE", //!!!
   "REST", //!!!
-  "ATR" //$$
+  "ATR", //$$
+  "SYS"
 };
 #else
 #  define D(X)
@@ -66,15 +67,15 @@ void exec_maquina(Maquina *m, int n) {
   int i;
 
   for (i = 0; i < n; i++) {
-	OpCode   opc = prg[ip].instr;
+	OpCode   opc = prg[ip.val.n].instr;
 	OPERANDO arg; //Cria operando
   arg.t = NUM; //O operando sempre vai ser um NUM
-  arg.val.n = prg[ip].op; //Preenche o valor do operando
-	D(printf("%3d: %-4.4s %d\n     ", ip, CODES[opc], arg));
+  arg.val.n = prg[ip.val.n].op; //Preenche o valor do operando
+	D(printf("%3d: %-4.4s %d\n     ", ip.val.n, CODES[opc], arg));
 
 	switch (opc) {
 	  OPERANDO tmp;
-    OPERANDO tmp1;
+    OPERANDO tmp2;
 	case PUSH:
 	  empilha(pil, arg);
 	  break;
@@ -88,52 +89,52 @@ void exec_maquina(Maquina *m, int n) {
 	  break;
 	case ADD:
     tmp = desempilha(pil);
-    tmp1 = desempilha(pil);
-    if(tmp.t == NUM && tmp1.t == NUM) { //Só funciona com NUM
-      tmp.val.n += tmp1.val.n;
+    tmp2 = desempilha(pil);
+    if(tmp.t == NUM && tmp2.t == NUM) { //Só funciona com NUM
+      tmp.val.n += tmp2.val.n;
       empilha(pil, tmp);
     }
     else { //Devolve a pilha no estado em que recebeu
-      empilha(pil, tmp1);
+      empilha(pil, tmp2);
       empilha(pil, tmp);
       Erro("(ADD): Dados incompatíveis");
     }
 	  break;
 	case SUB:
 	  tmp = desempilha(pil);
-    tmp1 = desempilha(pil);
-    if(tmp.t == NUM && tmp1.t == NUM){
-      tmp1.val.n -= tmp.val.n;
-      empilha(pil, tmp1);
+    tmp2 = desempilha(pil);
+    if(tmp.t == NUM && tmp2.t == NUM){
+      tmp2.val.n -= tmp.val.n;
+      empilha(pil, tmp2);
     }
     else { //Devolve a pilha no estado em que recebeu
-      empilha(pil, tmp1);
+      empilha(pil, tmp2);
       empilha(pil, tmp);
       Erro("(SUB): Dados incompatíveis");
     }
 	  break;
 	case MUL:
     tmp = desempilha(pil);
-    tmp1 = desempilha(pil);
-    if(tmp.t == NUM && tmp1.t == NUM) {
-      tmp.val.n *= tmp1.val.n;
+    tmp2 = desempilha(pil);
+    if(tmp.t == NUM && tmp2.t == NUM) {
+      tmp.val.n *= tmp2.val.n;
       empilha(pil, tmp);
     }
     else { //Devolve a pilha no estado em que recebeu
-      empilha(pil, tmp1);
+      empilha(pil, tmp2);
       empilha(pil, tmp);
       Erro("(MUL): Dados incompatíveis");
     }
 	  break;
 	case DIV:
 	  tmp = desempilha(pil);
-    tmp1 = desempilha(pil);
-    if(tmp.t == NUM && tmp1.t == NUM){
-      tmp1.val.n /= tmp.val.n;
-      empilha(pil, tmp1);
+    tmp2 = desempilha(pil);
+    if(tmp.t == NUM && tmp2.t == NUM){
+      tmp2.val.n /= tmp.val.n;
+      empilha(pil, tmp2);
     }
     else { //Devolve a pilha no estado em que recebeu
-      empilha(pil, tmp1);
+      empilha(pil, tmp2);
       empilha(pil, tmp);
       Erro("(DIV): Dados incompatíveis");
     }
@@ -154,7 +155,7 @@ void exec_maquina(Maquina *m, int n) {
 	  break;
 	case JIF:
     tmp = desempilha(pil);
-	  if (tmp.val == NUM && tmp.val.n == 0) {
+	  if (tmp.t == NUM && tmp.val.n == 0) {
 		  ip.val.n = arg.val.n;
 		  continue;
 	  }
@@ -185,7 +186,7 @@ void exec_maquina(Maquina *m, int n) {
 	case EQ:
     tmp = desempilha(pil);
     tmp2 = desempilha(pil);
-	  if (tmp == NUM && tmp2 == NUM && tmp.val.n == tmp2.val.n) { //Verifica se são números e se são iguais
+	  if (tmp.t == NUM && tmp2.t == NUM && tmp.val.n == tmp2.val.n) { //Verifica se são números e se são iguais
       tmp.val.n = 1;
       empilha(pil, tmp);
     }
@@ -197,7 +198,7 @@ void exec_maquina(Maquina *m, int n) {
 	case GT:
     tmp = desempilha(pil);
     tmp2 = desempilha(pil);
-    if (tmp == NUM && tmp2 == NUM && tmp.val.n < tmp2.val.n) {
+    if (tmp.t == NUM && tmp2.t == NUM && tmp.val.n < tmp2.val.n) {
       tmp.val.n = 1;
       empilha(pil, tmp);
     }
@@ -209,7 +210,7 @@ void exec_maquina(Maquina *m, int n) {
 	case GE:
     tmp = desempilha(pil);
     tmp2 = desempilha(pil);
-    if (tmp == NUM && tmp2 == NUM && tmp.val.n <= tmp2.val.n) {
+    if (tmp.t == NUM && tmp2.t == NUM && tmp.val.n <= tmp2.val.n) {
       tmp.val.n = 1;
       empilha(pil, tmp);
     }
@@ -221,7 +222,7 @@ void exec_maquina(Maquina *m, int n) {
 	case LT:
     tmp = desempilha(pil);
     tmp2 = desempilha(pil);
-    if (tmp == NUM && tmp2 == NUM && tmp.val.n > tmp2.val.n) {
+    if (tmp.t == NUM && tmp2.t == NUM && tmp.val.n > tmp2.val.n) {
       tmp.val.n = 1;
       empilha(pil, tmp);
     }
@@ -233,7 +234,7 @@ void exec_maquina(Maquina *m, int n) {
 	case LE:
     tmp = desempilha(pil);
     tmp2 = desempilha(pil);
-    if (tmp == NUM && tmp2 == NUM && tmp.val.n >= tmp2.val.n) {
+    if (tmp.t == NUM && tmp2.t == NUM && tmp.val.n >= tmp2.val.n) {
       tmp.val.n = 1;
 	    empilha(pil, tmp);
     }
@@ -245,7 +246,7 @@ void exec_maquina(Maquina *m, int n) {
 	case NE:
     tmp = desempilha(pil);
     tmp2 = desempilha(pil);
-    if (tmp == NUM && tmp2 == NUM && tmp.val.n != tmp2.val.n) {
+    if (tmp.t == NUM && tmp2.t == NUM && tmp.val.n != tmp2.val.n) {
       tmp.val.n = 1;
 	    empilha(pil, tmp);
     }
@@ -305,13 +306,13 @@ void exec_maquina(Maquina *m, int n) {
     tmp = desempilha(pil);
     tmp2.t = NUM;
     if (tmp.t == CELULA) { //É uma célula
-      switch(arg.n) { //Qual argumento da célula você quer?
+      switch(arg.val.n) { //Qual argumento da célula você quer?
         case 0: //terreno
           tmp2.val.n = tmp.val.cel.terreno;
         case 1: //cristais
           tmp2.val.n = tmp.val.cel.cristais;
         case 2: //ocupado
-          tmp2.val.n = tmp.val.cel.terreno.ocupado;
+          tmp2.val.n = tmp.val.cel.ocupado;
       }
       empilha(pil, tmp2);
     }
@@ -321,12 +322,12 @@ void exec_maquina(Maquina *m, int n) {
     }
     break;
   case SYS:
-    Sistema(arg.n, m);
+    Sistema(arg.val.n, m);
   }
 
 	D(imprime(pil,5));
 	D(puts("\n"));
 
-	ip.n++;
+	ip.val.n++;
   }
 }
