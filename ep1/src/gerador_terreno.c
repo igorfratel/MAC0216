@@ -2,13 +2,13 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-
+//CORRECOES A SEREM FEITAS: problema de segfault e imprimir em um arquivo de texto
 /*
 	Exercitos (B1 B2 B3 B4 B5)
 	-Minimo: 2
 	-Maximo: 5
 
-	Numero de robos em cada exercito (B1.1, B1.2, B1.3...)
+	Numero de robos em cada exercito (R1.1, R1.2, R1.3...)
 	-Minimo: 1
 	-Maximo: 5
 
