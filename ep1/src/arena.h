@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "instr.h"
 #include "maq.h"
 #include "utils.h"
@@ -33,7 +34,7 @@ void imprime_arena(Arena *a);
 int salva_maquina(Arena *a, Maquina *m);
 
 //Percorre o vetor de máquinas e manda cada uma executar NUM_INSTR instruções;
-void escalonador(Arena *a);
+void escalonador(Arena *a, int rodadas);
 
 //Funcao auxiliar para criar robos e colocar na arena
 Maquina *cria_robo(Arena * arena, int time, INSTR * p);
@@ -46,6 +47,8 @@ void swap(Maquina *a, Maquina *b);
 
 //Funcao que realiza um shuffle no vetor
 void shuffle(Maquina *arr[], int n);
+
+void Sistema(int op, Maquina *m);
 
 
 #endif

@@ -12,7 +12,7 @@
 typedef struct Maquina Maquina; //Forward declaration
 struct Maquina {
   //@@
-  int time;
+  int equipe;
   int pos[2];
   int cristais;
 
@@ -24,7 +24,7 @@ struct Maquina {
   OPERANDO ip;
 };
 
-Maquina *cria_maquina(int time, INSTR *p);
+Maquina *cria_maquina(INSTR *p);
 
 void destroi_maquina(Maquina *m);
 
