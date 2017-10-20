@@ -10,6 +10,22 @@
 // 	int robos;
 // } Arena;
 
+//shuffle no vetor
+void swap(Maquina *a, Maquina *b) {
+    Maquina temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void shuffle(Maquina arr[], int n) {
+    srand(time(NULL));
+    int i;
+    for(i = n - 1; i > 0; i--) {
+        int j = rand() % (i + 1);
+        swap(&arr[i], &arr[j]);
+    }
+}
+
 Arena *cria_arena(int linhas, int colunas) {
 //Recebe um número de linhas e colunas. Cria e inicializa uma Arena com essas dimensões
 
@@ -44,7 +60,6 @@ Arena *cria_arena(int linhas, int colunas) {
 	//Inicializa todas as posições do vetor de máquinas virtuais com NULL
 	for (i = 0; i < VET_MAX; i++)
 		a->vetor_maq[i] = NULL;
-
 }
 
 void destroi_arena(Arena *a) {
@@ -83,6 +98,7 @@ void escalonador(Arena *a, int rodadas) {
 	int i;
 	int j;
 
+	shuffle(vetor_maq, VET_MAX); //shuffle afim de embaralhar os robos, assim um time nao tera prioridade sobre o outro
 	for (j = 0; j < rodadas; j++){
 		for (i = 0; i < a -> robos; i++){
 			exec_maquina(a->vetor_maq[i], NUM_INSTR);
@@ -90,7 +106,6 @@ void escalonador(Arena *a, int rodadas) {
 	}
 }
 
-//$$
 void Atualiza(){
 }
 
