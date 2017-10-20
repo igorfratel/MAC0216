@@ -32,4 +32,7 @@ int salva_maquina(Arena *a, *Maquina m);
 //Percorre o vetor de máquinas e manda cada uma executar NUM_INSTR instruções;
 void escalonador(Arena *a);
 
+//Funcao auxiliar para criar robos e colocar na arena
+Maquina *cria_robo(Arena * arena, int time, INSTR * p)
+
 #endif

@@ -94,33 +94,38 @@ void escalonador(Arena *a, int rodadas) {
 void Atualiza(){
 }
 
-void insere_exercito(Arena * a, int n, INSTR * p){
+void insere_exercito(Arena * arena, int n, INSTR * p){
 	static int time = 0;
-	arena -> robos = n;
-	for(int i = 0; i < n; i++)
-		criaRobo(a, time, p);
+
+	for(int i = arena->robos; i < n + arena->robos; i++) {
+		a -> vetor_maq[i] = cria_robo(arena, time, p);
+	}
+	arena -> robos += n;
 	time++;
 }
 
-void cria_robo(Arena * a, int time, INSTR * p) {
+Maquina *cria_robo(Arena * arena, int time, INSTR * p) {
 	int x, y;
+	Maquina * maquina;
 
 	srand(time(NULL));
-  x = rand() % a -> x;
+  x = rand() % arena -> x;
 
 	srand(time(NULL));
-	y = rand() % a -> y;
+	y = rand() % arena -> y;
 
-	while(a -> matriz[x][y].ocupado == NULL) {
+	while(arena -> matriz[x][y].ocupado == NULL) {
 		srand(time(NULL));
-	  x = rand() % a -> x;
+	  x = rand() % arena->x;
 
 		srand(time(NULL));
-		y = rand() % a -> y;
+		y = rand() % arena -> y;
 	}
-	Maquina * maquina = cria_maquina(time, p);
-	a -> matriz[x][y].ocupado = maquina;
+	maquina = cria_maquina(time, p);
+	arena->matriz[x][y].ocupado = maquina;
+	return maquina;
+
 }
 
-void RemoveExercito(){
+void remove_exercito(Arena * a, int time){
 }
