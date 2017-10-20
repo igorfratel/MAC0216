@@ -88,3 +88,13 @@ void escalonador(Arena *a, int rodadas) {
 		}
 	}
 }
+
+//$$
+void Atualiza(){
+}
+
+void InsereExercito(){
+}
+
+void RemoveExercito(){
+}
