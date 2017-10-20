@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "maq.h"
 
 /* #define DEBUG */
@@ -50,7 +48,7 @@ static void Fatal(char *msg, int cod) {
   exit(cod);
 }
 
-Maquina *cria_maquina(INSTR *p) {
+Maquina *cria_maquina(int time, INSTR *p) {
   Maquina *m = (Maquina*)malloc(sizeof(Maquina));
   if (!m) Fatal("Memória insuficiente",4);
   m->ip.t = NUM;//@@
@@ -58,6 +56,7 @@ Maquina *cria_maquina(INSTR *p) {
   m->prog = p;
   m->rbp.t = NUM;//@@
   m->rbp.n = 0; //!!!
+  m->time = time;
   return m;
 }
 

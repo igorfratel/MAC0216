@@ -95,12 +95,14 @@ void Atualiza(){
 }
 
 void insere_exercito(Arena * a, int n, INSTR * p){
+	static int time = 0;
 	arena -> robos = n;
 	for(int i = 0; i < n; i++)
-		criaRobo(a, p);
+		criaRobo(a, time, p);
+	time++;
 }
 
-void cria_robo(Arena * a, INSTR * p) {
+void cria_robo(Arena * a, int time, INSTR * p) {
 	int x, y;
 
 	srand(time(NULL));
@@ -116,7 +118,7 @@ void cria_robo(Arena * a, INSTR * p) {
 		srand(time(NULL));
 		y = rand() % a -> y;
 	}
-	Maquina * maquina = cria_maquina(p);
+	Maquina * maquina = cria_maquina(time, p);
 	a -> matriz[x][y].ocupado = maquina;
 }
 
