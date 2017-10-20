@@ -6,14 +6,20 @@
 
 default: motor
 
-motor: motor.c pilha.o maq.o
-	$(CC) motor.c $(CFLAGS) -o motor pilha.o maq.o 
+motor: motor.c utils.o pilha.o maq.o arena.o 
+	$(CC) motor.c $(CFLAGS) -o motor pilha.o arena.o maq.o utils.o 
 
-pilha:
+pilha: pilha.c pilha.h
 	$(CC) $(CFLAGS) -c pilha
 
-maq:
+arena: arena.c arena.h
 	$(CC) $(CFLAGS) -c maq
+
+maq: maq.c maq.h
+	$(CC) $(CFLAGS) -c maq
+
+utils: utils.c utils.h
+	$(CC) $(CFLAGS) -c utils
 
 clean:
 	$(RM) motor *.o
