@@ -319,9 +319,11 @@ void exec_maquina(Maquina *m, int n) {
       empilha(pil, tmp); //Devolve a pilha no estado original
       Erro("(ATR): Dado incompatível");
     }
-	 break;
-	}
-  
+    break;
+  case SYS:
+    Sistema(arg.n, m);
+  }
+
 	D(imprime(pil,5));
 	D(puts("\n"));
 
