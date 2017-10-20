@@ -9,6 +9,8 @@
 #define VET_MAX 100
 #define NUM_INSTR 50
 
+typedef struct Maquina Maquina; //Forward declaration
+
 typedef struct {
 	Celula **matriz; //A arena é uma matriz de celulas
 	int x; //número de posições em cada linha da matriz
@@ -43,7 +45,7 @@ void remove_exercito(Arena * arena, int time);
 void swap(Maquina *a, Maquina *b);
 
 //Funcao que realiza um shuffle no vetor
-void shuffle(Maquina arr[], int n);
+void shuffle(Maquina *arr[], int n);
 
 
 #endif

@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "arena.h"
-#include "instr.h"
+
 // typedef struct {
 // 	Celula **matriz; //A arena é uma matriz de posições/celulas
 // 	int x; //número de posições em cada linha da matriz
@@ -17,7 +15,7 @@ void swap(Maquina *a, Maquina *b) {
     *b = temp;
 }
 
-void shuffle(Maquina arr[], int n) {
+void shuffle(Maquina *arr[], int n) {
     srand(time(NULL));
     int i;
     for(i = n - 1; i > 0; i--) {
