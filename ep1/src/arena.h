@@ -39,4 +39,11 @@ Maquina *cria_robo(Arena * arena, int time, INSTR * p);
 //Funcao que remove da matriz da arena e do vetor de robos da arena, os exercitos pertencentes ao time x
 void remove_exercito(Arena * arena, int time);
 
+//Funcao que troca duas posicoes de lugar
+void swap(Maquina *a, Maquina *b);
+
+//Funcao que realiza um shuffle no vetor
+void shuffle(Maquina arr[], int n);
+
+
 #endif
