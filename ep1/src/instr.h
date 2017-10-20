@@ -51,6 +51,7 @@ typedef struct {
    	int n;
    	int ac;
    	int v;
+    Celula cel;
   };
 } OPERANDO;
 
@@ -66,7 +67,7 @@ typedef enum {
 typedef struct {
   Terreno terreno;
   short int cristais;
-  short int ocupado;
+  Maquina *ocupado; //Indica qual robô está na posição ocupada. NULL caso não esteja ocupada
 } Celula;
 
 /* Instrução */
