@@ -257,6 +257,14 @@ int remove_cristal(Arena *arena, Maquina *robo, int direcao) {
 	return;
 }
 
+int deposita_cristal(Arena *arena, Maquina *robo, int direcao) {
+	int *celula = checa_celula(arena, robo, direcao);
+	if(celula[0] != -1 && arena->matriz[celula[0]][celula[1]].terreno == BASE) {
+		arena->matriz[celula[0]][celula[1]].cristais += robo->cristais;
+		robo->cristais = 0;
+	}
+	return;
+}
 void Sistema(int op, Maquina *m) {
 	return;
 }

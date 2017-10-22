@@ -3,3 +3,4 @@
 --Implementar o imprime_arena
 --Não sei se o terreno.c precisa existir
 --Testar
+--precisamos verificar se a funcao deposita_cristal verifica se a base é inimiga ou amiga
