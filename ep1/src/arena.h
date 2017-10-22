@@ -42,6 +42,9 @@ Maquina *cria_robo(Arena * arena, int time, INSTR * p);
 //Funcao que remove da matriz da arena e do vetor de robos da arena, os exercitos pertencentes ao time x
 void remove_exercito(Arena * arena, int time);
 
+//Funcao que verifica se a celula para onde o robo quer se mover ou fazer qualquer outra acao esta presente na arena
+int[] checa_celula(Arena *arena, Maquina *robo, int movimento);
+
 //Funcao que move o robo, caso ele possa realizar o movimento desejado
 int move(Arena * arena, Maquina * robo, int movimento);
 //Funcao que troca duas posicoes de lugar
