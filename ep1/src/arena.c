@@ -157,16 +157,16 @@ void remove_exercito(Arena * arena, int equipe){
 }
 
 int move(Arena * arena, Maquina * robo, int movimento) {
+	int max_i = arena->y;
+	int max_j = arena->x;
 	switch (movimento) {
 		int i, j;
-		int max_i = arena->y;
-		int max_j = arena->x;
 
 		case 0:
 			i = robo->pos[0] - 1;
-			j = robo->post[1];
+			j = robo->pos[1];
 			if(i >= 0 && !arena->matriz[i][j].ocupado) {
-				matriz[i][j].ocupado = 1;
+				arena->matriz[i][j].ocupado = 1;
 				robo->pos[1] = j;
 				robo->pos[0] = i;
 			}
@@ -180,7 +180,7 @@ int move(Arena * arena, Maquina * robo, int movimento) {
 				i = robo->pos[0];
 
 			if(i >= 0 && j < max_j && !arena->matriz[i][j].ocupado) {
-				matriz[i][j].ocupado = 1;
+				arena->matriz[i][j].ocupado = 1;
 				robo->pos[1] = j;
 				robo->pos[0] = i;
 			}
@@ -194,16 +194,16 @@ int move(Arena * arena, Maquina * robo, int movimento) {
 				i = robo->pos[0] + 1;
 
 			if(i < max_i && j < max_j && !arena->matriz[i][j].ocupado) {
-				matriz[i][j].ocupado = 1;
+				arena->matriz[i][j].ocupado = 1;
 				robo->pos[1] = j;
 				robo->pos[0] = i;
 			}
 			break;
 		case 3:
 			i = robo->pos[0] + 1;
-			j = robo->post[1];
+			j = robo->pos[1];
 			if(i < max_i && !arena->matriz[i][j].ocupado) {
-				matriz[i][j].ocupado = 1;
+				arena->matriz[i][j].ocupado = 1;
 				robo->pos[1] = j;
 				robo->pos[0] = i;
 			}
@@ -217,7 +217,7 @@ int move(Arena * arena, Maquina * robo, int movimento) {
 				i = robo->pos[0] + 1;
 
 			if(i < max_i && j >= 0 && !arena->matriz[i][j].ocupado) {
-				matriz[i][j].ocupado = 1;
+				arena->matriz[i][j].ocupado = 1;
 				robo->pos[1] = j;
 				robo->pos[0] = i;
 			}
@@ -231,12 +231,13 @@ int move(Arena * arena, Maquina * robo, int movimento) {
 				i = robo->pos[0];
 
 			if(i >= 0 && j >= 0 && !arena->matriz[i][j].ocupado) {
-				matriz[i][j].ocupado = 1;
+				arena->matriz[i][j].ocupado = 1;
 				robo->pos[1] = j;
 				robo->pos[0] = i;
 			}
 			break;
 	}
+	return;
 }
 
 void Sistema(int op, Maquina *m) {
