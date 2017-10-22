@@ -156,90 +156,115 @@ void remove_exercito(Arena * arena, int equipe){
 	}
 }
 
-int move(Arena * arena, Maquina * robo, int movimento) {
+int *checa_celula(Arena *arena, Maquina *robo, int direcao) {
 	int max_i = arena->y;
 	int max_j = arena->x;
-	switch (movimento) {
-		int i, j;
+	int *retorno = (int*)malloc(2 * sizeof(int*));
+	retorno[0] = -1;
+	retorno[1] = -1;
+	switch (direcao) {
+	  int i, j;
 
-		case 0:
-			i = robo->pos[0] - 1;
-			j = robo->pos[1];
-			if(i >= 0 && !arena->matriz[i][j].ocupado) {
-				arena->matriz[i][j].ocupado = 1;
-				robo->pos[1] = j;
-				robo->pos[0] = i;
-			}
-			break;
-		case 1:
-			j = robo->pos[1] + 1;
+	  case 0:
+	    i = robo->pos[0] - 1;
+	    j = robo->pos[1];
+	    if(i >= 0) {
+	      retorno[1] = j;
+	      retorno[0] = i;
+	    }
+	    break;
+	  case 1:
+	    j = robo->pos[1] + 1;
 
-			if(robo->pos[0] % 2 != 0)
-				i = robo->pos[0] - 1;
-			else
-				i = robo->pos[0];
+	    if(robo->pos[0] % 2 != 0)
+	      i = robo->pos[0] - 1;
+	    else
+	      i = robo->pos[0];
 
-			if(i >= 0 && j < max_j && !arena->matriz[i][j].ocupado) {
-				arena->matriz[i][j].ocupado = 1;
-				robo->pos[1] = j;
-				robo->pos[0] = i;
-			}
-			break;
-		case 2:
-			j = robo->pos[1] + 1;
+	    if(i >= 0 && j < max_j) {
+	      retorno[1] = j;
+	      retorno[0] = i;
+	    }
+	    break;
+	  case 2:
+	    j = robo->pos[1] + 1;
 
-			if(robo->pos[0] % 2 != 0)
-				i = robo->pos[0];
-			else
-				i = robo->pos[0] + 1;
+	    if(robo->pos[0] % 2 != 0)
+	      i = robo->pos[0];
+	    else
+	      i = robo->pos[0] + 1;
 
-			if(i < max_i && j < max_j && !arena->matriz[i][j].ocupado) {
-				arena->matriz[i][j].ocupado = 1;
-				robo->pos[1] = j;
-				robo->pos[0] = i;
-			}
-			break;
-		case 3:
-			i = robo->pos[0] + 1;
-			j = robo->pos[1];
-			if(i < max_i && !arena->matriz[i][j].ocupado) {
-				arena->matriz[i][j].ocupado = 1;
-				robo->pos[1] = j;
-				robo->pos[0] = i;
-			}
-			break;
-		case 4:
-			j = robo->pos[1] - 1;
+	    if(i < max_i && j < max_j) {
+	      retorno[1] = j;
+	      retorno[0] = i;
+	    }
+	    break;
+	  case 3:
+	    i = robo->pos[0] + 1;
+	    j = robo->pos[1];
+	    if(i < max_i) {
+	      retorno[1] = j;
+	      retorno[0] = i;
+	    }
+	    break;
+	  case 4:
+	    j = robo->pos[1] - 1;
 
-			if(robo->pos[0] % 2 != 0)
-				i = robo->pos[0];
-			else
-				i = robo->pos[0] + 1;
+	    if(robo->pos[0] % 2 != 0)
+	      i = robo->pos[0];
+	    else
+	      i = robo->pos[0] + 1;
 
-			if(i < max_i && j >= 0 && !arena->matriz[i][j].ocupado) {
-				arena->matriz[i][j].ocupado = 1;
-				robo->pos[1] = j;
-				robo->pos[0] = i;
-			}
-			break;
-		case 5:
-			j = robo->pos[1] - 1;
+	    if(i < max_i && j >= 0) {
+	      retorno[1] = j;
+	      retorno[0] = i;
+	    }
+	    break;
+	  case 5:
+	    j = robo->pos[1] - 1;
 
-			if(robo->pos[0] % 2 != 0)
-				i = robo->pos[0] - 1;
-			else
-				i = robo->pos[0];
+	    if(robo->pos[0] % 2 != 0)
+	      i = robo->pos[0] - 1;
+	    else
+	      i = robo->pos[0];
 
-			if(i >= 0 && j >= 0 && !arena->matriz[i][j].ocupado) {
-				arena->matriz[i][j].ocupado = 1;
-				robo->pos[1] = j;
-				robo->pos[0] = i;
-			}
-			break;
+	    if(i >= 0 && j >= 0) {
+	      arena->matriz[i][j].ocupado = 1;
+	      retorno[1] = j;
+	      retorno[0] = i;
+	    }
+	    break;
+	}
+	return retorno;
+}
+
+int move(Arena * arena, Maquina * robo, int direcao) {
+	int *celula = checa_celula(arena, robo, direcao);
+	if(celula[0] != -1 && !arena->matriz[celula[0]][celula[1]].ocupado) {
+		arena->matriz[celula[0]][celula[1]].ocupado = 1;
+		robo->pos[1] = celula[1];
+		robo->pos[0] = celula[0];
 	}
 	return;
 }
 
+int remove_cristal(Arena *arena, Maquina *robo, int direcao) {
+	int *celula = checa_celula(arena, robo, direcao);
+	if(celula[0] != -1 && arena->matriz[celula[0]][celula[1]].cristais > 0) {
+		robo->cristais +=arena->matriz[celula[0]][celula[1]].cristais;
+		arena->matriz[celula[0]][celula[1]].cristais = 0;
+	}
+	return;
+}
+
+int deposita_cristal(Arena *arena, Maquina *robo, int direcao) {
+	int *celula = checa_celula(arena, robo, direcao);
+	if(celula[0] != -1 && arena->matriz[celula[0]][celula[1]].terreno == BASE) {
+		arena->matriz[celula[0]][celula[1]].cristais += robo->cristais;
+		robo->cristais = 0;
+	}
+	return;
+}
 void Sistema(int op, Maquina *m) {
 	return;
 }
