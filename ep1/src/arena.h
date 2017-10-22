@@ -43,7 +43,8 @@ Maquina *cria_robo(Arena * arena, int time, INSTR * p);
 void remove_exercito(Arena * arena, int time);
 
 //Funcao que verifica se a celula para onde o robo quer se mover ou fazer qualquer outra acao esta presente na arena
-int[] checa_celula(Arena *arena, Maquina *robo, int movimento);
+//se a celula estiver na arena, retorna o vetor com os indices. Caso contrário, retorna o vetor [-1, -1]
+int *checa_celula(Arena *arena, Maquina *robo, int movimento);
 
 //Funcao que move o robo, caso ele possa realizar o movimento desejado
 int move(Arena * arena, Maquina * robo, int movimento);

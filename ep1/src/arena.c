@@ -156,10 +156,12 @@ void remove_exercito(Arena * arena, int equipe){
 	}
 }
 
-int[] checa_celula(Arena *arena, Maquina *robo, int movimento) {
+int *checa_celula(Arena *arena, Maquina *robo, int movimento) {
 	int max_i = arena->y;
 	int max_j = arena->x;
-	int[2] retorno = NULL;
+	int *retorno = (int*)malloc(2 * sizeof(int*));
+	retorno[0] = -1;
+	retorno[1] = -1;
 	switch (movimento) {
 	  int i, j;
 
@@ -237,13 +239,11 @@ int[] checa_celula(Arena *arena, Maquina *robo, int movimento) {
 }
 
 int move(Arena * arena, Maquina * robo, int movimento) {
-	int max_i = arena->y;
-	int max_j = arena->x;
-	celula = verifica_celula(arena, robo, movimento);
-	if(celula && !arena->matriz[i][j].ocupado) {
-		arena->matriz[i][j].ocupado = 1;
-		robo->pos[1] = j;
-		robo->pos[0] = i;
+	int *celula = checa_celula(arena, robo, movimento);
+	if(celula[0] == -1 && !arena->matriz[celula[0]][celula[1]].ocupado) {
+		arena->matriz[celula[0]][celula[1]].ocupado = 1;
+		robo->pos[1] = celula[1];
+		robo->pos[0] = celula[0];
 	}
 	return;
 }
