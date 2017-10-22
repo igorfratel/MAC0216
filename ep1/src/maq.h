@@ -8,9 +8,11 @@
 #include "utils.h"
 
 #define MAXMEM 100
-typedef struct {
+
+typedef struct Maquina Maquina; //Forward declaration
+struct Maquina {
   //@@
-  int time;
+  int equipe;
   int pos[2];
   int cristais;
 
@@ -20,9 +22,9 @@ typedef struct {
   INSTR *prog;
   OPERANDO rbp; //!!!
   OPERANDO ip;
-} Maquina;
+};
 
-Maquina *cria_maquina(int time, INSTR *p);
+Maquina *cria_maquina(INSTR *p);
 
 void destroi_maquina(Maquina *m);
 

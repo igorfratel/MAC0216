@@ -2,7 +2,7 @@
   CC = gcc
 
 # compiler flags:
-  CFLAGS  = -Wall
+  CFLAGS  = -Wall -std=c11
 
 default: motor
 

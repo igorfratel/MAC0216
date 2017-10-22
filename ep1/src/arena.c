@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "arena.h"
-#include "instr.h"
+
 // typedef struct {
 // 	Celula **matriz; //A arena é uma matriz de posições/celulas
 // 	int x; //número de posições em cada linha da matriz
@@ -17,12 +15,12 @@ void swap(Maquina *a, Maquina *b) {
     *b = temp;
 }
 
-void shuffle(Maquina arr[], int n) {
+void shuffle(Maquina *arr[], int n) {
     srand(time(NULL));
     int i;
     for(i = n - 1; i > 0; i--) {
         int j = rand() % (i + 1);
-        swap(&arr[i], &arr[j]);
+        swap(arr[i], arr[j]);
     }
 }
 
@@ -60,6 +58,7 @@ Arena *cria_arena(int linhas, int colunas) {
 	//Inicializa todas as posições do vetor de máquinas virtuais com NULL
 	for (i = 0; i < VET_MAX; i++)
 		a->vetor_maq[i] = NULL;
+	return a;
 }
 
 void destroi_arena(Arena *a) {
@@ -77,7 +76,7 @@ void imprime_arena(Arena *a) {
 
 }
 
-int salva_maquina(Arena *a, *Maquina m) {
+int salva_maquina(Arena *a, Maquina *m) {
 //Recebe uma Arena e uma máquina virtual. Salva a máquina virtual na primeira posição livre do vetor_maq da Arena.
 //Retorna 1 caso seja bem sucedida e 0 caso não haja espaço para salvar a máquina virtual
 	int i;
@@ -85,7 +84,7 @@ int salva_maquina(Arena *a, *Maquina m) {
 	for (i = 0; i < VET_MAX; i++) {
 		if (a->vetor_maq[i] == NULL) {
 			a->vetor_maq[i] = m;
-			return 1
+			return 1;
 		}
 	}
 	return 0;
@@ -98,7 +97,7 @@ void escalonador(Arena *a, int rodadas) {
 	int i;
 	int j;
 
-	shuffle(vetor_maq, VET_MAX); //shuffle afim de embaralhar os robos, assim um time nao tera prioridade sobre o outro
+	shuffle(a->vetor_maq, VET_MAX); //shuffle a fim de embaralhar os robos, assim um equipe nao tera prioridade sobre o outro
 	for (j = 0; j < rodadas; j++){
 		for (i = 0; i < a -> robos; i++){
 			if(a->vetor_maq[i] != NULL)
@@ -111,45 +110,45 @@ void Atualiza(){
 }
 
 void insere_exercito(Arena * arena, int n, INSTR * p){
-	static int time = 0;
+	static int equipe = 0;
 
 	for(int i = arena->robos; i < n + arena->robos; i++) {
-		a -> vetor_maq[i] = cria_robo(arena, time, p);
+		arena->vetor_maq[i] = cria_robo(arena, equipe, p);
 	}
-	arena -> robos += n;
-	time++;
+	arena->robos += n;
+	equipe++;
 }
 
-Maquina *cria_robo(Arena * arena, int time, INSTR * p) {
+Maquina *cria_robo(Arena * arena, int equipe, INSTR * p) {
 	int x, y;
 	Maquina * maquina;
 
 	srand(time(NULL));
-  x = rand() % arena -> x;
+  x = rand() % arena->x;
 
 	srand(time(NULL));
-	y = rand() % arena -> y;
+	y = rand() % arena->y;
 
-	while(arena -> matriz[x][y].ocupado == NULL) {
+	while(!arena -> matriz[x][y].ocupado) {
 		srand(time(NULL));
 	  x = rand() % arena->x;
 
 		srand(time(NULL));
-		y = rand() % arena -> y;
+		y = rand() % arena->y;
 	}
-	maquina = cria_maquina(time, p);
-	arena->matriz[x][y].ocupado = maquina;
+	maquina = cria_maquina(p);
+	arena->matriz[x][y].ocupado = 1;
 	return maquina;
 
 }
 
-void remove_exercito(Arena * arena, int time){
+void remove_exercito(Arena * arena, int equipe){
 	int i, x, y;
 	i = 0;
 	while(i < arena->robos) {
-		if(arena->vetor_maq[i] != NULL && arena->vetor_maq[i].time == time) {
-			x = arena->vetor_maq[i].pos[0];
-			y = arena->vetor_maq[i].pos[1];
+		if(arena->vetor_maq[i] != NULL && arena->vetor_maq[i]->equipe == equipe) {
+			x = arena->vetor_maq[i]->pos[0];
+			y = arena->vetor_maq[i]->pos[1];
 			arena->matriz[x][y].ocupado = 0;
 			arena->vetor_maq[i] = NULL;
 		}
@@ -254,3 +253,25 @@ case DUP:
 	empilha(pil, tmp);
 	empilha(pil, tmp);
 	break;
+
+void Sistema(int op, Maquina *m) {
+	return;
+}
+
+// void remove_exercito(Arena * arena, int equipe){
+// 	int i, max, x, y;
+// 	i = 0;
+// 	max = arena->robos;
+// 	int removeu = 0;
+// 	while(i < max && removeu == 0) {
+// 		while(arena->vetor_maq[i] != NULL && arena->vetor_maq[i].equipe == equipe) {
+// 			x = arena->vetor_maq[i].pos[0];
+// 			y = arena->vetor_maq[i].pos[1];
+// 			arena->matriz[x][y].ocupado = 0;
+// 			arena->vetor_maq[i] = NULL;
+// 			removeu = 1;
+// 			i++;
+// 		}
+// 		i++;
+// 	}
+// }

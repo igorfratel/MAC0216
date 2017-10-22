@@ -40,7 +40,7 @@ char *CODES[] = {
 #  define D(X)
 #endif
 
-Maquina *cria_maquina(int time, INSTR *p) {
+Maquina *cria_maquina(INSTR *p) {
   Maquina *m = (Maquina*)malloc(sizeof(Maquina));
   if (!m) Fatal("Memória insuficiente",4);
   m->ip.t = NUM;//@@
@@ -48,7 +48,6 @@ Maquina *cria_maquina(int time, INSTR *p) {
   m->prog = p;
   m->rbp.t = NUM;//@@
   m->rbp.val.n = 0; //!!!
-  m->time = time;
   return m;
 }
 
