@@ -156,13 +156,13 @@ void remove_exercito(Arena * arena, int equipe){
 	}
 }
 
-int *checa_celula(Arena *arena, Maquina *robo, int movimento) {
+int *checa_celula(Arena *arena, Maquina *robo, int direcao) {
 	int max_i = arena->y;
 	int max_j = arena->x;
 	int *retorno = (int*)malloc(2 * sizeof(int*));
 	retorno[0] = -1;
 	retorno[1] = -1;
-	switch (movimento) {
+	switch (direcao) {
 	  int i, j;
 
 	  case 0:
@@ -238,12 +238,21 @@ int *checa_celula(Arena *arena, Maquina *robo, int movimento) {
 	return retorno;
 }
 
-int move(Arena * arena, Maquina * robo, int movimento) {
-	int *celula = checa_celula(arena, robo, movimento);
-	if(celula[0] == -1 && !arena->matriz[celula[0]][celula[1]].ocupado) {
+int move(Arena * arena, Maquina * robo, int direcao) {
+	int *celula = checa_celula(arena, robo, direcao);
+	if(celula[0] != -1 && !arena->matriz[celula[0]][celula[1]].ocupado) {
 		arena->matriz[celula[0]][celula[1]].ocupado = 1;
 		robo->pos[1] = celula[1];
 		robo->pos[0] = celula[0];
+	}
+	return;
+}
+
+int remove_cristal(Arena *arena, Maquina *robo, int direcao) {
+	int *celula = checa_celula(arena, robo, direcao);
+	if(celula[0] != -1 && arena->matriz[celula[0]][celula[1]].cristais > 0) {
+		robo->cristais +=arena->matriz[celula[0]][celula[1]].cristais;
+		arena->matriz[celula[0]][celula[1]].cristais = 0;
 	}
 	return;
 }
