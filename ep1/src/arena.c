@@ -239,21 +239,6 @@ int move(Arena * arena, Maquina * robo, int movimento) {
 	}
 }
 
-switch (opc) {
-	OPERANDO tmp;
-	OPERANDO tmp1;
-case PUSH:
-	empilha(pil, arg);
-	break;
-case POP:
-	desempilha(pil);
-	break;
-case DUP:
-	tmp = desempilha(pil);
-	empilha(pil, tmp);
-	empilha(pil, tmp);
-	break;
-
 void Sistema(int op, Maquina *m) {
 	return;
 }
