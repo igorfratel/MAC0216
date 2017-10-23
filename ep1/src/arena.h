@@ -40,6 +40,9 @@ void escalonador(Arena *a, int rodadas);
 //Funcao auxiliar para criar robos e colocar na arena
 Maquina *cria_robo(Arena * arena, int time, INSTR * p);
 
+// Funcao que insere novo exercito com n robos seguindo a instrucao p
+void insere_exercito(Arena * arena, int n, INSTR * p);
+
 //Funcao que remove da matriz da arena e do vetor de robos da arena, os exercitos pertencentes ao time x
 void remove_exercito(Arena * arena, int time);
 
