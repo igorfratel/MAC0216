@@ -15,6 +15,7 @@ struct Maquina {
   int equipe;
   int pos[2];
   int cristais;
+  Arena *arena;
 
   Pilha pil;
   Pilha exec;
@@ -24,7 +25,7 @@ struct Maquina {
   OPERANDO ip;
 };
 
-Maquina *cria_maquina(INSTR *p);
+Maquina *cria_maquina(INSTR *p, Arena *a);
 
 void destroi_maquina(Maquina *m);
 

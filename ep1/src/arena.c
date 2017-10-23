@@ -136,7 +136,7 @@ Maquina *cria_robo(Arena * arena, int equipe, INSTR * p) {
 		srand(time(NULL));
 		y = rand() % arena->y;
 	}
-	maquina = cria_maquina(p);
+	maquina = cria_maquina(p, arena);
 	arena->matriz[x][y].ocupado = 1;
 	return maquina;
 
@@ -265,9 +265,22 @@ int deposita_cristal(Arena *arena, Maquina *robo, int direcao) {
 	}
 	return;
 }
-void Sistema(int op, Maquina *m) {
-	return;
+void Sistema(int op, Maquina *robo) {
+  int direcao = desempilha(&robo->pil).val.n;
+  switch (op) {
+    case 0:
+			move(robo, robo->arena, direcao);
+			break;
+		case 1:
+			remove_cristal(robo, robo->arena, direcao);
+			break;
+		case 2:
+			deposita_cristal(robo, robo->arena, direcao);
+		//case 3: ataca
+  }
+  return;
 }
+
 
 // void remove_exercito(Arena * arena, int equipe){
 // 	int i, max, x, y;
