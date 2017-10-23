@@ -39,17 +39,17 @@ while l:
         if arg in tabsim:
             arg = tabsim[arg]
     if op != "":
-        if (arg == MOV or arg == CIMA): #MACROS
+        if (arg == "MOV" or arg == "CIMA"): #MACROS
             arg = "0"
-        if (arg == REP or arg == DSUP):
+        if (arg == "REP" or arg == "DSUP"):
             arg = "1"
-        if (arg == DEP or arg == DINF):
+        if (arg == "DEP" or arg == "DINF"):
             arg = "2"
-        if (arg == ATQ or arg == BAIXO):
+        if (arg == "ATQ" or arg == "BAIXO"):
             arg = "3"
-        if (arg == ESUP):
+        if (arg == "ESUP"):
             arg = "4"
-        if (arg == EINF):
+        if (arg == "EINF"):
             arg = "5"
         print("  {%s, %s},"%(op,arg)) #$$
         num_instr += 1 #!!!
@@ -60,6 +60,10 @@ while l:
 print("};")
 
 #parte que eu fiz !!!
+print()
+print("INSTR *devolve_programa() {")
+print("  return prog;")
+print("}")
 print()
 print("int main(int ac, char **av) {")
 print("  Maquina *maq = cria_maquina(prog);")
