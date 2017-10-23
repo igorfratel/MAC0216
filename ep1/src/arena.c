@@ -238,44 +238,42 @@ int *checa_celula(Arena *arena, Maquina *robo, int direcao) {
 	return retorno;
 }
 
-int move(Arena * arena, Maquina * robo, int direcao) {
+void move(Arena * arena, Maquina * robo, int direcao) {
 	int *celula = checa_celula(arena, robo, direcao);
 	if(celula[0] != -1 && !arena->matriz[celula[0]][celula[1]].ocupado) {
 		arena->matriz[celula[0]][celula[1]].ocupado = 1;
 		robo->pos[1] = celula[1];
 		robo->pos[0] = celula[0];
 	}
-	return;
 }
 
-int remove_cristal(Arena *arena, Maquina *robo, int direcao) {
+void remove_cristal(Arena *arena, Maquina 	*robo, int direcao) {
 	int *celula = checa_celula(arena, robo, direcao);
 	if(celula[0] != -1 && arena->matriz[celula[0]][celula[1]].cristais > 0) {
 		robo->cristais +=arena->matriz[celula[0]][celula[1]].cristais;
 		arena->matriz[celula[0]][celula[1]].cristais = 0;
 	}
-	return;
 }
 
-int deposita_cristal(Arena *arena, Maquina *robo, int direcao) {
+void deposita_cristal(Arena *arena, Maquina *robo, int direcao) {
 	int *celula = checa_celula(arena, robo, direcao);
 	if(celula[0] != -1 && arena->matriz[celula[0]][celula[1]].terreno == BASE) {
 		arena->matriz[celula[0]][celula[1]].cristais += robo->cristais;
 		robo->cristais = 0;
 	}
-	return;
 }
+
 void Sistema(int op, Maquina *robo) {
   int direcao = desempilha(&robo->pil).val.n;
   switch (op) {
     case 0:
-			move(robo, robo->arena, direcao);
+			move(robo->arena, robo, direcao);
 			break;
 		case 1:
-			remove_cristal(robo, robo->arena, direcao);
+			remove_cristal(robo->arena, robo, direcao);
 			break;
 		case 2:
-			deposita_cristal(robo, robo->arena, direcao);
+			deposita_cristal(robo->arena, robo, direcao);
 		//case 3: ataca
   }
   return;

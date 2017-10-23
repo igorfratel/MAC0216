@@ -48,13 +48,13 @@ void remove_exercito(Arena * arena, int time);
 int *checa_celula(Arena *arena, Maquina *robo, int direcao);
 
 // Funcao que remove os cristais de uma celula e coloca no robo
-int remove_cristal(Arena *arena, Maquina *robo, int direcao);
+void remove_cristal(Arena *arena, Maquina *robo, int direcao);
 
 // Funcao que deposita os cristais do robo na celula se ela for uma base
-int deposita_cristal(Arena *arena, Maquina *robo, int direcao);
+void deposita_cristal(Arena *arena, Maquina *robo, int direcao);
 
 //Funcao que move o robo, caso ele possa realizar o movimento desejado
-int move(Arena * arena, Maquina * robo, int movimento);
+void move(Arena * arena, Maquina * robo, int movimento);
 
 //Funcao que troca duas posicoes de lugar
 void swap(Maquina *a, Maquina *b);

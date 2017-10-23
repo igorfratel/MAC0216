@@ -22,6 +22,8 @@ OPERANDO desempilha(Pilha *p) {
 	return p->val[--p->topo];
   else Erro("Pilha vazia");
   OPERANDO lixo; //O compilador precisa que a função retorne um OPERANDO
+  lixo.t = NUM;
+  lixo.val.n = -1;
   return lixo;
 }
 
