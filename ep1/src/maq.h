@@ -27,7 +27,7 @@ struct Maquina {
   OPERANDO ip;
 };
 
-Maquina *cria_maquina(INSTR *p, Arena *a);
+Maquina *cria_maquina(INSTR *p);
 
 void destroi_maquina(Maquina *m);
 

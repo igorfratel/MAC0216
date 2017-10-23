@@ -76,14 +76,14 @@ void imprime_arena(Arena *a) {
 
 }
 
-int salva_maquina(Arena *a, Maquina *m) {
+int salva_maquina(Maquina *m) {
 //Recebe uma Arena e uma máquina virtual. Salva a máquina virtual na primeira posição livre do vetor_maq da Arena.
 //Retorna 1 caso seja bem sucedida e 0 caso não haja espaço para salvar a máquina virtual
 	int i;
 
 	for (i = 0; i < VET_MAX; i++) {
-		if (a->vetor_maq[i] == NULL) {
-			a->vetor_maq[i] = m;
+		if (arena.vetor_maq[i] == NULL) {
+			arena.vetor_maq[i] = m;
 			return 1;
 		}
 	}
@@ -92,16 +92,16 @@ int salva_maquina(Arena *a, Maquina *m) {
 
 
 //$$ adicao do numero de rodadas
-void escalonador(Arena *a, int rodadas) {
+void escalonador(int rodadas) {
 //Percorre o vetor de máquinas e manda cada uma executar NUM_INSTR instruções;
 	int i;
 	int j;
 
-	shuffle(a->vetor_maq, VET_MAX); //shuffle a fim de embaralhar os robos, assim um equipe nao tera prioridade sobre o outro
+	shuffle(arena.vetor_maq, VET_MAX); //shuffle a fim de embaralhar os robos, assim um equipe nao tera prioridade sobre o outro
 	for (j = 0; j < rodadas; j++){
-		for (i = 0; i < a -> robos; i++){
-			if(a->vetor_maq[i] != NULL)
-				exec_maquina(a->vetor_maq[i], NUM_INSTR);
+		for (i = 0; i < arena.robos; i++){
+			if(arena.vetor_maq[i] != NULL)
+				exec_maquina(arena.vetor_maq[i], NUM_INSTR);
 		}
 	}
 }
@@ -109,56 +109,56 @@ void escalonador(Arena *a, int rodadas) {
 void Atualiza(){
 }
 
-void insere_exercito(Arena * arena, int n, INSTR * p){
+void insere_exercito(int n, INSTR * p){
 	static int equipe = 0;
 
-	for(int i = arena->robos; i < n + arena->robos; i++) {
-		arena->vetor_maq[i] = cria_robo(arena, equipe, p);
+	for(int i = arena.robos; i < n + arena.robos; i++) {
+		arena.vetor_maq[i] = cria_robo(equipe, p);
 	}
-	arena->robos += n;
+	arena.robos += n;
 	equipe++;
 }
 
-Maquina *cria_robo(Arena * arena, int equipe, INSTR * p) {
+Maquina *cria_robo(int equipe, INSTR * p) {
 	int x, y;
 	Maquina * maquina;
 
 	srand(time(NULL));
-  x = rand() % arena->x;
+  x = rand() % arena.x;
 
 	srand(time(NULL));
-	y = rand() % arena->y;
+	y = rand() % arena.y;
 
-	while(!arena -> matriz[x][y].ocupado) {
+	while(!arena.matriz[x][y].ocupado) {
 		srand(time(NULL));
-	  x = rand() % arena->x;
+	  x = rand() % arena.x;
 
 		srand(time(NULL));
-		y = rand() % arena->y;
+		y = rand() % arena.y;
 	}
-	maquina = cria_maquina(p, arena);
-	arena->matriz[x][y].ocupado = 1;
+	maquina = cria_maquina(p);
+	arena.matriz[x][y].ocupado = 1;
 	return maquina;
 
 }
 
-void remove_exercito(Arena * arena, int equipe){
+void remove_exercito(int equipe){
 	int i, x, y;
 	i = 0;
-	while(i < arena->robos) {
-		if(arena->vetor_maq[i] != NULL && arena->vetor_maq[i]->equipe == equipe) {
-			x = arena->vetor_maq[i]->pos[0];
-			y = arena->vetor_maq[i]->pos[1];
-			arena->matriz[x][y].ocupado = 0;
-			arena->vetor_maq[i] = NULL;
+	while(i < arena.robos) {
+		if(arena.vetor_maq[i] != NULL && arena.vetor_maq[i]->equipe == equipe) {
+			x = arena.vetor_maq[i]->pos[0];
+			y = arena.vetor_maq[i]->pos[1];
+			arena.matriz[x][y].ocupado = 0;
+			arena.vetor_maq[i] = NULL;
 		}
 		i++;
 	}
 }
 
-int *checa_celula(Arena *arena, Maquina *robo, int direcao) {
-	int max_i = arena->y;
-	int max_j = arena->x;
+int *checa_celula(Maquina *robo, int direcao) {
+	int max_i = arena.y;
+	int max_j = arena.x;
 	int *retorno = (int*)malloc(2 * sizeof(int*));
 	retorno[0] = -1;
 	retorno[1] = -1;
@@ -229,7 +229,7 @@ int *checa_celula(Arena *arena, Maquina *robo, int direcao) {
 	      i = robo->pos[0];
 
 	    if(i >= 0 && j >= 0) {
-	      arena->matriz[i][j].ocupado = 1;
+	      arena.matriz[i][j].ocupado = 1;
 	      retorno[1] = j;
 	      retorno[0] = i;
 	    }
@@ -238,27 +238,27 @@ int *checa_celula(Arena *arena, Maquina *robo, int direcao) {
 	return retorno;
 }
 
-void move(Arena * arena, Maquina * robo, int direcao) {
-	int *celula = checa_celula(arena, robo, direcao);
-	if(celula[0] != -1 && !arena->matriz[celula[0]][celula[1]].ocupado) {
-		arena->matriz[celula[0]][celula[1]].ocupado = 1;
+void move(Maquina * robo, int direcao) {
+	int *celula = checa_celula(robo, direcao);
+	if(celula[0] != -1 && !arena.matriz[celula[0]][celula[1]].ocupado) {
+		arena.matriz[celula[0]][celula[1]].ocupado = 1;
 		robo->pos[1] = celula[1];
 		robo->pos[0] = celula[0];
 	}
 }
 
-void remove_cristal(Arena *arena, Maquina 	*robo, int direcao) {
-	int *celula = checa_celula(arena, robo, direcao);
-	if(celula[0] != -1 && arena->matriz[celula[0]][celula[1]].cristais > 0) {
-		robo->cristais +=arena->matriz[celula[0]][celula[1]].cristais;
-		arena->matriz[celula[0]][celula[1]].cristais = 0;
+void remove_cristal(Maquina 	*robo, int direcao) {
+	int *celula = checa_celula(robo, direcao);
+	if(celula[0] != -1 && arena.matriz[celula[0]][celula[1]].cristais > 0) {
+		robo->cristais +=arena.matriz[celula[0]][celula[1]].cristais;
+		arena.matriz[celula[0]][celula[1]].cristais = 0;
 	}
 }
 
-void deposita_cristal(Arena *arena, Maquina *robo, int direcao) {
-	int *celula = checa_celula(arena, robo, direcao);
-	if(celula[0] != -1 && arena->matriz[celula[0]][celula[1]].terreno == BASE) {
-		arena->matriz[celula[0]][celula[1]].cristais += robo->cristais;
+void deposita_cristal(Maquina *robo, int direcao) {
+	int *celula = checa_celula(robo, direcao);
+	if(celula[0] != -1 && arena.matriz[celula[0]][celula[1]].terreno == BASE) {
+		arena.matriz[celula[0]][celula[1]].cristais += robo->cristais;
 		robo->cristais = 0;
 	}
 }
@@ -267,14 +267,32 @@ void Sistema(int op, Maquina *robo) {
   int direcao = desempilha(&robo->pil).val.n;
   switch (op) {
     case 0:
-			move(robo->arena, robo, direcao);
+			move(robo, direcao);
 			break;
 		case 1:
-			remove_cristal(robo->arena, robo, direcao);
+			remove_cristal(robo, direcao);
 			break;
 		case 2:
-			deposita_cristal(robo->arena, robo, direcao);
+			deposita_cristal(robo, direcao);
 		//case 3: ataca
   }
-  return;
 }
+
+
+// void remove_exercito(Arena * arena, int equipe){
+// 	int i, max, x, y;
+// 	i = 0;
+// 	max = arena->robos;
+// 	int removeu = 0;
+// 	while(i < max && removeu == 0) {
+// 		while(arena->vetor_maq[i] != NULL && arena->vetor_maq[i].equipe == equipe) {
+// 			x = arena->vetor_maq[i].pos[0];
+// 			y = arena->vetor_maq[i].pos[1];
+// 			arena->matriz[x][y].ocupado = 0;
+// 			arena->vetor_maq[i] = NULL;
+// 			removeu = 1;
+// 			i++;
+// 		}
+// 		i++;
+// 	}
+// }
