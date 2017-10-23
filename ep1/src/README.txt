@@ -12,17 +12,19 @@ Detalhes importantes:
  	*Portanto, a ordem fica CALL -> ALC -> FRE -> RET.
  >Estavamos usando o numero de intruções a serem executadas pela maquina virtual como o numero de instruções no programa recebido. Isso não é o suficiente para
   programas com loop, portanto fixamos o número 100000 
+
+Como executar:
+	python montador < programa.txt > motor.c
+	make
+	./motor
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
 SEGUNDA FASE:
 
+Nosso programa ainda não está executável. Apenas escrevemos as funções pedidas e pretendemos organizar tudo até a terceira fase.
 
+*gerador_terreno.c:
+	programa criado com o intuito de inicializar os atributos da arena, de forma randômica, especificando localização das bases dos exércitos, dos repositórios de cristais (e quantidade de cada repositório), de cada robô e do tipo de terreno que cada célula deve ter.
 
-Como executar:
-	python montador < programa.txt > motor.c
-	make
-	./motor
-
-gerador_terreno.c: programa criado com o intuito de inicializar os atributos da arena, de forma randômica, especificando localização das bases dos exércitos, dos repositórios de cristais (e quantidade de cada repositório), de cada robô e do tipo de terreno que cada célula deve ter.
