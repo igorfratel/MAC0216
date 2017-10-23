@@ -2,6 +2,7 @@
 #define __UTILS_H__
 
 #include <stdio.h>
+#include <stdlib.h>
 
 void Erro(char *msg);
 

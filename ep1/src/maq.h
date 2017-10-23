@@ -9,7 +9,9 @@
 
 #define MAXMEM 100
 
+typedef struct Arena Arena; //Forward declaration
 typedef struct Maquina Maquina; //Forward declaration
+
 struct Maquina {
   //@@
   int equipe;

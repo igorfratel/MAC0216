@@ -10,15 +10,16 @@
 #define VET_MAX 100
 #define NUM_INSTR 50
 
+typedef struct Arena Arena; //Forward declaration
 typedef struct Maquina Maquina; //Forward declaration
 
-typedef struct {
+struct Arena{
 	Celula **matriz; //A arena é uma matriz de celulas
 	int x; //número de posições em cada linha da matriz
 	int y; //número de posições em cada coluna da matriz
 	Maquina *vetor_maq[VET_MAX]; //vetor de ponteiros para máquinas virtuais com tamanho VET_MAX
 	int robos;
-} Arena;
+};
 
 //Recebe um número de linhas e colunas. Cria e inicializa uma Arena com essas dimensões
 Arena *cria_arena(int linhas, int colunas);
@@ -54,6 +55,7 @@ int deposita_cristal(Arena *arena, Maquina *robo, int direcao);
 
 //Funcao que move o robo, caso ele possa realizar o movimento desejado
 int move(Arena * arena, Maquina * robo, int movimento);
+
 //Funcao que troca duas posicoes de lugar
 void swap(Maquina *a, Maquina *b);
 
