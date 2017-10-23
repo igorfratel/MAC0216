@@ -2,30 +2,37 @@
 #include "maq.h"
 
 INSTR prog[] = {
-  {PUSH, 8},
-  {CALL, 4},
-  {PRN, 0},
-  {END, 0},
-
-
-  {ALC, 1},
+  {PUSH, 1},
   {DUP, 0},
-  {STL, 1},
-  {PUSH, 1},
-  {EQ, 0},
-  {JIF, 13},
-  {PUSH, 1},
-  {FRE, 1},
-  {RET, 0},
-  {RCE, 1},
+  {STO, 0},
+  {STO, 1},
+
+  {PUSH, 10},
+  {STO, 2},
+
+  {RCL, 0},
+  {RCL, 1},
+  {DUP, 0},
+  {STO, 0},
+  {ADD, 0},
+  {DUP, 0},
+  {STO, 1},
+  {PRN, 0},
+  {RCL, 2},
   {PUSH, 1},
   {SUB, 0},
-  {CALL, 4},
-  {RCE, 1},
-  {MUL, 0},
-  {FRE, 1},
-  {RET, 0},
+  {DUP, 0},
+  {STO, 2},
+  {PUSH, 0},
+  {EQ, 0},
+  {JIF, 6},
+
+  {END, 0},
 };
+
+INSTR *devolve_programa() {
+  return prog;
+}
 
 int main(int ac, char **av) {
   Maquina *maq = cria_maquina(prog);
