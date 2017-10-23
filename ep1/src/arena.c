@@ -278,22 +278,3 @@ void Sistema(int op, Maquina *robo) {
   }
   return;
 }
-
-
-// void remove_exercito(Arena * arena, int equipe){
-// 	int i, max, x, y;
-// 	i = 0;
-// 	max = arena->robos;
-// 	int removeu = 0;
-// 	while(i < max && removeu == 0) {
-// 		while(arena->vetor_maq[i] != NULL && arena->vetor_maq[i].equipe == equipe) {
-// 			x = arena->vetor_maq[i].pos[0];
-// 			y = arena->vetor_maq[i].pos[1];
-// 			arena->matriz[x][y].ocupado = 0;
-// 			arena->vetor_maq[i] = NULL;
-// 			removeu = 1;
-// 			i++;
-// 		}
-// 		i++;
-// 	}
-// }
