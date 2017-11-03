@@ -229,7 +229,6 @@ int *checa_celula(Maquina *robo, int direcao) {
 	      i = robo->pos[0];
 
 	    if(i >= 0 && j >= 0) {
-	      arena.matriz[i][j].ocupado = 1;
 	      retorno[1] = j;
 	      retorno[0] = i;
 	    }
