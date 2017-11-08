@@ -59,7 +59,7 @@ int main() {
   }
   
   /* cria dois robôs */
-  fprintf(display, "rob GILEAD_A.png\nrob GILEAD_B.png\n");
+  fprintf(display, "rob chikorita.png\nrob bulbasaur.png\n");
 
 
   for (t=0; t < 100; t++) {
