@@ -107,7 +107,8 @@ int main(){
 
 	int contador_1 = 1;
 	//pode ser modificado posteriormente
-	int tamanho_arena = exercitos * robos * 20;
+	//int tamanho_arena = exercitos * robos * 20;
+	int tamanho_arena = 15 * 15; //alteracao (10/11/2017)
 	char conjunto_atributos[tamanho_arena + 1][8]; 
 
 	//exercitos

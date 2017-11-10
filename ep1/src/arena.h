@@ -4,22 +4,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "instr.h"
+#include "types.h"
 #include "maq.h"
 #include "utils.h"
-#define VET_MAX 100
 #define NUM_INSTR 50
 
 typedef struct Arena Arena; //Forward declaration
 typedef struct Maquina Maquina; //Forward declaration
 
-struct Arena{
-	Celula **matriz; //A arena é uma matriz de celulas
-	int x; //número de posições em cada linha da matriz
-	int y; //número de posições em cada coluna da matriz
-	Maquina *vetor_maq[VET_MAX]; //vetor de ponteiros para máquinas virtuais com tamanho VET_MAX
-	int robos;
-} arena;
+
 
 //Recebe um número de linhas e colunas. Cria e inicializa uma Arena com essas dimensões
 Arena *cria_arena(int linhas, int colunas);
