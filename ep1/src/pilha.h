@@ -3,15 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "instr.h"
+#include "types.h"
 #include "utils.h"
-
-#define PILMAX 99
-
-typedef struct {
-  int topo;
-  OPERANDO val[PILMAX+1];
-} Pilha;
 
 Pilha *cria_pilha();
 void destroi_pilha(Pilha *p);
