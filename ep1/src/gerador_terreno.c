@@ -24,8 +24,8 @@
 
 	Terreno:
 	-Plano (1 timestep para se mover) (P)
-	-Rugoso (2 timesteps para se mover) (R)
-	-Esburacado (3 timesteps para se mover) (E)
+	-Floresta (2 timesteps para se mover) (F)
+	-Rio (3 timesteps para se mover) (R)
 
 	Cristais
 	-Repositorios com 1, 2 ou 3 cristais (C1 C2 C3)
@@ -47,8 +47,8 @@
 	RESUMO DE ATRIBUTOS
 	-TERRENO
 	PLANO (P)
-	RUGOSO (R)
-	ESBURACADO (E)
+	FLORESTA (F)
+	RIO (R)
 
 	BASES (B1, B2, B3..)
 	ROBOS (R1.1, R2.4, R5.3..)
@@ -168,16 +168,19 @@ int main(){
 	while(contador_1 < tamanho_arena + 1){
 		int aleatorio_i = rand() % (max + 1 - min) + min;
 		
+		//plano
 		if (aleatorio_i == 1){
 			copiastr(conjunto_atributos[contador_1], "P");
 		}
 
+		//floresta
 		if (aleatorio_i == 2){
-			copiastr(conjunto_atributos[contador_1], "R");
+			copiastr(conjunto_atributos[contador_1], "F");
 		}
 
+		//rio
 		if (aleatorio_i == 3){
-			copiastr(conjunto_atributos[contador_1], "E");
+			copiastr(conjunto_atributos[contador_1], "R");
 		}
 
 		contador_1++;
