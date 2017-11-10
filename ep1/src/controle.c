@@ -13,10 +13,10 @@ Robot rb[2];
 void anda(int ri) {
   Robot r = rb[ri];
 
-  if (r.pi == 14) r.vi = -1;
+  if (r.pi == 9) r.vi = -1;
   if (r.pi == 0)  r.vi =  1;
 
-  if (r.pj == 14) r.vj = -1;
+  if (r.pj == 9) r.vj = -1;
   if (r.pj == 0)  r.vj =  1;
 
   r.i = r.pi + r.vi;
@@ -44,12 +44,12 @@ int main() {
   display = popen("./apres", "w");
 
   rb[0].pi =  6;
-  rb[0].pj = 14;
+  rb[0].pj =  5;
   rb[0].vi = -1;
   rb[0].vj =  1;
   
-  rb[1].pi = 10;
-  rb[1].pj = 11;
+  rb[1].pi =  6;
+  rb[1].pj =  6;
   rb[1].vi =  1;
   rb[1].vj = -1;
 

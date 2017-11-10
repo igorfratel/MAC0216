@@ -54,9 +54,9 @@ typedef enum {
 
 /* Tipo de terreno */
 typedef enum {
-  ESTRADA,
-  MONTANHA,
-  RIO,
+  PLANO
+  FLORESTA
+  RIO
   BASE
 } Terreno;
 

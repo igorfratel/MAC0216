@@ -1,0 +1,59 @@
+ROBÔS:
+- devem ser inicializados de forma completa; NÃO PODEM MUDAR O PRÓPRIO ESTADO.
+- mínimo: saúde, nível de ocupação, vizinhança apresentada pelo sistema;
+- sugestões de extras: velocidade em cada tipo de terreno, energia, sensores;
+- ocupação do robô: contador simples, se seu valor for 0 a instrução pode ser
+realizada; senão, é penalizado e fica sem executar instruções naquela rodada.
+
+ARENA:
+- inicialização: inicializar a matriz do mundo com o tipo de terreno de cada cé-
+lula, determinar as bases de cada exército e marcá-las, distribuir cristais a-
+leatoriamente, distribuir os exércitos de robôs (sem sobrepô-los).
+- após inicialização, apresentar o mundo graficamente, deixando claro o tipo de
+terreno, a presença ou não de um robô, etc.
+- após inicialização, as máquinas virtuais devem executar os programas recebidos,
+o que será comandado por um iterador aleatório. antes de escalonar a máquina de
+um robô, a arena deve verificar se o robô está ocupado. caso esteja, decrementar
+o contador de ocupação e passar para o próximo.
+- novos comandos:
+  . cristais n i j: coloca n cristais na célula (i, j)
+  . base imagem i j: coloca uma nova base com o desenho imagem (arquivo) na cé-
+  lula (i, j).
+
+CHAMADAS AO SISTEMA:
+- cada chamada deve:
+  1. verificar o tipo de operação solicitada.
+  2. verificar a viabilidade da operação.
+  3. atualizar o sistema se a operação for viável.
+  4. atualizar, se for o caso, o contador de ocupação do robô.
+  5. retornar.
+- as chamadas que mudam estado devem incluir o envio de um comando para apres.
+
+APRESENTAÇÃO GRÁFICA
+será feita por um programa em python, com o qual a comunicação será feita por um
+pipe (função popen). o visualizador recebe comandos pela stdin.
+
+* visualizador:
+ver o programa apres.
+instalar a biblioteca pygame.
+o protocolo já está parcialmente implementado e precisa ser completado:
+  . "fim": termina a exibição e fecha a janela
+  . "rob arquivo" registra um robô com o desenho indicado pelo arquivo (imagem),
+  o robô será identificado pelo número de ordem de registro (inicio em 0).
+  . "id x_orig y_orig x_dest y_dest": movimenta um robô, são 5 ints. o programa
+  não checa consistência, apenas redesenha a célula de origem sem o robô e a de
+  destino com o robô.
+talvez seja necessário mudar a função convert para adequar à implementação esco-
+lhida para a arena.
+
+* programa de controle:
+controle.c fornecido pelo gubi, testa a visualização.
+na prática, quem mandará comandos para a visualização serão as syscalls.
+parte essencial:
+  FILE *display;
+    display = popen("./apres", "w");
+    fprintf(display, <COMANDO>);
+    fflush(display);
+    pclose(display);
+display funciona como um arquivo normal, mas ao invés de fopen usa popen; tudo
+o que for escrito em display será alimentado na stdin de apres.

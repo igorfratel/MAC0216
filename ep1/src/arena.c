@@ -55,6 +55,45 @@ Arena *cria_arena(int linhas, int colunas) {
 		}
 	}
 
+//************************************************************************
+//EDITANDO
+	//10-11-2017
+	//lendo o Terreno.txt
+	FILE *arq;
+	char atributo[10];
+	//vetor de strings
+	char vetoratributos[225][10];
+	arq = fopen("Terreno.txt", "r");
+	if(arq == NULL)
+		printf("ERRO - Nao foi possivel abrir o arquivo!\n");
+	else{
+		int k = 0;
+		while((fgets(atributo, sizeof(atributo), arq)) != NULL){
+			vetoratributos[k] = atributo;
+			k++;
+		}
+	}
+
+	int m;
+	int n;
+	k = 0;
+	for(m = 0; m < linha; m++){
+		for(n = 0; n < coluna; n++){
+
+			switch(vetoratributos[k][0]){
+				case 'P': case 'F': case 'R':
+
+				case 'C':
+				case 'R':
+				case 'B':
+			}
+
+			k++;
+			matriz[m][n]. = 
+		}
+	}
+//***********************************************************************
+
 	//Inicializa todas as posições do vetor de máquinas virtuais com NULL
 	for (i = 0; i < VET_MAX; i++)
 		a->vetor_maq[i] = NULL;
