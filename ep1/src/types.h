@@ -65,6 +65,7 @@ struct Celula {
   Terreno terreno;
   short int cristais;
   short int ocupado;
+  Maquina *robo;
 };
 
 /* Operando */
