@@ -6,26 +6,9 @@
 #include "arena.h"
 #include "pilha.h"
 #include "utils.h"
+#include "types.h"
 
-#define MAXMEM 100
-
-typedef struct Arena Arena; //Forward declaration
-typedef struct Maquina Maquina; //Forward declaration
-
-struct Maquina {
-  //@@
-  int equipe;
-  int pos[2];
-  int cristais;
-  Arena *arena;
-
-  Pilha pil;
-  Pilha exec;
-  OPERANDO Mem[MAXMEM];
-  INSTR *prog;
-  OPERANDO rbp; //!!!
-  OPERANDO ip;
-};
+Arena arena;
 
 Maquina *cria_maquina(INSTR *p);
 
