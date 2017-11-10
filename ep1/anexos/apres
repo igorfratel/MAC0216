@@ -7,7 +7,7 @@ from math import *
 pg.init()                                 # inicialização do sistema
 
 # altura e largura da arena, em células
-H, W = 15,15
+H, W = 10,10
 
 # largura da célula
 L = 30
@@ -16,7 +16,7 @@ l = 2*L/sqrt(3)
 
 
 # cria a janela
-scr = pg.display.set_mode((int(1.5*l*H+l/2), 2*W*L+L))
+scr = pg.display.set_mode((int(W*L*1.5 + L), int(2*l*H +2*l)))
 # só para simplificar, atualização da imagem
 atu = pg.display.update
 
@@ -30,7 +30,10 @@ def convert(i ,j):
     Converte a coordenada (i,j) para a posição em pixels na janela
     """
     x = 1.5*i*L + L
-    y = (1 + i%2)*l + 2*j*l
+    if (i%2 == 0):
+        y = 2*l + 2*j*l
+    else:
+        y = l + 2*j*l
     return x,y
 
 class Robô(pg.sprite.Sprite):
@@ -93,9 +96,9 @@ class cell:
 
 # Construção da matriz que representa a arena
 arena = []
-for i in range(15):
+for i in range(H):
     arena.append([])
-    for j in range(15):
+    for j in range(W):
         arena[i].append(cell(i,j))
         arena[i][j].draw()
 
