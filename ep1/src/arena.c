@@ -56,8 +56,9 @@ Arena *cria_arena(int linhas, int colunas) {
 	}
 
 //************************************************************************
-//EDITANDO
+//EDITANDO (sujeito a alteracoes)
 	//10-11-2017
+	//12-12-2017
 	//lendo o Terreno.txt
 	FILE *arq;
 	char atributo[10];
@@ -74,26 +75,40 @@ Arena *cria_arena(int linhas, int colunas) {
 		}
 	}
 
-	int m;
-	int n;
 	k = 0;
-	for(m = 0; m < linha; m++){
-		for(n = 0; n < coluna; n++){
-
+	for(int m = 0; m < linha; m++){
+		for(int n = 0; n < coluna; n++){
+			matriz[m][n].identifica = vetoratributos[k];
 			switch(vetoratributos[k][0]){
-				case 'P': case 'F': case 'R':
+				case 'P': //plano
+					matriz[m][n].terreno = PLANO;
+					break;
 
-				case 'C':
-				case 'R':
-				case 'B':
+				case 'F': //floresta
+					matriz[m][n].terreno = FLORESTA;
+					break;
+				
+				case 'A': //agua
+					matriz[m][n].terreno = AGUA;
+					break;
+				
+				case 'C': //cristal
+					matriz[m][n].cristais = vetoratributos[k][1];
+					break;
+
+				case 'R': //robo
+					matriz[m][n].ocupado = 1;
+					break;
+
+				case 'B': //base
+					matriz[m][n].ocupado = 1;
+					break;
 			}
 
 			k++;
-			matriz[m][n]. = 
 		}
 	}
 //***********************************************************************
-
 	//Inicializa todas as posições do vetor de máquinas virtuais com NULL
 	for (i = 0; i < VET_MAX; i++)
 		a->vetor_maq[i] = NULL;
@@ -112,7 +127,15 @@ void destroi_arena(Arena *a) {
 
 void imprime_arena(Arena *a) {
 //Imprime a Arena linha por linha, onde cada tipo de celula é representado por um símbolo
-
+	//12-11-2017 (sujeito a alteracoes)
+	//linhas = 15
+	//colunas = 15
+	for(int m = 0; m < 15; m++){
+		for(int n = 0; n < 15; n++){
+			printf("%s ", matriz[m][n].identifica);
+		}
+		printf("\n");
+	}
 }
 
 int salva_maquina(Maquina *m) {

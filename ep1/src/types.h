@@ -40,7 +40,7 @@ typedef enum {
   FRE,
   SAVE,
   REST,
-  ATR, //$$
+  ATR, 
   SYS
 } OpCode;
 
@@ -56,8 +56,8 @@ typedef enum {
 typedef enum {
   PLANO
   FLORESTA
-  RIO
-  BASE
+  AGUA 
+  BASE //?
 } Terreno;
 
 /* Célula */
@@ -65,6 +65,9 @@ struct Celula {
   Terreno terreno;
   short int cristais;
   short int ocupado;
+  
+  //12-11-2017
+  char identifica[10]; //identifica o que cada celula da arena possui
 };
 
 /* Operando */

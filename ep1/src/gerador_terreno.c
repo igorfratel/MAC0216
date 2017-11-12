@@ -25,7 +25,7 @@
 	Terreno:
 	-Plano (1 timestep para se mover) (P)
 	-Floresta (2 timesteps para se mover) (F)
-	-Rio (3 timesteps para se mover) (R)
+	-Agua (3 timesteps para se mover) (A)
 
 	Cristais
 	-Repositorios com 1, 2 ou 3 cristais (C1 C2 C3)
@@ -48,7 +48,7 @@
 	-TERRENO
 	PLANO (P)
 	FLORESTA (F)
-	RIO (R)
+	AGUA (A)
 
 	BASES (B1, B2, B3..)
 	ROBOS (R1.1, R2.4, R5.3..)
@@ -178,9 +178,9 @@ int main(){
 			copiastr(conjunto_atributos[contador_1], "F");
 		}
 
-		//rio
+		//agua
 		if (aleatorio_i == 3){
-			copiastr(conjunto_atributos[contador_1], "R");
+			copiastr(conjunto_atributos[contador_1], "A");
 		}
 
 		contador_1++;
