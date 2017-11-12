@@ -130,6 +130,7 @@ void imprime_arena(Arena *a) {
 	//12-11-2017 (sujeito a alteracoes)
 	//linhas = 15
 	//colunas = 15
+	
 	for(int m = 0; m < 15; m++){
 		for(int n = 0; n < 15; n++){
 			printf("%s ", matriz[m][n].identifica);
