@@ -65,9 +65,13 @@ struct Celula {
   Terreno terreno;
   short int cristais;
   short int ocupado;
+<<<<<<< HEAD
   
   //12-11-2017
   char identifica[10]; //identifica o que cada celula da arena possui
+=======
+  Maquina *robo;
+>>>>>>> 50153efca1dfc64e9a1b5916ace9eb869ecb0783
 };
 
 /* Operando */

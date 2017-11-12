@@ -200,6 +200,7 @@ Maquina *cria_robo(int equipe, INSTR * p) {
 	}
 	maquina = cria_maquina(p);
 	arena.matriz[x][y].ocupado = 1;
+    arena.matriz[x][y].robo = maquina;
 	return maquina;
 
 }
@@ -212,6 +213,7 @@ void remove_exercito(int equipe){
 			x = arena.vetor_maq[i]->pos[0];
 			y = arena.vetor_maq[i]->pos[1];
 			arena.matriz[x][y].ocupado = 0;
+			arena.matriz[x][y].robo = NULL;
 			arena.vetor_maq[i] = NULL;
 		}
 		i++;
@@ -303,6 +305,9 @@ void move(Maquina * robo, int direcao) {
 	int *celula = checa_celula(robo, direcao);
 	if(celula[0] != -1 && !arena.matriz[celula[0]][celula[1]].ocupado) {
 		arena.matriz[celula[0]][celula[1]].ocupado = 1;
+		arena.matriz[celula[0]][celula[1]].robo = robo;
+		arena.matriz[robo->pos[0]][robo->pos[1]].ocupado = 0;
+		arena.matriz[robo->pos[0]][robo->pos[1]].robo = NULL;
 		robo->pos[1] = celula[1];
 		robo->pos[0] = celula[0];
 	}
