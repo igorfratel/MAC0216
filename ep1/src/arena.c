@@ -171,7 +171,8 @@ void escalonador(int rodadas) {
 }
 
 void Atualiza(int rodadas, int equipes){
-	Maquina *robo;
+	int n_equipes = 0, equipe = -1;
+
 	while(1) {
 		escalonador(rodadas);
 		for(int i = 0; i < equipes; i++) {
@@ -179,13 +180,22 @@ void Atualiza(int rodadas, int equipes){
 				remove_exercito(arena.bases[i]->equipe);
 		}
 		for(int i = 0, j = 0; i < VET_MAX && j < arena.robos; i++) {
-			robo = arena.vetor_maq[j];
-			if(arena.robos && robo->vida == 0) {
+			Maquina *robo = arena.vetor_maq[j];
+			if(robo && robo->vida == 0) {
 				arena.matriz[robo->pos[0]][robo->pos[1]].ocupado = 0;
 				arena.matriz[robo->pos[0]][robo->pos[1]].robo = NULL;
 				robo = NULL;
+				arena.robos--;
+				j++;
+			}
+			else if(arena.vetor_maq[i] && equipe != robo->equipe) {
+				n_equipes++;
+				equipe = robo->equipe;
 			}
 		}
+		// jogo acaba se só sobrar uma equipe
+		if(n_equipes <= 1)
+			break;
 	}
 }
 
@@ -235,6 +245,12 @@ void remove_exercito(int equipe){
 			arena.vetor_maq[i] = NULL;
 		}
 		i++;
+	}
+	for(i = 0; i < TIMES_MAX; i++) {
+		if(arena.bases[i] != NULL && arena.bases[i]->equipe == equipe) {
+			arena.bases[i] = NULL;
+			break;
+		}
 	}
 }
 
