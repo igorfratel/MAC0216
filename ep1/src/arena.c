@@ -142,7 +142,8 @@ void mostra_arena(Arena *a, FILE *display) {
 		for(int i = 0, j = 0; i < a->robos; j++) {
 			if(a->vetor_maq[j] != NULL) {
 				fprintf(display, "robo %s\n", a->vetor_maq[j]->imagem);
-				fprintf(display, "%d %d %d %d %d\n", i, a->vetor_maq[j]->pos[0], a->vetor_maq[j]->pos[1], a->vetor_maq[j]->pos[0], a->vetor_maq[j]->pos[1]);
+				fprintf(display, "%d %d %d %d %d\n", i, a->vetor_maq[j]->pos[0], a->vetor_maq[j]->pos[1], 
+						a->vetor_maq[j]->pos[0], a->vetor_maq[j]->pos[1]);
 				i++;
 			}
 		}
@@ -299,7 +300,18 @@ int *busca_celula(Maquina *robo, int direcao) {
 
 void move(Maquina * robo, int direcao) {
 	int *celula = busca_celula(robo, direcao);
+	int posicao;
+	for(int i = 0; i < VET_MAX; i++){
+		if(arena->vetor_maq[i] == robo){
+			posicao = i;
+			break;
+		}
+	}
+
 	if(celula[0] != -1 && !arena.matriz[celula[0]][celula[1]].ocupado) {
+		fprintf(display, "%d %d %d %d %d\n", 
+				posicao, robo->pos[0], robo->pos[1], celula[0], celula[1]);
+
 		arena.matriz[celula[0]][celula[1]].ocupado = 1;
 		arena.matriz[celula[0]][celula[1]].robo = robo;
 		arena.matriz[robo->pos[0]][robo->pos[1]].ocupado = 0;
@@ -309,9 +321,12 @@ void move(Maquina * robo, int direcao) {
 	}
 }
 
-void remove_cristal(Maquina 	*robo, int direcao) {
+void remove_cristal(Maquina *robo, int direcao) {
 	int *celula = busca_celula(robo, direcao);
 	if(celula[0] != -1 && arena.matriz[celula[0]][celula[1]].cristais > 0) {
+		fprintf(display, "terreno %d %d plano\n",
+				celula[0], celula[1]);
+
 		robo->cristais +=arena.matriz[celula[0]][celula[1]].cristais;
 		arena.matriz[celula[0]][celula[1]].cristais = 0;
 	}
@@ -319,7 +334,9 @@ void remove_cristal(Maquina 	*robo, int direcao) {
 
 void deposita_cristal(Maquina *robo, int direcao) {
 	int *celula = busca_celula(robo, direcao);
-	if(celula[0] != -1 && arena.matriz[celula[0]][celula[1]].terreno == BASE && arena.matriz[celula[0]][celula[1]].equipe != robo->equipe) {
+	if(celula[0] != -1 && arena.matriz[celula[0]][celula[1]].terreno == BASE && 
+			arena.matriz[celula[0]][celula[1]].equipe != robo->equipe) {
+
 		arena.matriz[celula[0]][celula[1]].cristais += robo->cristais;
 		robo->cristais = 0;
 	}

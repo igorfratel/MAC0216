@@ -102,7 +102,7 @@ struct Maquina {
   //@@
   int equipe;
   char *imagem;
-  int pos[2];
+  int pos[2]; //coordenadas na arena da posicao do robo
   int cristais;
   Arena *arena;
 
