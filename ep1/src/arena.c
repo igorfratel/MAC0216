@@ -8,9 +8,6 @@
 // 	int robos;
 // } Arena;
 
-
-FILE *display;
-
 void swap(Maquina *a, Maquina *b) {
     Maquina temp = *a;
     *a = *b;
@@ -27,10 +24,10 @@ void shuffle(Maquina *arr[], int n) {
 }
 
 Arena *cria_arena(int linhas, int colunas) {
-	display = popen("./display_game.py", "w");
-//Recebe um número de linhas e colunas. Cria e inicializa uma Arena com essas dimensões
+	//Recebe um número de linhas e colunas. Cria e inicializa uma Arena com essas dimensões
 
 	int i;
+	int contador_base = 0; //Indica a qual time a base gerada vai pertencer
 
 	//Aloca a struct Arena
 	Arena *a = (Arena*)malloc(sizeof(Arena));
@@ -94,12 +91,10 @@ Arena *cria_arena(int linhas, int colunas) {
 					a->matriz[m][n].cristais = vetoratributos[k][1];
 					break;
 
-				case 'R': //robo
-					a->matriz[m][n].ocupado = 1;
-					break;
-
 				case 'B': //base
 					a->matriz[m][n].ocupado = 1;
+					a->matriz[m][n].terreno = BASE;
+					a->matriz[m][n].equipe = contador_base++;
 					break;
 			}
 
@@ -114,7 +109,7 @@ Arena *cria_arena(int linhas, int colunas) {
 }
 
 void destroi_arena(Arena *a) {
-//Libera a memória alocada para a Arena
+	//Libera a memória alocada para a Arena
 	int i;
 
 	for (i =0; i < a->y; i++)
@@ -123,8 +118,7 @@ void destroi_arena(Arena *a) {
 	free(a);
 }
 
-void mostra_arena(Arena *a) {
-
+void mostra_arena(Arena *a, FILE *display) {
 	for(int x = 0; x < a->x; x++) {
 		for(int y = 0; y < a->y; y++) {
 			switch (a->matriz[x][y].terreno) {
@@ -135,7 +129,7 @@ void mostra_arena(Arena *a) {
 				case AGUA:
 					fprintf(display, "terreno %d %d rio\n", x, y);
 				case BASE:
-					fprintf(display, "base %d %d %d\n", a->matriz[x][y].time, x, y);
+					fprintf(display, "base %d %d %d\n", a->matriz[x][y].equipe, x, y);
 			}
 			if (a->matriz[x][y].cristais) {
 				fprintf(display, "cristal %d %d %d\n", a->matriz[x][y].cristais, x, y);
@@ -151,24 +145,9 @@ void mostra_arena(Arena *a) {
 	}
 }
 
-int salva_maquina(Maquina *m) {
-//Recebe uma Arena e uma máquina virtual. Salva a máquina virtual na primeira posição livre do vetor_maq da Arena.
-//Retorna 1 caso seja bem sucedida e 0 caso não haja espaço para salvar a máquina virtual
-	int i;
-
-	for (i = 0; i < VET_MAX; i++) {
-		if (arena.vetor_maq[i] == NULL) {
-			arena.vetor_maq[i] = m;
-			return 1;
-		}
-	}
-	return 0;
-}
-
-
 //$$ adicao do numero de rodadas
 void escalonador(int rodadas) {
-//Percorre o vetor de máquinas e manda cada uma executar NUM_INSTR instruções;
+	//Percorre o vetor de máquinas e manda cada uma executar NUM_INSTR instruções;
 	int i;
 	int j;
 
@@ -233,7 +212,7 @@ void remove_exercito(int equipe){
 	}
 }
 
-int *checa_celula(Maquina *robo, int direcao) {
+int *busca_celula(Maquina *robo, int direcao) {
 	int max_i = arena.y;
 	int max_j = arena.x;
 	int *retorno = (int*)malloc(2 * sizeof(int*));
@@ -315,7 +294,7 @@ int *checa_celula(Maquina *robo, int direcao) {
 }
 
 void move(Maquina * robo, int direcao) {
-	int *celula = checa_celula(robo, direcao);
+	int *celula = busca_celula(robo, direcao);
 	if(celula[0] != -1 && !arena.matriz[celula[0]][celula[1]].ocupado) {
 		arena.matriz[celula[0]][celula[1]].ocupado = 1;
 		arena.matriz[celula[0]][celula[1]].robo = robo;
@@ -327,7 +306,7 @@ void move(Maquina * robo, int direcao) {
 }
 
 void remove_cristal(Maquina 	*robo, int direcao) {
-	int *celula = checa_celula(robo, direcao);
+	int *celula = busca_celula(robo, direcao);
 	if(celula[0] != -1 && arena.matriz[celula[0]][celula[1]].cristais > 0) {
 		robo->cristais +=arena.matriz[celula[0]][celula[1]].cristais;
 		arena.matriz[celula[0]][celula[1]].cristais = 0;
@@ -335,8 +314,8 @@ void remove_cristal(Maquina 	*robo, int direcao) {
 }
 
 void deposita_cristal(Maquina *robo, int direcao) {
-	int *celula = checa_celula(robo, direcao);
-	if(celula[0] != -1 && arena.matriz[celula[0]][celula[1]].terreno == BASE) {
+	int *celula = busca_celula(robo, direcao);
+	if(celula[0] != -1 && arena.matriz[celula[0]][celula[1]].terreno == BASE && arena.matriz[celula[0]][celula[1]].equipe != robo->equipe) {
 		arena.matriz[celula[0]][celula[1]].cristais += robo->cristais;
 		robo->cristais = 0;
 	}

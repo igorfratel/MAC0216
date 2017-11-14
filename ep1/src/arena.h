@@ -42,7 +42,7 @@ void remove_exercito(int time);
 
 //Funcao que verifica se a celula para onde o robo quer se mover ou fazer qualquer outra acao esta presente na arena
 //se a celula estiver na arena, retorna o vetor com os indices. Caso contrário, retorna o vetor [-1, -1]
-int *checa_celula(Maquina *robo, int direcao);
+int *busca_celula(Maquina *robo, int direcao);
 
 // Funcao que remove os cristais de uma celula e coloca no robo
 void remove_cristal(Maquina *robo, int direcao);
