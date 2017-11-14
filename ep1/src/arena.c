@@ -74,7 +74,6 @@ Arena *cria_arena(int linhas, int colunas) {
 	int k = 0;
 	for(int m = 0; m < linhas; m++){
 		for(int n = 0; n < colunas; n++){
-			strcpy(a->matriz[m][n].identifica, vetoratributos[k]);
 			switch(vetoratributos[k][0]){
 				case 'P': //plano
 					a->matriz[m][n].terreno = PLANO;
