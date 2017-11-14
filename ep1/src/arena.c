@@ -95,7 +95,11 @@ Arena *cria_arena(int linhas, int colunas) {
 				case 'B': //base
 					a->matriz[m][n].ocupado = 1;
 					a->matriz[m][n].terreno = BASE;
-					a->matriz[m][n].equipe = contador_base++;
+					a->matriz[m][n].equipe = contador_base;
+					a->bases[contador_base]->ocupado = 1;
+					a->bases[contador_base]->terreno = BASE;
+					a->bases[contador_base]->equipe = contador_base;
+					contador_base++;
 					break;
 				//caso tenha um robo nesse local, nao aloca nada
 				default:
@@ -158,13 +162,31 @@ void escalonador(int rodadas) {
 	shuffle(arena.vetor_maq, VET_MAX); //shuffle a fim de embaralhar os robos, assim um equipe nao tera prioridade sobre o outro
 	for (j = 0; j < rodadas; j++){
 		for (i = 0; i < arena.robos; i++){
-			if(arena.vetor_maq[i] != NULL)
+			if(arena.vetor_maq[i] != NULL && arena.vetor_maq[i]->ocupado == 0)
 				exec_maquina(arena.vetor_maq[i], NUM_INSTR);
+			else if (arena.vetor_maq[i] != NULL)
+				arena.vetor_maq[i]->ocupado--;
 		}
 	}
 }
 
-void Atualiza(){
+void Atualiza(int rodadas, int equipes){
+	Maquina *robo;
+	while(1) {
+		escalonador(rodadas);
+		for(int i = 0; i < equipes; i++) {
+			if(arena.bases[i] != NULL && arena.bases[i]->cristais == 5)
+				remove_exercito(arena.bases[i]->equipe);
+		}
+		for(int i = 0, j = 0; i < VET_MAX && j < arena.robos; i++) {
+			robo = arena.vetor_maq[j];
+			if(arena.robos && robo->vida == 0) {
+				arena.matriz[robo->pos[0]][robo->pos[1]].ocupado = 0;
+				arena.matriz[robo->pos[0]][robo->pos[1]].robo = NULL;
+				robo = NULL;
+			}
+		}
+	}
 }
 
 void insere_exercito(int n, INSTR * p){
@@ -306,6 +328,10 @@ void move(Maquina * robo, int direcao) {
 		arena.matriz[robo->pos[0]][robo->pos[1]].robo = NULL;
 		robo->pos[1] = celula[1];
 		robo->pos[0] = celula[0];
+		if(arena.matriz[celula[0]][celula[1]].terreno == FLORESTA)
+			robo->ocupado += 1;
+		else if(arena.matriz[celula[0]][celula[1]].terreno == AGUA)
+			robo->ocupado += 2;
 	}
 }
 
@@ -344,14 +370,14 @@ void Sistema(int op, Maquina *robo) {
 // void remove_exercito(Arena * arena, int equipe){
 // 	int i, max, x, y;
 // 	i = 0;
-// 	max = arena->robos;
+// 	max = arena.robos;
 // 	int removeu = 0;
 // 	while(i < max && removeu == 0) {
-// 		while(arena->vetor_maq[i] != NULL && arena->vetor_maq[i].equipe == equipe) {
-// 			x = arena->vetor_maq[i].pos[0];
-// 			y = arena->vetor_maq[i].pos[1];
-// 			arena->matriz[x][y].ocupado = 0;
-// 			arena->vetor_maq[i] = NULL;
+// 		while(arena.vetor_maq[i] != NULL && arena.vetor_maq[i].equipe == equipe) {
+// 			x = arena.vetor_maq[i].pos[0];
+// 			y = arena.vetor_maq[i].pos[1];
+// 			arena.matriz[x][y].ocupado = 0;
+// 			arena.vetor_maq[i] = NULL;
 // 			removeu = 1;
 // 			i++;
 // 		}

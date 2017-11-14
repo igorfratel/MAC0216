@@ -3,6 +3,7 @@
 #define VET_MAX 100
 #define PILMAX 99
 #define MAXMEM 100
+#define TIMES_MAX 5
 
 
 typedef struct Celula Celula;
@@ -57,12 +58,13 @@ typedef enum {
   PLANO,
   FLORESTA,
   AGUA,
-  BASE //?
+  BASE
 } Terreno;
 
 /* Célula */
 struct Celula {
   Terreno terreno;
+  short int equipe;
   short int cristais;
   short int ocupado;
   Maquina *robo;
@@ -92,6 +94,7 @@ typedef struct {
 
 struct Arena{
 	Celula **matriz; //A arena é uma matriz de celulas
+  Celula *bases[TIMES_MAX]; // Vetor de bases (que também estão na matriz)
 	int x; //número de posições em cada linha da matriz
 	int y; //número de posições em cada coluna da matriz
 	Maquina *vetor_maq[VET_MAX]; //vetor de ponteiros para máquinas virtuais com tamanho VET_MAX
@@ -99,12 +102,14 @@ struct Arena{
 };
 
 struct Maquina {
-  //@@
   int equipe;
   char *imagem;
   int pos[2];
   int cristais;
+  int vida;
   Arena *arena;
+  // nivel de ocupação do robô
+  int ocupado;
 
   Pilha pil;
   Pilha exec;
