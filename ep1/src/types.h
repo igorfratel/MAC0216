@@ -65,9 +65,6 @@ struct Celula {
   Terreno terreno;
   short int cristais;
   short int ocupado;
-  short int equipe;
-  //12-11-2017
-  char identifica[10]; //identifica o que cada celula da arena possui
   Maquina *robo;
 };
 

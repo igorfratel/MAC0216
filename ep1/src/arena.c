@@ -55,8 +55,10 @@ Arena *cria_arena(int linhas, int colunas) {
 		}
 	}
 
+	//abre o arquivo terreno.txt e armazena cada linha (que eh um atributo) em cada celula da matriz
 	FILE *arq;
 	arq = fopen("Terreno.txt", "r");
+	//vetor que guarda todos os atributos do terreno.txt
 	char vetoratributos[225][10];
 	if(arq == NULL)
 		printf("ERRO - Nao foi possivel abrir o arquivo!\n");
@@ -73,7 +75,6 @@ Arena *cria_arena(int linhas, int colunas) {
 	int k = 0;
 	for(int m = 0; m < linhas; m++){
 		for(int n = 0; n < colunas; n++){
-			strcpy(a->matriz[m][n].identifica, vetoratributos[k]);
 			switch(vetoratributos[k][0]){
 				case 'P': //plano
 					a->matriz[m][n].terreno = PLANO;
@@ -95,6 +96,9 @@ Arena *cria_arena(int linhas, int colunas) {
 					a->matriz[m][n].ocupado = 1;
 					a->matriz[m][n].terreno = BASE;
 					a->matriz[m][n].equipe = contador_base++;
+					break;
+				//caso tenha um robo nesse local, nao aloca nada
+				default:
 					break;
 			}
 
