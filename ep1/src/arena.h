@@ -7,6 +7,7 @@
 #include "types.h"
 #include "maq.h"
 #include "utils.h"
+#include <string.h>
 #define NUM_INSTR 50
 
 typedef struct Arena Arena; //Forward declaration

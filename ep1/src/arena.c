@@ -8,8 +8,8 @@
 // 	int robos;
 // } Arena;
 
-//shuffle no vetor
-FILE *display = popen("./display_game.py", "w");;
+
+FILE *display;
 
 void swap(Maquina *a, Maquina *b) {
     Maquina temp = *a;
@@ -27,6 +27,7 @@ void shuffle(Maquina *arr[], int n) {
 }
 
 Arena *cria_arena(int linhas, int colunas) {
+	display = popen("./display_game.py", "w");
 //Recebe um número de linhas e colunas. Cria e inicializa uma Arena com essas dimensões
 
 	int i;
@@ -57,60 +58,55 @@ Arena *cria_arena(int linhas, int colunas) {
 		}
 	}
 
-//************************************************************************
-//EDITANDO (sujeito a alteracoes)
-	//10-11-2017
-	//12-12-2017
-	//lendo o Terreno.txt
 	FILE *arq;
-	char atributo[10];
-	//vetor de strings
-	char vetoratributos[225][10];
 	arq = fopen("Terreno.txt", "r");
+	char vetoratributos[225][10];
 	if(arq == NULL)
 		printf("ERRO - Nao foi possivel abrir o arquivo!\n");
 	else{
 		int k = 0;
-		while((fgets(atributo, sizeof(atributo), arq)) != NULL){
-			vetoratributos[k] = atributo;
+		char atributo[10];
+		while(fgets(atributo, sizeof atributo, arq) != NULL){
+			strcpy(vetoratributos[k], atributo);
 			k++;
 		}
+		fclose(arq);
 	}
 
-	k = 0;
-	for(int m = 0; m < linha; m++){
-		for(int n = 0; n < coluna; n++){
-			matriz[m][n].identifica = vetoratributos[k];
+	int k = 0;
+	for(int m = 0; m < linhas; m++){
+		for(int n = 0; n < colunas; n++){
+			strcpy(a->matriz[m][n].identifica, vetoratributos[k]);
 			switch(vetoratributos[k][0]){
 				case 'P': //plano
-					matriz[m][n].terreno = PLANO;
+					a->matriz[m][n].terreno = PLANO;
 					break;
 
 				case 'F': //floresta
-					matriz[m][n].terreno = FLORESTA;
+					a->matriz[m][n].terreno = FLORESTA;
 					break;
 
 				case 'A': //agua
-					matriz[m][n].terreno = AGUA;
+					a->matriz[m][n].terreno = AGUA;
 					break;
 
 				case 'C': //cristal
-					matriz[m][n].cristais = vetoratributos[k][1];
+					a->matriz[m][n].cristais = vetoratributos[k][1];
 					break;
 
 				case 'R': //robo
-					matriz[m][n].ocupado = 1;
+					a->matriz[m][n].ocupado = 1;
 					break;
 
 				case 'B': //base
-					matriz[m][n].ocupado = 1;
+					a->matriz[m][n].ocupado = 1;
 					break;
 			}
 
 			k++;
 		}
 	}
-//***********************************************************************
+
 	//Inicializa todas as posições do vetor de máquinas virtuais com NULL
 	for (i = 0; i < VET_MAX; i++)
 		a->vetor_maq[i] = NULL;
