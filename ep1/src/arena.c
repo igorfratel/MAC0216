@@ -9,6 +9,8 @@
 // } Arena;
 
 //shuffle no vetor
+FILE *display = popen("./display_game.py", "w");;
+
 void swap(Maquina *a, Maquina *b) {
     Maquina temp = *a;
     *a = *b;
@@ -87,11 +89,11 @@ Arena *cria_arena(int linhas, int colunas) {
 				case 'F': //floresta
 					matriz[m][n].terreno = FLORESTA;
 					break;
-				
+
 				case 'A': //agua
 					matriz[m][n].terreno = AGUA;
 					break;
-				
+
 				case 'C': //cristal
 					matriz[m][n].cristais = vetoratributos[k][1];
 					break;
@@ -125,17 +127,31 @@ void destroi_arena(Arena *a) {
 	free(a);
 }
 
-void imprime_arena(Arena *a) {
-//Imprime a Arena linha por linha, onde cada tipo de celula é representado por um símbolo
-	//12-11-2017 (sujeito a alteracoes)
-	//linhas = 15
-	//colunas = 15
-	
-	for(int m = 0; m < 15; m++){
-		for(int n = 0; n < 15; n++){
-			printf("%s ", matriz[m][n].identifica);
+void mostra_arena(Arena *a) {
+
+	for(int x = 0; x < a->x; x++) {
+		for(int y = 0; y < a->y; y++) {
+			switch (a->matriz[x][y].terreno) {
+				case PLANO:
+					fprintf(display, "terreno %d %d plano\n", x, y);
+				case FLORESTA:
+					fprintf(display, "terreno %d %d floresta\n", x, y);
+				case AGUA:
+					fprintf(display, "terreno %d %d rio\n", x, y);
+				case BASE:
+					fprintf(display, "base %d %d %d\n", a->matriz[x][y].time, x, y);
+			}
+			if (a->matriz[x][y].cristais) {
+				fprintf(display, "cristal %d %d %d\n", a->matriz[x][y].cristais, x, y);
+			}
 		}
-		printf("\n");
+		for(int i = 0, j = 0; i < a->robos; j++) {
+			if(a->vetor_maq[j] != NULL) {
+				fprintf(display, "robo %s\n", a->vetor_maq[j]->imagem);
+				fprintf(display, "%d %d %d %d %d\n", i, a->vetor_maq[j]->pos[0], a->vetor_maq[j]->pos[1], a->vetor_maq[j]->pos[0], a->vetor_maq[j]->pos[1]);
+				i++;
+			}
+		}
 	}
 }
 

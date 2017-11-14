@@ -40,7 +40,7 @@ typedef enum {
   FRE,
   SAVE,
   REST,
-  ATR, 
+  ATR,
   SYS
 } OpCode;
 
@@ -54,9 +54,9 @@ typedef enum {
 
 /* Tipo de terreno */
 typedef enum {
-  PLANO
-  FLORESTA
-  AGUA 
+  PLANO,
+  FLORESTA,
+  AGUA,
   BASE //?
 } Terreno;
 
@@ -65,7 +65,7 @@ struct Celula {
   Terreno terreno;
   short int cristais;
   short int ocupado;
-  
+  short int time;
   //12-11-2017
   char identifica[10]; //identifica o que cada celula da arena possui
   Maquina *robo;
@@ -104,6 +104,7 @@ struct Arena{
 struct Maquina {
   //@@
   int equipe;
+  char *imagem;
   int pos[2];
   int cristais;
   Arena *arena;
