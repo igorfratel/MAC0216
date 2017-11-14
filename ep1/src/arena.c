@@ -56,11 +56,6 @@ Arena *cria_arena(int linhas, int colunas) {
 		}
 	}
 
-//************************************************************************
-//EDITANDO (sujeito a alteracoes)
-	//10-11-2017
-	//12-12-2017
-	//lendo o Terreno.txt
 	FILE *arq;
 	arq = fopen("Terreno.txt", "r");
 	char vetoratributos[225][10];
@@ -109,7 +104,7 @@ Arena *cria_arena(int linhas, int colunas) {
 			k++;
 		}
 	}
-//***********************************************************************
+
 	//Inicializa todas as posições do vetor de máquinas virtuais com NULL
 	for (i = 0; i < VET_MAX; i++)
 		a->vetor_maq[i] = NULL;
