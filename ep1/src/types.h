@@ -54,10 +54,10 @@ typedef enum {
 
 /* Tipo de terreno */
 typedef enum {
-  PLANO
-  FLORESTA
-  AGUA 
-  BASE //?
+  PLANO,
+  FLORESTA,
+  AGUA,
+  BASE 
 } Terreno;
 
 /* Célula */
