@@ -48,6 +48,8 @@ Maquina *cria_maquina(INSTR *p) {
   m->prog = p;
   m->rbp.t = NUM;//@@
   m->rbp.val.n = 0; //!!!
+  m->ocupado = 0;
+  m->vida = 10;
   return m;
 }
 
