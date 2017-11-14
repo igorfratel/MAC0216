@@ -56,8 +56,10 @@ Arena *cria_arena(int linhas, int colunas) {
 		}
 	}
 
+	//abre o arquivo terreno.txt e armazena cada linha (que eh um atributo) em cada celula da matriz
 	FILE *arq;
 	arq = fopen("Terreno.txt", "r");
+	//vetor que guarda todos os atributos do terreno.txt
 	char vetoratributos[225][10];
 	if(arq == NULL)
 		printf("ERRO - Nao foi possivel abrir o arquivo!\n");
@@ -97,6 +99,9 @@ Arena *cria_arena(int linhas, int colunas) {
 
 				case 'B': //base
 					a->matriz[m][n].ocupado = 1;
+					break;
+				//caso tenha um robo nesse local, nao aloca nada
+				default:
 					break;
 			}
 

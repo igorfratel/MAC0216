@@ -122,19 +122,20 @@ int main(){
 	}
 
 	//robos
+	
 	int contador_2 = 1;
 	int contador_3 = 1;
 	while(contador_2 <= exercitos){
 		while(contador_3 <= robos){
-			char aux_1[8] = "R";
-			char aux_2[8];
-			char aux_3[8];
-			char aux_4[8] = ".";
-			sprintf(aux_2, "%d", contador_2);
-			strcat(aux_1, aux_2);
-			sprintf(aux_3, "%d", contador_3);
-			strcat(aux_1, aux_4);
-			strcat(aux_1, aux_3);
+			char aux_1[8] = "VAZIO";
+			//char aux_2[8];
+			//char aux_3[8];
+			//char aux_4[8] = ".";
+			//sprintf(aux_2, "%d", contador_2);
+			//strcat(aux_1, aux_2);
+			//sprintf(aux_3, "%d", contador_3);
+			//strcat(aux_1, aux_4);
+			//strcat(aux_1, aux_3);
 			copiastr(conjunto_atributos[contador_1], aux_1);
 
 			contador_1++;
@@ -144,6 +145,7 @@ int main(){
 		contador_2++;
 		contador_3 = 1;
 	}
+	
 
 	int cristais = exercitos * 8;
 	int contador = 0;
