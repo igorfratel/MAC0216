@@ -13,13 +13,13 @@ void destroi_pilha(Pilha *p) {
 
 void empilha(Pilha *p, OPERANDO op) {
   if (p->topo < PILMAX)
-	p->val[p->topo++] = op;
+	 p->val[p->topo++] = op;
   else Erro("Pilha cheia");
 }
 
 OPERANDO desempilha(Pilha *p) {
   if (p->topo > 0)
-	return p->val[--p->topo];
+	 return p->val[--p->topo];
   else Erro("Pilha vazia");
   OPERANDO lixo; //O compilador precisa que a função retorne um OPERANDO
   lixo.t = NUM;
@@ -48,10 +48,10 @@ void imprime(Pilha *p, int n) {
       if (p->val[i].val.cel.ocupado) printf("Ocupado\n"); //ocupado
       else printf("Livre\n");//livre
      break;
-    
+
    }
-    
-  } 
+
+  }
   printf("]");
   return;
 }

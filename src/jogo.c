@@ -4,7 +4,7 @@
 int main() {
 	int fim = 0;
 	FILE *display = popen("./display_game.py", "w");
-	Arena *minha_arena = malloc(sizeof(Arena));
+	Arena *minha_arena = (Arena*)malloc(sizeof(Arena));
 	cria_arena(minha_arena, 15, 15);
 	INSTR *p0 = devolve_programa(0);
 	INSTR *p1 = devolve_programa(1);

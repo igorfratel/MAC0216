@@ -35,25 +35,29 @@ void cria_arena(Arena *arena, int linhas, int colunas) {
 	//Aloca as linhas da arena
 	arena->matriz = (Celula**)malloc(linhas*sizeof(Celula*));
 
+  //Para cada linhas, aloca o número especificado de colunas
+  for (i = 0; i < linhas; i++) {
+    arena->matriz[i] = (Celula*)malloc(colunas*sizeof(Celula));
+    if (arena->matriz[i] == NULL) {
+      printf("(cria_arena) Erro na alocação da matriz de celulas (2)\n");
+      exit(1);
+    }
+  }
+
+  if (arena->matriz == NULL) {
+    printf("(cria_arena) Erro na alocação da matriz de terrenos\n");
+    exit(1);
+  }
+
 	// aloca vetor de bases da arena
 	for(i = 0; i < TIMES_MAX; i++)
-		arena->bases[i] = (Celula*)malloc(sizeof(Celula*));
+		arena->bases[i] = (Celula*)malloc(sizeof(Celula));
+    if (arena->bases[i] == NULL){
+      printf("(cria_arena) Erro na alocação do vetor de bases\n");
+      exit(1);
+    }
 
-	if (arena->matriz == NULL) {
-		printf("(cria_arena) Erro na alocação da matriz de terrenos\n");
-		exit(1);
-	}
-
-	//Para cada linhas, aloca o número especificado de colunas
-	for (i = 0; i < linhas; i++) {
-		arena->matriz[i] = (Celula*)malloc(colunas*sizeof(Celula));
-		if (arena->matriz[i] == NULL) {
-			printf("(cria_arena) Erro na alocação da matriz de celulas (2)\n");
-			exit(1);
-		}
-	}
-
-	//abre o arquivo terreno.txt e armazena cada linha (que eh um atributo) em cada celula da matriz
+	//abre o arquivo terreno.txt e armazena cada linha (que é um atributo) em cada celula da matriz
 	FILE *arq;
 	arq = fopen("Terreno.txt", "r");
 	//vetor que guarda todos os atributos do terreno.txt
