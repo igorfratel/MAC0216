@@ -178,7 +178,7 @@ int Atualiza(Arena *arena, int equipes){
   //Verifica se algum exército perdeu
 	for(int i = 0; i < equipes; i++) {
 		if(arena->bases[i] != NULL && arena->bases[i]->cristais == 5)
-			remove_exercito(arena->bases[i]->equipe);
+			remove_exercito(arena, arena->bases[i]->equipe);
 	}
 
   //Verifica se algum robô morreu
@@ -199,14 +199,14 @@ int Atualiza(Arena *arena, int equipes){
   // jogo acaba se só sobrar uma equipe
   if(n_equipes <= 1)
     return 1;
-  return 0
+  return 0;
 }
 
 void insere_exercito(Arena *arena, int n, INSTR * p){
 	static int equipe = 0;
 
 	for(int i = arena->robos; i < n + arena->robos; i++) {
-		arena->vetor_maq[i] = cria_robo(equipe, p);
+		arena->vetor_maq[i] = cria_robo(arena, equipe, p);
 	}
 	arena->robos += n;
 	equipe++;
@@ -343,7 +343,7 @@ int *busca_celula(Arena *arena, Maquina *robo, int direcao) {
 }
 
 void move(Arena *arena, Maquina * robo, int direcao) {
-	int *celula = busca_celula(robo, direcao);
+	int *celula = busca_celula(arena, robo, direcao);
 	int posicao;
 	for(int i = 0; i < VET_MAX; i++){
 		if(arena->vetor_maq[i] == robo){
@@ -370,7 +370,7 @@ void move(Arena *arena, Maquina * robo, int direcao) {
 }
 
 void remove_cristal(Arena *arena, Maquina *robo, int direcao) {
-	int *celula = busca_celula(robo, direcao);
+	int *celula = busca_celula(arena, robo, direcao);
 	if(celula[0] != -1 && arena->matriz[celula[0]][celula[1]].cristais > 0) {
 		fprintf(display, "terreno %d %d plano\n",
 				celula[0], celula[1]);
@@ -381,7 +381,7 @@ void remove_cristal(Arena *arena, Maquina *robo, int direcao) {
 }
 
 void deposita_cristal(Arena *arena, Maquina *robo, int direcao) {
-	int *celula = busca_celula(robo, direcao);
+	int *celula = busca_celula(arena, robo, direcao);
 	if(celula[0] != -1 && arena->matriz[celula[0]][celula[1]].terreno == BASE &&
 			arena->matriz[celula[0]][celula[1]].equipe != robo->equipe) {
 
@@ -391,7 +391,7 @@ void deposita_cristal(Arena *arena, Maquina *robo, int direcao) {
 }
 
 void ataca_robo(Arena *arena, Maquina *robo, int direcao) {
-	int *posicao = busca_celula(robo, direcao);
+	int *posicao = busca_celula(arena, robo, direcao);
 	// Se a posição não estiver na arena, não faz nada
 	if(posicao[0] == -1)
 		return;

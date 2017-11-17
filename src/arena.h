@@ -69,6 +69,6 @@ void mostra_arena(Arena *arena);
 
 //Atualiza o estado dos robôs e da arena, removendo robôs e times derrotados.
 //Retorna 1 caso o jogo tenha acabado e 0 caso contrário
-void Atualiza(Arena *arena, int equipes);
+int Atualiza(Arena *arena, int equipes);
 
 #endif
