@@ -148,7 +148,7 @@ void mostra_arena() {
 
 	for(int i = 0, j = 0; i < arena.robos; j++) {
 		if(arena.vetor_maq[j] != NULL) {
-			fprintf(display, "robo %s\n", arena.vetor_maq[j]->imagem);
+			fprintf(display, "robo %d\n", arena.vetor_maq[j]->imagem);
 			fprintf(display, "%d %d %d %d %d\n", i, arena.vetor_maq[j]->pos[0], arena.vetor_maq[j]->pos[1],
 					arena.vetor_maq[j]->pos[0], arena.vetor_maq[j]->pos[1]);
 			i++;
@@ -156,7 +156,6 @@ void mostra_arena() {
 	}
 }
 
-//$$ adicao do numero de rodadas
 void escalonador(int rodadas) {
 	//Percorre o vetor de máquinas e manda cada uma executar NUM_INSTR instruções;
 	int i;
@@ -222,14 +221,17 @@ Maquina *cria_robo(int equipe, INSTR * p) {
 	srand(time(NULL));
 	y = rand() % arena.y;
 
-	while(!arena.matriz[x][y].ocupado) {
+	while(arena.matriz[x][y].ocupado) {
 		srand(time(NULL));
 	  x = rand() % arena.x;
 
 		srand(time(NULL));
 		y = rand() % arena.y;
 	}
+	printf("%d %d\n", x, y);
 	maquina = cria_maquina(p);
+	maquina->pos[0] = x;
+	maquina->pos[1] = y;
 	arena.matriz[x][y].ocupado = 1;
     arena.matriz[x][y].robo = maquina;
 	return maquina;

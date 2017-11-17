@@ -49,7 +49,7 @@ class Robô(pg.sprite.Sprite):
         Construtor, img é o nome do arquivo com a imagem
         """
         pg.sprite.Sprite.__init__(s)
-        s.image = pg.image.load(img_folder + img)
+        s.image = pg.image.load(img_folder + "pokemon" + img + ".png")
         s.rect = s.image.get_rect()
 
     def draw(s, i,j):
