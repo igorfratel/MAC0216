@@ -2,7 +2,7 @@
 #include "programas.h"
 
 int main() {
-	Arena *minha_arena
+	Arena *minha_arena;
 	cria_arena(minha_arena, 15, 15);
 	INSTR *p0 = devolve_programa(0);
 	INSTR *p1 = devolve_programa(1);
@@ -12,7 +12,7 @@ int main() {
 		insere_exercito(minha_arena, 1, p1);
 		escalonador(minha_arena, NUM_INSTR);
 		fim = Atualiza(minha_arena, 5);
-		mostra_arena();
+		mostra_arena(minha_arena);
 	}
 	destroi_arena(minha_arena);
 }
