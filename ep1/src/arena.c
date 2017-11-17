@@ -126,7 +126,7 @@ void destroi_arena(Arena *a) {
 	free(a);
 }
 
-void mostra_arena(Arena *a, FILE *display) {
+void mostra_arena(Arena *a) {
 	for(int x = 0; x < a->x; x++) {
 		for(int y = 0; y < a->y; y++) {
 			switch (a->matriz[x][y].terreno) {
@@ -146,7 +146,7 @@ void mostra_arena(Arena *a, FILE *display) {
 		for(int i = 0, j = 0; i < a->robos; j++) {
 			if(a->vetor_maq[j] != NULL) {
 				fprintf(display, "robo %s\n", a->vetor_maq[j]->imagem);
-				fprintf(display, "%d %d %d %d %d\n", i, a->vetor_maq[j]->pos[0], a->vetor_maq[j]->pos[1], 
+				fprintf(display, "%d %d %d %d %d\n", i, a->vetor_maq[j]->pos[0], a->vetor_maq[j]->pos[1],
 						a->vetor_maq[j]->pos[0], a->vetor_maq[j]->pos[1]);
 				i++;
 			}
@@ -340,14 +340,14 @@ void move(Maquina * robo, int direcao) {
 	int *celula = busca_celula(robo, direcao);
 	int posicao;
 	for(int i = 0; i < VET_MAX; i++){
-		if(arena->vetor_maq[i] == robo){
+		if(arena.vetor_maq[i] == robo){
 			posicao = i;
 			break;
 		}
 	}
 
 	if(celula[0] != -1 && !arena.matriz[celula[0]][celula[1]].ocupado) {
-		fprintf(display, "%d %d %d %d %d\n", 
+		fprintf(display, "%d %d %d %d %d\n",
 				posicao, robo->pos[0], robo->pos[1], celula[0], celula[1]);
 
 		arena.matriz[celula[0]][celula[1]].ocupado = 1;
@@ -376,7 +376,7 @@ void remove_cristal(Maquina *robo, int direcao) {
 
 void deposita_cristal(Maquina *robo, int direcao) {
 	int *celula = busca_celula(robo, direcao);
-	if(celula[0] != -1 && arena.matriz[celula[0]][celula[1]].terreno == BASE && 
+	if(celula[0] != -1 && arena.matriz[celula[0]][celula[1]].terreno == BASE &&
 			arena.matriz[celula[0]][celula[1]].equipe != robo->equipe) {
 
 		arena.matriz[celula[0]][celula[1]].cristais += robo->cristais;

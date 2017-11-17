@@ -10,10 +10,9 @@
 #include <string.h>
 #define NUM_INSTR 50
 
-typedef struct Arena Arena; //Forward declaration
-typedef struct Maquina Maquina; //Forward declaration
-
-
+// arquivo para execução do programa display_game.py que serve para mostrar a representação
+// gráfica do programa
+FILE *display;
 
 //Recebe um número de linhas e colunas. Cria e inicializa uma Arena com essas dimensões
 Arena *cria_arena(int linhas, int colunas);
