@@ -174,8 +174,7 @@ void escalonador(Arena *arena, int rodadas) {
 int Atualiza(Arena *arena, int equipes){
 	int n_equipes = 0;
   int equipe = -1;
-
-  //Verifica se algum exército perdeu
+	//Verifica se algum exército perdeu
 	for(int i = 0; i < equipes; i++) {
 		if(arena->bases[i] != NULL && arena->bases[i]->cristais == 5)
 			remove_exercito(arena, arena->bases[i]->equipe);
@@ -231,6 +230,7 @@ Maquina *cria_robo(Arena *arena, int equipe, INSTR * p) {
 	}
 	printf("%d %d\n", x, y);
 	maquina = cria_maquina(p);
+	maquina->arena = arena;
 	maquina->pos[0] = x;
 	maquina->pos[1] = y;
 	arena->matriz[x][y].ocupado = 1;
