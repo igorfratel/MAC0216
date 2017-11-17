@@ -228,7 +228,6 @@ Maquina *cria_robo(Arena *arena, int equipe, INSTR * p) {
 		srand(time(NULL));
 		y = rand() % arena->y;
 	}
-	printf("%d %d\n", x, y);
 	maquina = cria_maquina(p);
 	maquina->arena = arena;
 	maquina->pos[0] = x;

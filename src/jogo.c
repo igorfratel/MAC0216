@@ -2,17 +2,18 @@
 #include "programas.h"
 
 int main() {
+	display = popen("./display_game.py", "w");
 	Arena *minha_arena = malloc(sizeof(Arena));
 	cria_arena(minha_arena, 15, 15);
 	INSTR *p0 = devolve_programa(0);
 	INSTR *p1 = devolve_programa(1);
 	int fim = 0;
+	insere_exercito(minha_arena, 1, p0);
+	insere_exercito(minha_arena, 1, p1);
+	mostra_arena(minha_arena);
 	while(!fim){
-		insere_exercito(minha_arena, 1, p0);
-		insere_exercito(minha_arena, 1, p1);
 		escalonador(minha_arena, NUM_INSTR);
 		fim = Atualiza(minha_arena, 5);
-		mostra_arena(minha_arena);
 	}
 	destroi_arena(minha_arena);
 }
