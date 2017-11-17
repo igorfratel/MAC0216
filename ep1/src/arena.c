@@ -126,10 +126,10 @@ void destroi_arena(Arena *a) {
 	free(a);
 }
 
-void mostra_arena(Arena *a) {
-	for(int x = 0; x < a->x; x++) {
-		for(int y = 0; y < a->y; y++) {
-			switch (a->matriz[x][y].terreno) {
+void mostra_arena() {
+	for(int x = 0; x < arena.x; x++) {
+		for(int y = 0; y < arena.y; y++) {
+			switch (arena.matriz[x][y].terreno) {
 				case PLANO:
 					fprintf(display, "terreno %d %d plano\n", x, y);
 				case FLORESTA:
@@ -137,17 +137,17 @@ void mostra_arena(Arena *a) {
 				case AGUA:
 					fprintf(display, "terreno %d %d rio\n", x, y);
 				case BASE:
-					fprintf(display, "base %d %d %d\n", a->matriz[x][y].equipe, x, y);
+					fprintf(display, "base %d %d %d\n", arena.matriz[x][y].equipe, x, y);
 			}
-			if (a->matriz[x][y].cristais) {
-				fprintf(display, "cristal %d %d %d\n", a->matriz[x][y].cristais, x, y);
+			if (arena.matriz[x][y].cristais) {
+				fprintf(display, "cristal %d %d %d\n", arena.matriz[x][y].cristais, x, y);
 			}
 		}
-		for(int i = 0, j = 0; i < a->robos; j++) {
-			if(a->vetor_maq[j] != NULL) {
-				fprintf(display, "robo %s\n", a->vetor_maq[j]->imagem);
-				fprintf(display, "%d %d %d %d %d\n", i, a->vetor_maq[j]->pos[0], a->vetor_maq[j]->pos[1],
-						a->vetor_maq[j]->pos[0], a->vetor_maq[j]->pos[1]);
+		for(int i = 0, j = 0; i < arena.robos; j++) {
+			if(arena.vetor_maq[j] != NULL) {
+				fprintf(display, "robo %s\n", arena.vetor_maq[j]->imagem);
+				fprintf(display, "%d %d %d %d %d\n", i, arena.vetor_maq[j]->pos[0], arena.vetor_maq[j]->pos[1],
+						arena.vetor_maq[j]->pos[0], arena.vetor_maq[j]->pos[1]);
 				i++;
 			}
 		}

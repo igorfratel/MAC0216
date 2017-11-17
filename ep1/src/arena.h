@@ -60,5 +60,7 @@ void shuffle(Maquina *arr[], int n);
 
 void Sistema(int op, Maquina *m);
 
+// Função que mostra a representação gráfica do estado atual da arena
+void mostra_arena();
 
 #endif
