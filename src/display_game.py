@@ -8,10 +8,10 @@ from math import *
 pg.init()                                 # inicialização do sistema
 
 # altura e largura da arena, em células
-H, W = 10,10
+H, W = 15,15
 
 # largura da célula
-L = 30
+L = 20
 # altura da célula
 l = 2*L/sqrt(3)
 

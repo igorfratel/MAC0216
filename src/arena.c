@@ -87,7 +87,7 @@ void cria_arena(int linhas, int colunas) {
 					break;
 
 				case 'C': //cristal
-					arena.matriz[m][n].cristais = vetoratributos[k][1];
+					arena.matriz[m][n].cristais = (int)vetoratributos[k][1] - 48;
 					break;
 
 				case 'B': //base
@@ -126,27 +126,32 @@ void destroi_arena(Arena *a) {
 void mostra_arena() {
 	for(int x = 0; x < arena.x; x++) {
 		for(int y = 0; y < arena.y; y++) {
-			switch (arena.matriz[x][y].terreno) {
+		switch (arena.matriz[x][y].terreno) {
 				case PLANO:
 					fprintf(display, "terreno %d %d plano\n", x, y);
+					break;
 				case FLORESTA:
 					fprintf(display, "terreno %d %d floresta\n", x, y);
+					break;
 				case AGUA:
 					fprintf(display, "terreno %d %d rio\n", x, y);
+					break;
 				case BASE:
 					fprintf(display, "base %d %d %d\n", arena.matriz[x][y].equipe, x, y);
+					break;
 			}
 			if (arena.matriz[x][y].cristais) {
 				fprintf(display, "cristal %d %d %d\n", arena.matriz[x][y].cristais, x, y);
 			}
 		}
-		for(int i = 0, j = 0; i < arena.robos; j++) {
-			if(arena.vetor_maq[j] != NULL) {
-				fprintf(display, "robo %s\n", arena.vetor_maq[j]->imagem);
-				fprintf(display, "%d %d %d %d %d\n", i, arena.vetor_maq[j]->pos[0], arena.vetor_maq[j]->pos[1],
-						arena.vetor_maq[j]->pos[0], arena.vetor_maq[j]->pos[1]);
-				i++;
-			}
+	}
+
+	for(int i = 0, j = 0; i < arena.robos; j++) {
+		if(arena.vetor_maq[j] != NULL) {
+			fprintf(display, "robo %s\n", arena.vetor_maq[j]->imagem);
+			fprintf(display, "%d %d %d %d %d\n", i, arena.vetor_maq[j]->pos[0], arena.vetor_maq[j]->pos[1],
+					arena.vetor_maq[j]->pos[0], arena.vetor_maq[j]->pos[1]);
+			i++;
 		}
 	}
 }
