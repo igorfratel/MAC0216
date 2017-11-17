@@ -18,6 +18,7 @@ def parse_programs(*args):
         with open(file, 'r') as f:
             l = f.readline()
             ip = 0
+            firstline = True
 
             tabsim = {}
 
@@ -40,8 +41,11 @@ def parse_programs(*args):
                     arg = keys.pop(0)
                     if arg in tabsim:
                         arg = tabsim[arg]
-                if op != "":
-                    print("  {%s, %s},"%(op,arg))
+                if op != "" and firstline:
+                    print("  {%s, %s}"%(op,arg))
+                    firstline = False
+                elif op != "":
+                    print("  ,{%s, %s}"%(op,arg))
                 else:
                     print()
                 l = f.readline()
@@ -50,7 +54,11 @@ def parse_programs(*args):
             file_counter += 1
     print( "//Database contém todos os vetores de programas\n"
             "INSTR *database[] = {")
-    for i in range(0, file_counter): print("  prog" + str(i))
+    for i in range(0, file_counter):
+        if(i == 0):
+            print("  prog" + str(i))
+        else:
+            print("  ,prog" + str(i))
     print(  "};\n"
             "INSTR *devolve_programa(int prog_num) {\n"
             "  //Recebe o número do programa e devolve o programa correspondente\n"
