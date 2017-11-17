@@ -330,7 +330,7 @@ void exec_maquina(Maquina *m, int n) {
     }
     break;
   case SYS:
-    Sistema(arg.val.n, m);
+    Sistema(m->arena, arg.val.n, m);
   }
 
 	D(imprime(pil,5));

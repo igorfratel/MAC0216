@@ -1,16 +1,17 @@
 #include "arena.h"
+#include "programas.h"
+
 int main() {
 	Arena *minha_arena
 	cria_arena(minha_arena, 15, 15);
-	while(1){
-		// INSTR *p = devolve_programa();
-		// INSTR *p2 = devolve_programa();
-		// insere_exercito(1, p);
-
-		// insere_exercito(1, p2);
-		escalonador(NUM_INSTR);
-		Atualiza(minha_arena, 5);
-		//
+	INSTR *p0 = devolve_programa(0);
+	INSTR *p1 = devolve_programa(1);
+	int fim = 0;
+	while(!fim){
+		insere_exercito(minha_arena, 1, p0);
+		insere_exercito(minha_arena, 1, p1);
+		escalonador(minha_arena, NUM_INSTR);
+		fim = Atualiza(minha_arena, 5);
 		mostra_arena();
 	}
 	destroi_arena(minha_arena);

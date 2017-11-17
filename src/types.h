@@ -42,7 +42,7 @@ typedef enum {
   SAVE,
   REST,
   ATR,
-  SYS
+  SYS,
 } OpCode;
 
 /* Tipos dos operandos */
