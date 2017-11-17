@@ -5,12 +5,13 @@ Lê, na entrada padrão, um programa na linguagem de montagem da máquina
 virtual e retorna um programa em C que executa este programa.
 
 Uso:
-    ./montador entrada1...entradaN > saida
+    ./montador entrada1...entradaN
 """
 import sys
 
 def parse_programs(*args):
-    print("//Arquivo que conterá todos os programas dos robôs em jogo\n"
+    out = open("programas.c",'w')
+    out.write("//Arquivo que conterá todos os programas dos robôs em jogo\n"
           "//Será gerado pelo parser em python\n"+
           "#include \"programas.h\"\n")
     file_counter = 0
@@ -22,7 +23,7 @@ def parse_programs(*args):
 
             tabsim = {}
 
-            print("INSTR prog" + str(file_counter) + "[] = {")
+            out.write("INSTR prog" + str(file_counter) + "[] = {\n")
             while l:
                 label = op = ""
                 arg   = 0
@@ -42,24 +43,24 @@ def parse_programs(*args):
                     if arg in tabsim:
                         arg = tabsim[arg]
                 if op != "" and firstline:
-                    print("  {%s, %s}"%(op,arg))
+                    out.write("  {%s, %s}\n"%(op,arg))
                     firstline = False
                 elif op != "":
-                    print("  ,{%s, %s}"%(op,arg))
+                    out.write("  ,{%s, %s}\n"%(op,arg))
                 else:
-                    print()
+                    out.write()
                 l = f.readline()
                 ip += 1
-            print("};\n")
+            out.write("};\n")
             file_counter += 1
-    print( "//Database contém todos os vetores de programas\n"
+    out.write( "//Database contém todos os vetores de programas\n"
             "INSTR *database[] = {")
     for i in range(0, file_counter):
         if(i == 0):
-            print("  prog" + str(i))
+            out.write("  prog" + str(i))
         else:
-            print("  ,prog" + str(i))
-    print(  "};\n"
+            out.write("  ,prog" + str(i))
+    out.write(  "};\n"
             "INSTR *devolve_programa(int prog_num) {\n"
             "  //Recebe o número do programa e devolve o programa correspondente\n"
             "  return database[prog_num];\n}")
