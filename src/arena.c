@@ -172,31 +172,35 @@ void escalonador(int rodadas) {
 	}
 }
 
-void Atualiza(int rodadas, int equipes){
+int Atualiza(Arena *arena, int equipes){
 	int n_equipes = 0;
   int equipe = -1;
 
   //Verifica se algum exército perdeu
 	for(int i = 0; i < equipes; i++) {
-		if(arena.bases[i] != NULL && arena.bases[i]->cristais == 5)
-			remove_exercito(arena.bases[i]->equipe);
+		if(arena->bases[i] != NULL && arena->bases[i]->cristais == 5)
+			remove_exercito(arena->bases[i]->equipe);
 	}
 
   //Verifica se algum robô morreu
-	for(int i = 0, j = 0; i < VET_MAX && j < arena.robos; i++) {
-		Maquina *robo = arena.vetor_maq[j];
+	for(int i = 0, j = 0; i < VET_MAX && j < arena->robos; i++) {
+		Maquina *robo = arena->vetor_maq[j];
 		if(robo && robo->vida == 0) {
-			arena.matriz[robo->pos[0]][robo->pos[1]].ocupado = 0;
-			arena.matriz[robo->pos[0]][robo->pos[1]].robo = NULL;
+			arena->matriz[robo->pos[0]][robo->pos[1]].ocupado = 0;
+			arena->matriz[robo->pos[0]][robo->pos[1]].robo = NULL;
   		robo = NULL;
-			arena.robos--;
+			arena->robos--;
 			j++;
 		}
-		else if(arena.vetor_maq[i] && equipe != robo->equipe) {
+		else if(arena->vetor_maq[i] && equipe != robo->equipe) {
 			n_equipes++;
 			equipe = robo->equipe;
     }
 	}
+  // jogo acaba se só sobrar uma equipe
+  if(n_equipes <= 1)
+    return 1;
+  return 0
 }
 
 void insere_exercito(int n, INSTR * p){
