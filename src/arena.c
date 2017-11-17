@@ -122,7 +122,7 @@ void destroi_arena(Arena *a) {
 	free(a);
 }
 
-void mostra_arena(Arena *arena) {
+void mostra_arena(Arena *arena, FILE *display) {
 	for(int x = 0; x < arena->x; x++) {
 		for(int y = 0; y < arena->y; y++) {
 		switch (arena->matriz[x][y].terreno) {
@@ -228,7 +228,6 @@ Maquina *cria_robo(Arena *arena, int equipe, INSTR * p) {
 		srand(time(NULL));
 		y = rand() % arena->y;
 	}
-	printf("%d %d\n", x, y);
 	maquina = cria_maquina(p);
 	maquina->arena = arena;
 	maquina->pos[0] = x;

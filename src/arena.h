@@ -65,7 +65,7 @@ void shuffle(Maquina *arr[], int n);
 void Sistema(Arena *arena, int op, Maquina *m);
 
 // Função que mostra a representação gráfica do estado atual da arena
-void mostra_arena(Arena *arena);
+void mostra_arena(Arena *arena, FILE *display);
 
 //Atualiza o estado dos robôs e da arena, removendo robôs e times derrotados.
 //Retorna 1 caso o jogo tenha acabado e 0 caso contrário
