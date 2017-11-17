@@ -34,6 +34,11 @@ void cria_arena(int linhas, int colunas) {
 
 	//Aloca as linhas da arena
 	arena.matriz = (Celula**)malloc(linhas*sizeof(Celula*));
+
+	// aloca vetor de bases da arena
+	for(i = 0; i < TIMES_MAX; i++)
+		arena.bases[i] = (Celula*)malloc(sizeof(Celula*));
+
 	if (arena.matriz == NULL) {
 		printf("(cria_arena) Erro na alocação da matriz de terrenos\n");
 		exit(1);
