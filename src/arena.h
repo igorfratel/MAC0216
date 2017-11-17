@@ -67,4 +67,7 @@ void Sistema(int op, Maquina *m);
 // Função que mostra a representação gráfica do estado atual da arena
 void mostra_arena();
 
+//
+void Atualiza(int rodadas, int equipes);
+
 #endif
