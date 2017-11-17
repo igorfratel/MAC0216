@@ -52,6 +52,10 @@ void deposita_cristal(Maquina *robo, int direcao);
 //Funcao que move o robo, caso ele possa realizar o movimento desejado
 void move(Maquina * robo, int movimento);
 
+// Função que ataca o robo que está celula da direção desejada, caso ele seja de um time diferente do robo que está
+// atacando
+void ataca_robo(Maquina *robo, int direcao);
+
 //Funcao que troca duas posicoes de lugar
 void swap(Maquina *a, Maquina *b);
 

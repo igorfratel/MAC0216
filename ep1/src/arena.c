@@ -235,8 +235,7 @@ Maquina *cria_robo(int equipe, INSTR * p) {
 }
 
 void remove_exercito(int equipe){
-	int i, x, y;
-	i = 0;
+	int i = 0, contador = 0, x, y;
 	while(i < arena.robos) {
 		if(arena.vetor_maq[i] != NULL && arena.vetor_maq[i]->equipe == equipe) {
 			x = arena.vetor_maq[i]->pos[0];
@@ -244,6 +243,7 @@ void remove_exercito(int equipe){
 			arena.matriz[x][y].ocupado = 0;
 			arena.matriz[x][y].robo = NULL;
 			arena.vetor_maq[i] = NULL;
+			contador++;
 		}
 		i++;
 	}
@@ -253,6 +253,7 @@ void remove_exercito(int equipe){
 			break;
 		}
 	}
+	arena.robos -= contador;
 }
 
 int *busca_celula(Maquina *robo, int direcao) {
@@ -384,6 +385,28 @@ void deposita_cristal(Maquina *robo, int direcao) {
 	}
 }
 
+void ataca_robo(Maquina *robo, int direcao) {
+	int *posicao = busca_celula(robo, direcao);
+	// Se a posição não estiver na arena, não faz nada
+	if(posicao[0] == -1)
+		return;
+
+	if(arena.matriz[posicao[0]][posicao[1]].ocupado &&
+			arena.matriz[posicao[0]][posicao[1]].robo->equipe != robo->equipe) {
+		arena.matriz[posicao[0]][posicao[1]].robo->vida -= 1;
+	}
+	// se o robo atacado chegar a vida 0, remove ele da arena
+	if(arena.matriz[posicao[0]][posicao[1]].robo->vida == 0) {
+		for(int i = 0; i < TIMES_MAX; i++) {
+			if(arena.vetor_maq[i] == arena.matriz[posicao[0]][posicao[1]].robo) {
+				arena.vetor_maq[i] = NULL;
+				arena.matriz[posicao[0]][posicao[1]].ocupado = 0;
+				break;
+			}
+		}
+	}
+}
+
 void Sistema(int op, Maquina *robo) {
   int direcao = desempilha(&robo->pil).val.n;
   switch (op) {
@@ -395,25 +418,7 @@ void Sistema(int op, Maquina *robo) {
 			break;
 		case 2:
 			deposita_cristal(robo, direcao);
-		//case 3: ataca
+		case 3:
+			ataca_robo(robo, direcao);
   }
 }
-
-
-// void remove_exercito(Arena * arena, int equipe){
-// 	int i, max, x, y;
-// 	i = 0;
-// 	max = arena.robos;
-// 	int removeu = 0;
-// 	while(i < max && removeu == 0) {
-// 		while(arena.vetor_maq[i] != NULL && arena.vetor_maq[i].equipe == equipe) {
-// 			x = arena.vetor_maq[i].pos[0];
-// 			y = arena.vetor_maq[i].pos[1];
-// 			arena.matriz[x][y].ocupado = 0;
-// 			arena.vetor_maq[i] = NULL;
-// 			removeu = 1;
-// 			i++;
-// 		}
-// 		i++;
-// 	}
-// }
