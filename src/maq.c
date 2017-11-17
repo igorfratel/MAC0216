@@ -41,6 +41,12 @@ char *CODES[] = {
 #endif
 
 Maquina *cria_maquina(INSTR *p) {
+  int imagem;
+	//escolhe a imagem do robô de maneira aleatória
+	srand(time(NULL));
+	imagem = rand() % 8;
+  imagem++;
+
   Maquina *m = (Maquina*)malloc(sizeof(Maquina));
   if (!m) Fatal("Memória insuficiente",4);
   m->ip.t = NUM;//@@
@@ -50,6 +56,7 @@ Maquina *cria_maquina(INSTR *p) {
   m->rbp.val.n = 0; //!!!
   m->ocupado = 0;
   m->vida = 10;
+  m->imagem = imagem;
   return m;
 }
 
