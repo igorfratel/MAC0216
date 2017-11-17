@@ -24,7 +24,7 @@ void shuffle(Maquina *arr[], int n) {
 }
 
 void cria_arena(int linhas, int colunas) {
-	//Recebe um número de linhas e colunas. Cria e inicializa uma Arena com essas dimensões
+	//Recebe um número de linhas e colunas. Inicializa a arena global com essas dimensões
 
 	int i;
 	int contador_base = 0; //Indica a qual time a base gerada vai pertencer
