@@ -50,7 +50,7 @@ def parse_programs(*args):
             file_counter += 1
     print( "//Database contém todos os vetores de programas\n"
             "INSTR *database[] = {")
-    for i in range(0, file_counter): print("  prog" + str(i))
+    for i in range(0, file_counter): print("  prog" + str(i) + ",")
     print(  "};\n"
             "INSTR *devolve_programa(int prog_num) {\n"
             "  //Recebe o número do programa e devolve o programa correspondente\n"
