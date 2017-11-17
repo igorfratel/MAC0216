@@ -150,7 +150,7 @@ class cell:
         if (s.terreno == "plano"):
          cor = (200, 200, 200)
         elif (s.terreno == "floresta"):
-         cor = (104, 238, 0)
+         cor = (34,139,34)
         elif (s.terreno == "rio"):
          cor = (65, 48, 191)
         pg.draw.polygon(scr, cor, s.pontos, 0)
