@@ -14,8 +14,8 @@
 // gráfica do programa
 FILE *display;
 
-//Recebe um número de linhas e colunas. Cria e inicializa uma Arena com essas dimensões
-Arena *cria_arena(int linhas, int colunas);
+//Recebe um número de linhas e colunas. Inicializa uma Arena com essas dimensões com as definições do arquivo 'Terreno.txt'
+void cria_arena(int linhas, int colunas);
 
 //Libera a memória alocada para a Arena
 void destroi_arena(Arena *a);

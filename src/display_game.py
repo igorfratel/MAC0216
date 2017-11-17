@@ -21,6 +21,9 @@ scr = pg.display.set_mode((int(W*L*1.5 + L), int(2*l*H +2*l)))
 # só para simplificar, atualização da imagem
 atu = pg.display.update
 
+# pasta das imagens
+img_folder = "../images/"
+
 
 # pinta o fundo da janela
 scr.fill((0,200,0))
@@ -46,7 +49,7 @@ class Robô(pg.sprite.Sprite):
         Construtor, img é o nome do arquivo com a imagem
         """
         pg.sprite.Sprite.__init__(s)
-        s.image = pg.image.load(img)
+        s.image = pg.image.load(img_folder + img)
         s.rect = s.image.get_rect()
 
     def draw(s, i,j):
@@ -72,7 +75,7 @@ class Cristal(pg.sprite.Sprite):
         Construtor, img é o nome do arquivo com a imagem
         """
         pg.sprite.Sprite.__init__(s)
-        s.image = pg.image.load(img)
+        s.image = pg.image.load(img_folder + img)
         s.rect = s.image.get_rect()
 
     def draw(s, i,j):
@@ -98,8 +101,8 @@ class Base(pg.sprite.Sprite):
         Construtor, img é o nome do arquivo com a imagem
         """
         pg.sprite.Sprite.__init__(s)
-        if (os.path.isfile(img)):
-            s.image = pg.image.load(img)
+        if (os.path.isfile(img_folder + img)):
+            s.image = pg.image.load(img_folder + img)
             s.rect = s.image.get_rect()
 
     def draw(s, i,j):
@@ -147,7 +150,7 @@ class cell:
         if (s.terreno == "plano"):
          cor = (200, 200, 200)
         elif (s.terreno == "floresta"):
-         cor = (104, 238, 0) 
+         cor = (104, 238, 0)
         elif (s.terreno == "rio"):
          cor = (65, 48, 191)
         pg.draw.polygon(scr, cor, s.pontos, 0)
@@ -168,7 +171,7 @@ robs = []
 # lista de bases
 bases = [Base("base0.png"), Base("base1.png"), Base("base2.png"), Base("base3.png"), Base("base4.png")]
 
-# Lista de quantidades de cristais 
+# Lista de quantidades de cristais
 cristais = [Cristal("cristal1.png"), Cristal("cristal2.png"), Cristal("cristal3.png")]
 
 # atualiza a janela

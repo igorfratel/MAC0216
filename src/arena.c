@@ -23,33 +23,26 @@ void shuffle(Maquina *arr[], int n) {
     }
 }
 
-Arena *cria_arena(int linhas, int colunas) {
+void cria_arena(int linhas, int colunas) {
 	//Recebe um número de linhas e colunas. Cria e inicializa uma Arena com essas dimensões
 
 	int i;
 	int contador_base = 0; //Indica a qual time a base gerada vai pertencer
 
-	//Aloca a struct Arena
-	Arena *a = (Arena*)malloc(sizeof(Arena));
-	if (a == NULL) {
-		printf("(cria_arena) Erro na alocação da arena\n");
-		exit(1);
-	}
-
-	a->x = colunas;
-	a->y = linhas;
+	arena.x = colunas;
+	arena.y = linhas;
 
 	//Aloca as linhas da arena
-	a->matriz = (Celula**)malloc(linhas*sizeof(Celula*));
-	if (a->matriz == NULL) {
+	arena.matriz = (Celula**)malloc(linhas*sizeof(Celula*));
+	if (arena.matriz == NULL) {
 		printf("(cria_arena) Erro na alocação da matriz de terrenos\n");
 		exit(1);
 	}
 
 	//Para cada linhas, aloca o número especificado de colunas
 	for (i = 0; i < linhas; i++) {
-		a->matriz[i] = (Celula*)malloc(colunas*sizeof(Celula));
-		if (a->matriz[i] == NULL) {
+		arena.matriz[i] = (Celula*)malloc(colunas*sizeof(Celula));
+		if (arena.matriz[i] == NULL) {
 			printf("(cria_arena) Erro na alocação da matriz de celulas (2)\n");
 			exit(1);
 		}
@@ -77,28 +70,28 @@ Arena *cria_arena(int linhas, int colunas) {
 		for(int n = 0; n < colunas; n++){
 			switch(vetoratributos[k][0]){
 				case 'P': //plano
-					a->matriz[m][n].terreno = PLANO;
+					arena.matriz[m][n].terreno = PLANO;
 					break;
 
 				case 'F': //floresta
-					a->matriz[m][n].terreno = FLORESTA;
+					arena.matriz[m][n].terreno = FLORESTA;
 					break;
 
 				case 'A': //agua
-					a->matriz[m][n].terreno = AGUA;
+					arena.matriz[m][n].terreno = AGUA;
 					break;
 
 				case 'C': //cristal
-					a->matriz[m][n].cristais = vetoratributos[k][1];
+					arena.matriz[m][n].cristais = vetoratributos[k][1];
 					break;
 
 				case 'B': //base
-					a->matriz[m][n].ocupado = 1;
-					a->matriz[m][n].terreno = BASE;
-					a->matriz[m][n].equipe = contador_base;
-					a->bases[contador_base]->ocupado = 1;
-					a->bases[contador_base]->terreno = BASE;
-					a->bases[contador_base]->equipe = contador_base;
+					arena.matriz[m][n].ocupado = 1;
+					arena.matriz[m][n].terreno = BASE;
+					arena.matriz[m][n].equipe = contador_base;
+					arena.bases[contador_base]->ocupado = 1;
+					arena.bases[contador_base]->terreno = BASE;
+					arena.bases[contador_base]->equipe = contador_base;
 					contador_base++;
 					break;
 				//caso tenha um robo nesse local, nao aloca nada
@@ -112,8 +105,7 @@ Arena *cria_arena(int linhas, int colunas) {
 
 	//Inicializa todas as posições do vetor de máquinas virtuais com NULL
 	for (i = 0; i < VET_MAX; i++)
-		a->vetor_maq[i] = NULL;
-	return a;
+		arena.vetor_maq[i] = NULL;
 }
 
 void destroi_arena(Arena *a) {

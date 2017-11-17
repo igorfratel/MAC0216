@@ -2,7 +2,6 @@
 #define __MOTOR2_H__
 
 #include "maq.h"
-#include "instr.h"
 
 //Retorna o vetor de instruções do programa2
 INSTR *devolve_programa2();
