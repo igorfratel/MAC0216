@@ -5,73 +5,61 @@ Lê, na entrada padrão, um programa na linguagem de montagem da máquina
 virtual e retorna um programa em C que executa este programa.
 
 Uso:
-    montador < entrada > saida
+    ./montador entrada1...entradaN > saida
 """
-from sys import stdin
+import sys
 
-l = stdin.readline()
-ip = 0
-num_instr = 0 #!!!std=c11
+def parse_programs(*args):
+    print("//Arquivo que conterá todos os programas dos robôs em jogo\n"
+          "//Será gerado pelo parser em python\n"+
+          "#include \"programas.h\"\n")
+    file_counter = 0
+    for file in args[0][1:]:
+        with open(file, 'r') as f:
+            l = f.readline()
+            ip = 0
 
-tabsim = {}
+            tabsim = {}
 
-print("#include <stdio.h>")
-print("#include \"maq.h\"")
-print()
-print("INSTR prog[] = {")
-while l:
-    label = op = ""
-    arg   = 0
-    try:
-        l = l[:l.index('#')]
-    except:
-        pass
-    keys = l.split()
-    if len(keys) > 0 and keys[0].endswith(":"):
-        label = keys[0][:-1]              #jogando fora o ':'
-        tabsim[label]=ip
-        keys.pop(0)
-    if len(keys) > 0:
-        op = keys.pop(0)
+            print("INSTR prog" + str(file_counter) + "[] = {")
+            while l:
+                label = op = ""
+                arg   = 0
+                try:
+                    l = l[:l.index('#')]
+                except:
+                    pass
+                keys = l.split()
+                if len(keys) > 0 and keys[0].endswith(":"):
+                    label = keys[0][:-1]              #jogando fora o ':'
+                    tabsim[label]=ip
+                    keys.pop(0)
+                if len(keys) > 0:
+                    op = keys.pop(0)
+                if len(keys) > 0:
+                    arg = keys.pop(0)
+                    if arg in tabsim:
+                        arg = tabsim[arg]
+                if op != "":
+                    print("  {%s, %s},"%(op,arg))
+                else:
+                    print()
+                l = f.readline()
+                ip += 1
+            print("};\n")
+            file_counter += 1
+    print( "//Database contém todos os vetores de programas\n"
+            "INSTR *database[] = {")
+    for i in range(0, file_counter): print("  prog" + str(i))
+    print(  "};\n"
+            "INSTR *devolve_programa(int prog_num) {\n"
+            "  //Recebe o número do programa e devolve o programa correspondente\n"
+            "  return database[prog_num];\n}")
 
-    if len(keys) > 0:
-        arg = keys.pop(0)
-        if arg in tabsim:
-            arg = tabsim[arg]
-    if op != "":
-        if (arg == "MOV" or arg == "CIMA"): #MACROS
-            arg = "0"
-        if (arg == "REP" or arg == "DSUP"):
-            arg = "1"
-        if (arg == "DEP" or arg == "DINF"):
-            arg = "2"
-        if (arg == "ATQ" or arg == "BAIXO"):
-            arg = "3"
-        if (arg == "ESUP"):
-            arg = "4"
-        if (arg == "EINF"):
-            arg = "5"
-        print("  {%s, %s},"%(op,arg)) #$$
-        num_instr += 1 #!!!
-        ip += 1
-    else:
-        print()
-    l = stdin.readline()
-print("};")
+parse_programs(sys.argv)
 
-#parte que eu fiz !!!
-print()
-print("INSTR *devolve_programa() {")
-print("  return prog;")
-print("}")
-print()
-print("int main(int ac, char **av) {")
-print("  Maquina *maq = cria_maquina(prog);")
-print("  exec_maquina(maq, 100000);") #% num_instr <- estava usando isso, mas troquei por um número fixo
-print("  destroi_maquina(maq);")
-print ("  return 0;")
-print("}")
-    
+
+
 # Local variables:
 # mode: python
 # End:
