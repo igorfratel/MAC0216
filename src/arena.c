@@ -31,7 +31,7 @@ void cria_arena(Arena *arena, int linhas, int colunas) {
 
 	arena->x = colunas;
 	arena->y = linhas;
-
+  arena->robos = 0;
 	//Aloca as linhas da arena
 	arena->matriz = (Celula**)malloc(linhas*sizeof(Celula*));
 
@@ -41,6 +41,17 @@ void cria_arena(Arena *arena, int linhas, int colunas) {
     if (arena->matriz[i] == NULL) {
       printf("(cria_arena) Erro na alocação da matriz de celulas (2)\n");
       exit(1);
+    }
+  }
+
+  //Inicializa os valores das células da matriz
+  for (int i = 0; i < linhas; i++) {
+    for (int j = 0; j < colunas; j++) {
+      arena->matriz[i][j].terreno = -1;
+      arena->matriz[i][j].equipe = -1;
+      arena->matriz[i][j].cristais = 0;
+      arena->matriz[i][j].ocupado = 0;
+      arena->matriz[i][j].robo = NULL;
     }
   }
 
@@ -233,13 +244,13 @@ Maquina *cria_robo(Arena *arena, int equipe, INSTR * p) {
 		y = rand() % arena->y;
 	}
 	maquina = cria_maquina(p);
+  maquina->equipe = equipe;
 	maquina->arena = arena;
 	maquina->pos[0] = x;
 	maquina->pos[1] = y;
 	arena->matriz[x][y].ocupado = 1;
     arena->matriz[x][y].robo = maquina;
 	return maquina;
-
 }
 
 void remove_exercito(Arena *arena, int equipe){
@@ -426,7 +437,9 @@ void Sistema(Arena *arena, int op, Maquina *robo) {
 			break;
 		case 2:
 			deposita_cristal(arena, robo, direcao);
+      break;
 		case 3:
 			ataca_robo(arena, robo, direcao);
+      break;
   }
 }
