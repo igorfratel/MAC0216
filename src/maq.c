@@ -57,6 +57,9 @@ Maquina *cria_maquina(INSTR *p) {
   m->ocupado = 0;
   m->vida = 10;
   m->imagem = imagem;
+  m->cristais = 0;
+  m->pil = *cria_pilha();
+  m->exec = *cria_pilha();
   return m;
 }
 
