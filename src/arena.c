@@ -137,7 +137,7 @@ void destroi_arena(Arena *a) {
 	free(a);
 }
 
-void mostra_arena(Arena *arena, FILE *display) {
+void mostra_arena(Arena *arena) {
 	for(int x = 0; x < arena->x; x++) {
 		for(int y = 0; y < arena->y; y++) {
 		switch (arena->matriz[x][y].terreno) {
@@ -278,7 +278,7 @@ void remove_exercito(Arena *arena, int equipe){
 int *busca_celula(Arena *arena, Maquina *robo, int direcao) {
 	int max_i = arena->y;
 	int max_j = arena->x;
-	int *retorno = (int*)malloc(2 * sizeof(int*));
+	int *retorno = (int*)malloc(2 * sizeof(int));
 	retorno[0] = -1;
 	retorno[1] = -1;
 	switch (direcao) {
