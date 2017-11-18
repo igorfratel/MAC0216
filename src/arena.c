@@ -170,7 +170,7 @@ void mostra_arena(Arena *arena) {
 
 	for(int i = 0, j = 0; i < arena->robos; j++) {
 		if(arena->vetor_maq[j] != NULL) {
-			fprintf(display, "robo %d\n", arena->vetor_maq[j]->imagem);
+			fprintf(display, "robo %d %d\n", arena->vetor_maq[j]->imagem, arena->vetor_maq[j]->equipe);
 			fprintf(display, "%d %d %d %d %d\n", i, arena->vetor_maq[j]->pos[0], arena->vetor_maq[j]->pos[1],
 					arena->vetor_maq[j]->pos[0], arena->vetor_maq[j]->pos[1]);
 			i++;
