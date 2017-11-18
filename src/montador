@@ -47,8 +47,6 @@ def parse_programs(*args):
                     firstline = False
                 elif op != "":
                     out.write("  ,{%s, %s}\n"%(op,arg))
-                else:
-                    out.write()
                 l = f.readline()
                 ip += 1
             out.write("};\n")
