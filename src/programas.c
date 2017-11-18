@@ -2,6 +2,23 @@
 //Será gerado pelo parser em python
 #include "programas.h"
 INSTR prog0[] = {
+  {RCL, 0}
+  ,{PUSH, 0}
+  ,{SYS, 0}
+  ,{POP, 0}
+  ,{PUSH, 3}
+  ,{SYS, 0}
+  ,{POP, 0}
+  ,{PUSH, 0}
+  ,{SYS, 0}
+  ,{POP, 0}
+  ,{PUSH, 3}
+  ,{SYS, 0}
+  ,{PUSH, 0}
+  ,{JIF, 0}
+  ,{END, 0}
+};
+INSTR prog1[] = {
   {PUSH, 0}
   ,{SYS, 0}
   ,{PUSH, 3}
@@ -9,17 +26,6 @@ INSTR prog0[] = {
   ,{PUSH, 0}
   ,{SYS, 0}
   ,{PUSH, 3}
-  ,{SYS, 0}
-  ,{END, 0}
-};
-INSTR prog1[] = {
-  {PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 1}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 1}
   ,{SYS, 0}
   ,{END, 0}
 };
