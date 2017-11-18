@@ -210,6 +210,11 @@ int Atualiza(Arena *arena, int equipes){
 			arena->matriz[robo->pos[0]][robo->pos[1]].ocupado = 0;
 			arena->matriz[robo->pos[0]][robo->pos[1]].robo = NULL;
   		robo = NULL;
+      robo->arena = NULL;
+      destroi_pilha(robo->pil);
+      destroi_pilha(robo->exec);
+      free(robo);
+      robo = NULL;
 			arena->robos--;
 			j++;
 		}
@@ -268,8 +273,12 @@ void remove_exercito(Arena *arena, int equipe){
 			x = arena->vetor_maq[i]->pos[0];
 			y = arena->vetor_maq[i]->pos[1];
 			arena->matriz[x][y].ocupado = 0;
-			arena->matriz[x][y].robo = NULL;
-			arena->vetor_maq[i] = NULL;
+      arena->matriz[x][y].robo = NULL;
+      arena->vetor_maq[i]->arena = NULL;
+      destroi_pilha(arena->vetor_maq[i]->pil);
+      destroi_pilha(arena->vetor_maq[i]->exec);
+      free(arena->vetor_maq[i]);
+      arena->vetor_maq[i] = NULL;
 			contador++;
 		}
 		i++;
@@ -366,14 +375,14 @@ int *busca_celula(Arena *arena, Maquina *robo, int direcao) {
 
 void move(Arena *arena, Maquina * robo, int direcao) {
 	int *celula = busca_celula(arena, robo, direcao);
-	int posicao;
+	int posicao = -1;
 	for(int i = 0; i < VET_MAX; i++){
 		if(arena->vetor_maq[i] == robo){
 			posicao = i;
 			break;
 		}
 	}
-
+  if(posicao == -1) Erro("(move)Robô não encontrado");
 	if(celula[0] != -1 && !arena->matriz[celula[0]][celula[1]].ocupado) {
 		fprintf(display, "%d %d %d %d %d\n",
 				posicao, robo->pos[0], robo->pos[1], celula[0], celula[1]);

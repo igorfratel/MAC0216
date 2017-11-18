@@ -320,9 +320,11 @@ void exec_maquina(Maquina *m, int n) {
       switch(arg.val.n) { //Qual argumento da célula você quer?
         case 0: //terreno
           tmp2.val.n = tmp.val.cel.terreno;
-        case 1: //cristais
+        case 1: //equipe
+          tmp2.val.n = tmp.val.cel.equipe;
+        case 2: //cristais
           tmp2.val.n = tmp.val.cel.cristais;
-        case 2: //ocupado
+        case 3: //ocupado
           tmp2.val.n = tmp.val.cel.ocupado;
       }
       empilha(pil, tmp2);

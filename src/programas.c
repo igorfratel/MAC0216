@@ -5,13 +5,10 @@ INSTR prog0[] = {
   {RCL, 0}
   ,{PUSH, 0}
   ,{SYS, 0}
-  ,{POP, 0}
   ,{PUSH, 3}
   ,{SYS, 0}
-  ,{POP, 0}
   ,{PUSH, 0}
   ,{SYS, 0}
-  ,{POP, 0}
   ,{PUSH, 3}
   ,{SYS, 0}
   ,{PUSH, 0}
@@ -19,7 +16,8 @@ INSTR prog0[] = {
   ,{END, 0}
 };
 INSTR prog1[] = {
-  {PUSH, 0}
+  {RCL, 0}
+  ,{PUSH, 0}
   ,{SYS, 0}
   ,{PUSH, 3}
   ,{SYS, 0}
@@ -27,6 +25,7 @@ INSTR prog1[] = {
   ,{SYS, 0}
   ,{PUSH, 3}
   ,{SYS, 0}
+  ,{JIF, 0}
   ,{END, 0}
 };
 //Database contém todos os vetores de programas
