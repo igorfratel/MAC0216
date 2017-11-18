@@ -11,10 +11,10 @@ int main() {
 	INSTR *p1 = devolve_programa(1);
 	insere_exercito(minha_arena, 1, p0);
 	insere_exercito(minha_arena, 1, p1);
+	mostra_arena(minha_arena, display);
 	while(!fim){
 		escalonador(minha_arena, NUM_INSTR);
 		fim = Atualiza(minha_arena, 5);
-		mostra_arena(minha_arena);
 	}
 	destroi_arena(minha_arena);
 }
