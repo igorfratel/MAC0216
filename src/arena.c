@@ -60,14 +60,11 @@ void cria_arena(Arena *arena, int linhas, int colunas) {
     exit(1);
   }
 
-	// aloca vetor de bases da arena
+	//Inicializa o vetor de bases
 	for(i = 0; i < TIMES_MAX; i++)
-		arena->bases[i] = (Celula*)malloc(sizeof(Celula));
-    if (arena->bases[i] == NULL){
-      printf("(cria_arena) Erro na alocação do vetor de bases\n");
-      exit(1);
-    }
+		arena->bases[i] = NULL;
 
+  // Inicializa os valores do vetor de bases
 	//abre o arquivo terreno.txt e armazena cada linha (que é um atributo) em cada celula da matriz
 	FILE *arq;
 	arq = fopen("Terreno.txt", "r");
@@ -109,6 +106,7 @@ void cria_arena(Arena *arena, int linhas, int colunas) {
 					arena->matriz[m][n].ocupado = 1;
 					arena->matriz[m][n].terreno = BASE;
 					arena->matriz[m][n].equipe = contador_base;
+          arena->bases[contador_base] = &arena->matriz[m][n];
 					arena->bases[contador_base]->ocupado = 1;
 					arena->bases[contador_base]->terreno = BASE;
 					arena->bases[contador_base]->equipe = contador_base;
