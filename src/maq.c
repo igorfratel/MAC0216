@@ -58,8 +58,8 @@ Maquina *cria_maquina(INSTR *p) {
   m->vida = 10;
   m->imagem = imagem;
   m->cristais = 0;
-  m->pil = *cria_pilha();
-  m->exec = *cria_pilha();
+  m->pil = cria_pilha();
+  m->exec = cria_pilha();
   return m;
 }
 
@@ -69,8 +69,8 @@ void destroi_maquina(Maquina *m) {
 
 /* Alguns macros para facilitar a leitura do código */
 #define ip (m->ip)
-#define pil (&m->pil)
-#define exec (&m->exec)
+#define pil (m->pil)
+#define exec (m->exec)
 #define prg (m->prog)
 #define rbp (m->rbp)
 

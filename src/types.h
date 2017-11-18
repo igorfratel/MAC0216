@@ -111,8 +111,8 @@ struct Maquina {
   // nivel de ocupação do robô
   int ocupado;
 
-  Pilha pil;
-  Pilha exec;
+  Pilha *pil;
+  Pilha *exec;
   OPERANDO Mem[MAXMEM];
   INSTR *prog;
   OPERANDO rbp; //!!!

@@ -125,14 +125,24 @@ void cria_arena(Arena *arena, int linhas, int colunas) {
 		arena->vetor_maq[i] = NULL;
 }
 
-void destroi_arena(Arena *a) {
+void destroi_arena(Arena *arena) {
 	//Libera a memória alocada para a Arena
-	int i;
+	for (int i = 0; i < arena->y; i++)
+		free(arena->matriz[i]);
+	free(arena->matriz);
 
-	for (i =0; i < a->y; i++)
-		free(a->matriz[i]);
-	free(a->matriz);
-	free(a);
+  for (int i = 0; i < TIMES_MAX; i++)
+    arena->bases[i] = NULL;
+
+  for (int i = 0; i < VET_MAX; i++){
+    if(arena->vetor_maq[i]){
+      arena->vetor_maq[i]->arena = NULL;
+      destroi_pilha(arena->vetor_maq[i]->pil);
+      destroi_pilha(arena->vetor_maq[i]->exec);
+      free(arena->vetor_maq[i]);
+    }
+  }
+	free(arena);
 }
 
 void mostra_arena(Arena *arena) {
@@ -379,6 +389,7 @@ void move(Arena *arena, Maquina * robo, int direcao) {
 		else if(arena->matriz[celula[0]][celula[1]].terreno == AGUA)
 			robo->ocupado += 2;
 	}
+  free(celula);
 }
 
 void remove_cristal(Arena *arena, Maquina *robo, int direcao) {
@@ -425,7 +436,7 @@ void ataca_robo(Arena *arena, Maquina *robo, int direcao) {
 }
 
 void Sistema(Arena *arena, int op, Maquina *robo) {
-  int direcao = desempilha(&robo->pil).val.n;
+  int direcao = desempilha(robo->pil).val.n;
   switch (op) {
     case 0:
 			move(arena, robo, direcao);
