@@ -14,7 +14,7 @@ int main() {
 	mostra_arena(minha_arena);
 	while(!fim){
 		escalonador(minha_arena, NUM_INSTR);
-		fim = Atualiza(minha_arena, 5);
+		fim = Atualiza(minha_arena, 2);
 	}
 	destroi_arena(minha_arena);
 }
