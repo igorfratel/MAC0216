@@ -2,7 +2,7 @@
   CC = gcc
 
 # compiler flags:
-  CFLAGS  = -Wall -std=gnu11 -g -O -Wextra
+  CFLAGS  = -Wall -std=gnu11
 
 default: jogo gerador
 
