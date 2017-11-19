@@ -1,6 +1,6 @@
 #include "arena.h"
 #include "programas.h"
-#include "gerador_terreno.c"
+#include "gerador_terreno.h"
 
 extern FILE *display;
 int main() {

@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include "gerador_terreno.h"
 //Programa que gera os atributos que a arena precisa ter ao ser inicializada, definindo assim o
 //tipo de terreno, quantidade de repositorios e numero de cristais em cada um, bases dos exercitos,
 //localizacao dos robos
@@ -207,4 +208,3 @@ void geraTerreno(int exercitos, int robos){
 		contador_5++;
 	}
 }
-
