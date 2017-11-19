@@ -319,13 +319,14 @@ void exec_maquina(Maquina *m, int n) {
     if (tmp.t == CELULA) { //É uma célula
       switch(arg.val.n) { //Qual argumento da célula você quer?
         case 0: //terreno
-          tmp2.val.n = tmp.val.cel.terreno;
-        case 1: //equipe
-          tmp2.val.n = tmp.val.cel.equipe;
-        case 2: //cristais
+          tmp2.val.n = tmp.val.cel.terreno; //nota: caso seja uma base, retorna 3
+        case 1: //cristais
           tmp2.val.n = tmp.val.cel.cristais;
-        case 3: //ocupado
+        case 2: //ocupado
           tmp2.val.n = tmp.val.cel.ocupado;
+        case 3:
+          if (tmp.val.cel.terreno == BASE) tmp2.val.n = 1; //devolve 1 caso seja uma base
+          else: tmp2.val.n = 0; // 0, c.c
       }
       empilha(pil, tmp2);
     }
