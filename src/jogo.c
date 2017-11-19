@@ -6,8 +6,8 @@
 extern FILE *display;
 int main() {
 
-	int exercitos = 3;
-	int robos = 2;
+	int exercitos;
+	int robos;
 
 	INSTR *p0;
 	INSTR *p1;
@@ -15,7 +15,6 @@ int main() {
 	INSTR *p3;
 	INSTR *p4;
 
-/*
 	//numero de exercitos (bases)
 	printf("Insira o numero de exercitos (Minimo 2, maximo 5): ");
 	scanf("%d", &exercitos);
@@ -31,11 +30,6 @@ int main() {
 		printf("Insira o numero de robos em cada exercito (Minimo 1, maximo 5): ");
 		scanf("%d", &robos);
 	}
-*/
-//	geraTerreno(exercitos, robos);
-//	unsigned int retTime = time(0) + 20;
-//	while(time(0) < retTime);
-
 
 	int fim = 0;
 	display = popen("./display_game.py", "w");

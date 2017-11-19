@@ -36,7 +36,7 @@ TERCEIRA FASE:
 																			de todos os programas passados como parâmetro e uma função que retorna esses vetores dado um índice.
 																			Será usado pelo nosso programa para criar os robôs com seus devidos programas.
 
-./make                           <--- Compilará os arquivos .c e gerará o executável "jogo", que é o principal do nosso EP
+ make                           <--- Compilará os arquivos .c e gerará o executável "jogo", que é o principal do nosso EP
 
 ./gerador_terreno      					 <--- Gera o arquivo Terreno.txt que será usado pelo programa
 
@@ -48,9 +48,7 @@ TERCEIRA FASE:
  	Por esse motivo, o executável gerado pelo comando make do nosso EP será "jogo"
 
 >gerador_terreno.c:
-	Programa criado com o intuito de inicializar os atributos da arena, de forma randômica, especificando localização das bases dos exércitos,
-	dos repositórios de cristais (e quantidade de cada repositório), de cada robô e do tipo de terreno que cada célula deve ter.
-	O mapa é inicializado a partir de um arquivo gerado pelo gerador_terreno, mas as posições dos robôs são aleatórias
+	Programa criado com o intuito de inicializar os atributos da arena, de forma randômica, especificando localização das bases dos exércitos, dos repositórios de cristais (e quantidade de cada repositório), de cada robô e do tipo de terreno que cada célula deve ter. O mapa é inicializado a partir de um arquivo gerado pelo gerador_terreno, mas as posições dos robôs são aleatórias
 	Quando executado o comando "./gerador_terreno", será gerado um arquivo Terreno.txt que será lido pelo nosso programa "jogo".
 
 >montador:
@@ -88,3 +86,16 @@ TERCEIRA FASE:
 	 Caso a célula não exista(por exemplo, se o robô estiver em uma borda), empilha -1."
 	Ela foi escrita para ser usada em conjunto com ATR, para empilhar a célula desejada e depois
 	receber algum atributo dela.
+
+Nota 1: Os robôs podem passar em cima dos cristais, uma vez que eles poderiam servir de "barreiras" quando os robôs já estivessem
+carregados com um número de cristais suficiente.
+Nota 2: O nosso programa não permite receber programas dos jogadores no meio da partida, pelo motivo de que os cristais estão visíveis
+após o início do jogo, e mudar o programa já sabendo aonde estão os cristais perderia a graça do jogo, assim como não mostrar os
+cristais para os jogadores.
+Nota 3: Pergunta-se ao usuário duas vezes o número de exércitos quanto o número de robôs, tais perguntas servem para rodar o
+gerador_terreno.c e o jogo.c. Decidimos por não unificar as perguntas em um único código pois pretendemos deixar a comunicação com o
+jogador a mais claro possível na quarta e última fase do projeto.
+Nota 4: Por definição, decidimos que a arena será de 15 x 15, sendo o número mínimo de exércitos igual
+a 2 e o máximo igual a 5, para permitir a boa fluidez e jogabilidade do jogo. Mais do que isso, definiu-se que os exércitos devem ter
+entre 1 e 5 robôs.
+Nota 5: O que define um robô pertencer a um exército é a cor do hexágono que aparece abaixo do robô, e não os personagens (pokemons) em si.
