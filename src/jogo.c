@@ -7,10 +7,15 @@ int main() {
 	display = popen("./display_game.py", "w");
 	Arena *minha_arena = (Arena*)malloc(sizeof(Arena));
 	cria_arena(minha_arena, 15, 15);
+	
 	INSTR *p0 = devolve_programa(0);
 	INSTR *p1 = devolve_programa(1);
+	INSTR *p2 = devolve_programa(2);
+
 	insere_exercito(minha_arena, 1, p0);
 	insere_exercito(minha_arena, 1, p1);
+	insere_exercito(minha_arena, 1, p2);
+
 	mostra_arena(minha_arena);
 	while(!fim){
 		escalonador(minha_arena, NUM_INSTR);
