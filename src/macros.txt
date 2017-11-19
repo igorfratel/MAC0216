@@ -21,3 +21,9 @@ exemplo de arena 2x2
 \ _ / 11\
 / 10\ _ /
 \ _ /
+
+ATR :
+ terreno  0
+ cristais 1
+ ocupado  2
+ base     3
