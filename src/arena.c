@@ -436,7 +436,7 @@ void deposita_cristal(Arena *arena, Maquina *robo, int direcao) {
 void ataca_robo(Arena *arena, Maquina *robo, int direcao) {
 	int *posicao = busca_celula(arena, robo, direcao);
 	// Se a posição não estiver na arena, não faz nada
-	if(posicao[0] == -1)
+	if(posicao[0] == -1 || arena->matriz[posicao[0]][posicao[1]].ocupado == 0)
 		return;
 
 	if(arena->matriz[posicao[0]][posicao[1]].ocupado &&
@@ -447,7 +447,24 @@ void ataca_robo(Arena *arena, Maquina *robo, int direcao) {
 	if(arena->matriz[posicao[0]][posicao[1]].robo->vida == 0) {
 		for(int i = 0; i < TIMES_MAX; i++) {
 			if(arena->vetor_maq[i] == arena->matriz[posicao[0]][posicao[1]].robo) {
+
+				arena->matriz[posicao[0]][posicao[1]].robo = NULL;
 				arena->vetor_maq[i] = NULL;
+
+				switch((int)arena->matriz[posicao[0]][posicao[1]].terreno){
+					case 0:
+						fprintf(display, "terreno %d %d plano\n", posicao[1], posicao[0]);
+						break;
+
+					case 1:
+						fprintf(display, "terreno %d %d floresta\n", posicao[1], posicao[0]);
+						break;
+
+					case 2:
+						fprintf(display, "terreno %d %d rio\n", posicao[1], posicao[0]);
+						break;
+				}
+
 				arena->matriz[posicao[0]][posicao[1]].ocupado = 0;
 				break;
 			}
