@@ -91,9 +91,11 @@ void cria_arena(Arena *arena, int linhas, int colunas) {
 
 				case 'B': //base
 					arena->matriz[m][n].ocupado = 1;
+					arena->matriz[m][n].pos[0] = m;
+					arena->matriz[m][n].pos[1] = n;
 					arena->matriz[m][n].terreno = BASE;
 					arena->matriz[m][n].equipe = contador_base;
-          			arena->bases[contador_base] = &arena->matriz[m][n];
+    			arena->bases[contador_base] = &arena->matriz[m][n];
 					arena->bases[contador_base]->ocupado = 1;
 					arena->bases[contador_base]->terreno = BASE;
 					arena->bases[contador_base]->equipe = contador_base;
@@ -282,8 +284,8 @@ void remove_exercito(Arena *arena, int equipe){
 	}
 	for(i = 0; i < TIMES_MAX; i++) {
 		if(arena->bases[i] != NULL && arena->bases[i]->equipe == equipe) {
+			fprintf(display, "terreno %d %d plano\n", arena->bases[i]->pos[1], arena->bases[i]->pos[0]);
 			arena->bases[i] = NULL;
-
 			break;
 		}
 	}
