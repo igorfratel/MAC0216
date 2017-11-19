@@ -43,6 +43,7 @@ typedef enum {
   REST,
   ATR,
   SYS,
+  PUSHCELL
 } OpCode;
 
 /* Tipos dos operandos */

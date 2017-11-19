@@ -81,3 +81,10 @@ TERCEIRA FASE:
 	A instrução "terreno x y tipo", desenha um terreno especificado na posição especificada, sendo que "tipo" pode ser
 	"plano", "floresta" ou "rio". Células não especificadas recebem automaticamente o tipo "plano"
 	O resto das instruções são iguais à versão anterior, "ri, oi, oj, di, dj".
+
+>PUSHCELL
+	Adicionamos uma nova instrução de máquin, chamada PUSHCELL que:
+	"Recebe como argumento uma direção, empilha a célula adjacente ao robô que corresponde a essa direção.
+	 Caso a célula não exista(por exemplo, se o robô estiver em uma borda), empilha -1."
+	Ela foi escrita para ser usada em conjunto com ATR, para empilhar a célula desejada e depois
+	receber algum atributo dela.
