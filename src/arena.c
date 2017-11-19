@@ -87,12 +87,7 @@ void cria_arena(Arena *arena, int linhas, int colunas) {
 
 				case 'C': //cristal
 					arena->matriz[m][n].cristais = (int)vetoratributos[k][1] - 48;
-<<<<<<< HEAD
-					//arena->matriz[m][n].ocupado = 1;
-=======
->>>>>>> 371b2ec9a8c6f168c6bef038d02ae03778a160fe
 					break;
-
 				case 'B': //base
 					arena->matriz[m][n].ocupado = 1;
 					arena->matriz[m][n].pos[0] = m;

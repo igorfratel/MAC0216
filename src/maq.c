@@ -340,12 +340,18 @@ void exec_maquina(Maquina *m, int n) {
     Sistema(m->arena, arg.val.n, m);
     break;
 
-  case PUSHCELL:
-    //Recebe como argumento uma direção, empilha a célula adjacente ao robô que corresponde a essa direção.
-    //Caso a célula não exista(por exemplo, se o robô estiver em uma borda), empilha -1.
-    int *posicao = busca_celula(m->arena, m, arg.val.n);
-    if(posicao[0] != -1) empilha(pil, m->arena[posicao[0], posicao[1]]);
-    else: empilha(pil, -1);
+  // case PUSHCELL:
+  //   tmp.t = NUM;
+  //
+  //   //Recebe como argumento uma direção, empilha a célula adjacente ao robô que corresponde a essa direção.
+  //   //Caso a célula não exista(por exemplo, se o robô estiver em uma borda), empilha -1.
+  //   int *posicao = busca_celula(m->arena, m, arg.val.n);
+  //   if(posicao[0] != -1) empilha(pil, m->arena[posicao[0], posicao[1]]);
+  //   else {
+  //     tmp.val.n = -1;
+  //     empilha(pil, tmp);
+  //   }
+
   }
 
 	D(imprime(pil,5));
