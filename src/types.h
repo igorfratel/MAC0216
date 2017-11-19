@@ -66,6 +66,7 @@ typedef enum {
 struct Celula {
   Terreno terreno;
   short int equipe;
+  int pos[2];
   short int cristais;
   short int ocupado;
   Maquina *robo;
