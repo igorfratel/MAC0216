@@ -87,14 +87,15 @@ void cria_arena(Arena *arena, int linhas, int colunas) {
 
 				case 'C': //cristal
 					arena->matriz[m][n].cristais = (int)vetoratributos[k][1] - 48;
-					arena->matriz[m][n].ocupado = 1;
 					break;
 
 				case 'B': //base
 					arena->matriz[m][n].ocupado = 1;
+					arena->matriz[m][n].pos[0] = m;
+					arena->matriz[m][n].pos[1] = n;
 					arena->matriz[m][n].terreno = BASE;
 					arena->matriz[m][n].equipe = contador_base;
-          			arena->bases[contador_base] = &arena->matriz[m][n];
+    			arena->bases[contador_base] = &arena->matriz[m][n];
 					arena->bases[contador_base]->ocupado = 1;
 					arena->bases[contador_base]->terreno = BASE;
 					arena->bases[contador_base]->equipe = contador_base;
@@ -268,11 +269,22 @@ void remove_exercito(Arena *arena, int equipe){
       free(arena->vetor_maq[i]);
       arena->vetor_maq[i] = NULL;
 			contador++;
+			switch (arena->matriz[x][y].terreno) {
+				case FLORESTA:
+					fprintf(display, "terreno %d %d floresta\n", y, x);
+					break;
+				case AGUA:
+					fprintf(display, "terreno %d %d agua\n", y, x);
+					break;
+				default:
+					fprintf(display, "terreno %d %d plano\n", y, x);
+			}
 		}
 		i++;
 	}
 	for(i = 0; i < TIMES_MAX; i++) {
 		if(arena->bases[i] != NULL && arena->bases[i]->equipe == equipe) {
+			fprintf(display, "terreno %d %d plano\n", arena->bases[i]->pos[1], arena->bases[i]->pos[0]);
 			arena->bases[i] = NULL;
 			break;
 		}
@@ -483,9 +495,11 @@ void Sistema(Arena *arena, int op, Maquina *robo) {
 		break;
 	case 2:
 		deposita_cristal(arena, robo, direcao);
-      	break;
+  	break;
 	case 3:
 		ataca_robo(arena, robo, direcao);
-      	break;
+  	break;
+	// case 4:
+	// 	remove_exercito(arena, 1);
 	}
 }
