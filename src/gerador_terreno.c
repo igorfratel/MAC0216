@@ -41,7 +41,7 @@
 	TAMANHO DO TERRENO:
 	-P/ 2 exercitos (numero max de robos: 10): numero de robos * 20
 	-P/ 3 exercitos (numero max de robos: 15):
-	-P/ 4 exercitos (numero max de robos: 20): 
+	-P/ 4 exercitos (numero max de robos: 20):
 		...
 
 	RESUMO DE ATRIBUTOS
@@ -55,10 +55,10 @@
 	CRISTAIS (C1, C2, C3)
 */
 
-//funcao que copia strings 
+//funcao que copia strings
 char *copiastr(char *dest, char *orig)
 {
-    int i;
+    unsigned int i;
 
     for(i = 0 ; i < strlen(orig) ; i++){
         dest[i] = orig[i];
@@ -109,7 +109,7 @@ int main(){
 	//pode ser modificado posteriormente
 	//int tamanho_arena = exercitos * robos * 20;
 	int tamanho_arena = 15 * 15; //alteracao (10/11/2017)
-	char conjunto_atributos[tamanho_arena + 1][8]; 
+	char conjunto_atributos[tamanho_arena + 1][8];
 
 	//exercitos
 	while(contador_1 <= exercitos){
@@ -122,7 +122,7 @@ int main(){
 	}
 
 	//robos
-	
+
 	int contador_2 = 1;
 	int contador_3 = 1;
 	while(contador_2 <= exercitos){
@@ -145,7 +145,7 @@ int main(){
 		contador_2++;
 		contador_3 = 1;
 	}
-	
+
 
 	int cristais = exercitos * 8;
 	int contador = 0;
@@ -169,7 +169,7 @@ int main(){
 	//terreno
 	while(contador_1 < tamanho_arena + 1){
 		int aleatorio_i = rand() % (max + 1 - min) + min;
-		
+
 		//plano
 		if (aleatorio_i == 1){
 			copiastr(conjunto_atributos[contador_1], "P");
@@ -208,5 +208,5 @@ int main(){
 		copiastr(vetor_shuffle[contador_5], conjunto_atributos[numero]);
 		fprintf(f, "%s\n", vetor_shuffle[contador_5]);
 		contador_5++;
-	}	
+	}
 }

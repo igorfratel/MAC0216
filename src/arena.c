@@ -8,30 +8,17 @@
 // 	int robos;
 // } Arena;
 
-void swap(Maquina *a, Maquina *b) {
-    Maquina temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-void shuffle(Maquina *arr[], int n) {
-    srand(time(NULL));
-    int i;
-    for(i = n - 1; i > 0; i--) {
-        int j = rand() % (i + 1);
-        swap(arr[i], arr[j]);
-    }
-}
-
 void cria_arena(Arena *arena, int linhas, int colunas) {
 	//Recebe um número de linhas e colunas. Inicializa a arena global com essas dimensões
 
 	int i;
 	int contador_base = 0; //Indica a qual time a base gerada vai pertencer
 
-	arena->x = colunas;
-	arena->y = linhas;
-  arena->robos = 0;
+	arena->x = linhas;
+	arena->y = colunas;
+
+  	arena->robos = 0;
+
 	//Aloca as linhas da arena
 	arena->matriz = (Celula**)malloc(linhas*sizeof(Celula*));
 
@@ -100,13 +87,14 @@ void cria_arena(Arena *arena, int linhas, int colunas) {
 
 				case 'C': //cristal
 					arena->matriz[m][n].cristais = (int)vetoratributos[k][1] - 48;
+					arena->matriz[m][n].ocupado = 1;
 					break;
 
 				case 'B': //base
 					arena->matriz[m][n].ocupado = 1;
 					arena->matriz[m][n].terreno = BASE;
 					arena->matriz[m][n].equipe = contador_base;
-          arena->bases[contador_base] = &arena->matriz[m][n];
+          			arena->bases[contador_base] = &arena->matriz[m][n];
 					arena->bases[contador_base]->ocupado = 1;
 					arena->bases[contador_base]->terreno = BASE;
 					arena->bases[contador_base]->equipe = contador_base;
@@ -146,24 +134,25 @@ void destroi_arena(Arena *arena) {
 }
 
 void mostra_arena(Arena *arena) {
+
 	for(int x = 0; x < arena->x; x++) {
 		for(int y = 0; y < arena->y; y++) {
 		switch (arena->matriz[x][y].terreno) {
 				case PLANO:
-					fprintf(display, "terreno %d %d plano\n", x, y);
+					fprintf(display, "terreno %d %d plano\n", y, x);
 					break;
 				case FLORESTA:
-					fprintf(display, "terreno %d %d floresta\n", x, y);
+					fprintf(display, "terreno %d %d floresta\n", y, x);
 					break;
 				case AGUA:
-					fprintf(display, "terreno %d %d rio\n", x, y);
+					fprintf(display, "terreno %d %d rio\n", y, x);
 					break;
 				case BASE:
-					fprintf(display, "base %d %d %d\n", arena->matriz[x][y].equipe, x, y);
+					fprintf(display, "base %d %d %d\n", arena->matriz[x][y].equipe, y, x);
 					break;
 			}
 			if (arena->matriz[x][y].cristais) {
-				fprintf(display, "cristal %d %d %d\n", arena->matriz[x][y].cristais, x, y);
+				fprintf(display, "cristal %d %d %d\n", arena->matriz[x][y].cristais, y, x);
 			}
 		}
 	}
@@ -171,8 +160,8 @@ void mostra_arena(Arena *arena) {
 	for(int i = 0, j = 0; i < arena->robos; j++) {
 		if(arena->vetor_maq[j] != NULL) {
 			fprintf(display, "robo %d %d\n", arena->vetor_maq[j]->imagem, arena->vetor_maq[j]->equipe);
-			fprintf(display, "%d %d %d %d %d\n", i, arena->vetor_maq[j]->pos[0], arena->vetor_maq[j]->pos[1],
-					arena->vetor_maq[j]->pos[0], arena->vetor_maq[j]->pos[1]);
+			fprintf(display, "%d %d %d %d %d\n", i, arena->vetor_maq[j]->pos[1], arena->vetor_maq[j]->pos[0],
+					arena->vetor_maq[j]->pos[1], arena->vetor_maq[j]->pos[0]);
 			i++;
 		}
 	}
@@ -183,7 +172,6 @@ void escalonador(Arena *arena, int rodadas) {
 	int i;
 	int j;
 
-	//shuffle(arena.vetor_maq, VET_MAX); //shuffle a fim de embaralhar os robos, assim um equipe nao tera prioridade sobre o outro
 	for (j = 0; j < rodadas; j++){
 		for (i = 0; i < arena->robos; i++){
 			if(arena->vetor_maq[i] != NULL && arena->vetor_maq[i]->ocupado == 0)
@@ -196,7 +184,7 @@ void escalonador(Arena *arena, int rodadas) {
 
 int Atualiza(Arena *arena, int equipes){
 	int n_equipes = 0;
-  int equipe = -1;
+  	int equipe = -1;
 	//Verifica se algum exército perdeu
 	for(int i = 0; i < equipes; i++) {
 		if(arena->bases[i] != NULL && arena->bases[i]->cristais == 5)
@@ -210,6 +198,11 @@ int Atualiza(Arena *arena, int equipes){
 			arena->matriz[robo->pos[0]][robo->pos[1]].ocupado = 0;
 			arena->matriz[robo->pos[0]][robo->pos[1]].robo = NULL;
   		robo = NULL;
+      robo->arena = NULL;
+      destroi_pilha(robo->pil);
+      destroi_pilha(robo->exec);
+      free(robo);
+      robo = NULL;
 			arena->robos--;
 			j++;
 		}
@@ -239,7 +232,7 @@ Maquina *cria_robo(Arena *arena, int equipe, INSTR * p) {
 	Maquina * maquina;
 
 	srand(time(NULL));
-  x = rand() % arena->x;
+  	x = rand() % arena->x;
 
 	srand(time(NULL));
 	y = rand() % arena->y;
@@ -252,7 +245,7 @@ Maquina *cria_robo(Arena *arena, int equipe, INSTR * p) {
 		y = rand() % arena->y;
 	}
 	maquina = cria_maquina(p);
-  maquina->equipe = equipe;
+  	maquina->equipe = equipe;
 	maquina->arena = arena;
 	maquina->pos[0] = x;
 	maquina->pos[1] = y;
@@ -268,8 +261,12 @@ void remove_exercito(Arena *arena, int equipe){
 			x = arena->vetor_maq[i]->pos[0];
 			y = arena->vetor_maq[i]->pos[1];
 			arena->matriz[x][y].ocupado = 0;
-			arena->matriz[x][y].robo = NULL;
-			arena->vetor_maq[i] = NULL;
+      arena->matriz[x][y].robo = NULL;
+      arena->vetor_maq[i]->arena = NULL;
+      destroi_pilha(arena->vetor_maq[i]->pil);
+      destroi_pilha(arena->vetor_maq[i]->exec);
+      free(arena->vetor_maq[i]);
+      arena->vetor_maq[i] = NULL;
 			contador++;
 		}
 		i++;
@@ -284,89 +281,105 @@ void remove_exercito(Arena *arena, int equipe){
 }
 
 int *busca_celula(Arena *arena, Maquina *robo, int direcao) {
-	int max_i = arena->y;
-	int max_j = arena->x;
+	int max_i = arena->x; //linha
+	int min_i = 0;
+	int max_j = arena->y; //coluna
+	int min_j = 0;
+
 	int *retorno = (int*)malloc(2 * sizeof(int));
 	retorno[0] = -1;
 	retorno[1] = -1;
 	switch (direcao) {
 	  int i, j;
+		case 0:
+	    	i = robo->pos[0] - 1;
+	    	j = robo->pos[1];
 
-	  case 0:
-	    i = robo->pos[0] - 1;
-	    j = robo->pos[1];
-	    if(i >= 0) {
-	      retorno[1] = j;
-	      retorno[0] = i;
-	    }
-	    break;
-	  case 1:
-	    j = robo->pos[1] + 1;
+	    	if(i >= min_i) {
+	      		retorno[0] = i;
+	      		retorno[1] = j;
+	    	}
+	    	break;
+		case 1:
+			if (robo->pos[1] % 2 == 0){
+				i = robo->pos[0];
+				j = robo->pos[1] + 1;
+			}
 
-	    if(robo->pos[0] % 2 != 0)
-	      i = robo->pos[0] - 1;
-	    else
-	      i = robo->pos[0];
+			else{
+				i = robo->pos[0] - 1;
+				j = robo->pos[1] + 1;
+			}
 
-	    if(i >= 0 && j < max_j) {
-	      retorno[1] = j;
-	      retorno[0] = i;
-	    }
-	    break;
-	  case 2:
-	    j = robo->pos[1] + 1;
+			if(i >= min_i && j < max_j){
+				retorno[0] = i;
+				retorno[1] = j;
+			}
+	    	break;
+		case 2:
+			if(robo->pos[1] % 2 == 0){
+				i = robo->pos[0] + 1;
+				j = robo->pos[1] + 1;
+			}
 
-	    if(robo->pos[0] % 2 != 0)
-	      i = robo->pos[0];
-	    else
-	      i = robo->pos[0] + 1;
+			else{
+				i = robo->pos[0];
+				j = robo->pos[1] + 1;
+			}
 
-	    if(i < max_i && j < max_j) {
-	      retorno[1] = j;
-	      retorno[0] = i;
-	    }
-	    break;
-	  case 3:
-	    i = robo->pos[0] + 1;
-	    j = robo->pos[1];
-	    if(i < max_i) {
-	      retorno[1] = j;
-	      retorno[0] = i;
-	    }
-	    break;
-	  case 4:
-	    j = robo->pos[1] - 1;
+			if(i < max_i && j < max_j){
+				retorno[0] = i;
+				retorno[1] = j;
+			}
+			break;
+		case 3:
+			i = robo->pos[0] + 1;
+			j = robo->pos[1];
 
-	    if(robo->pos[0] % 2 != 0)
-	      i = robo->pos[0];
-	    else
-	      i = robo->pos[0] + 1;
+			if (i < max_i){
+				retorno[0] = i;
+				retorno[1] = j;
+			}
+			break;
+		case 4:
+			if(robo->pos[1] % 2 == 0){
+				i = robo->pos[0] + 1;
+				j = robo->pos[1] - 1;
+			}
 
-	    if(i < max_i && j >= 0) {
-	      retorno[1] = j;
-	      retorno[0] = i;
-	    }
-	    break;
-	  case 5:
-	    j = robo->pos[1] - 1;
+			else{
+				i = robo->pos[0];
+				j = robo->pos[1] - 1;
+			}
 
-	    if(robo->pos[0] % 2 != 0)
-	      i = robo->pos[0] - 1;
-	    else
-	      i = robo->pos[0];
+			if(i < max_i && j >= min_j){
+				retorno[0] = i;
+				retorno[1] = j;
+			}
+			break;
+		case 5:
+			if(robo->pos[1] % 2 == 0){
+				i = robo->pos[0];
+				j = robo->pos[1] - 1;
+			}
 
-	    if(i >= 0 && j >= 0) {
-	      retorno[1] = j;
-	      retorno[0] = i;
-	    }
-	    break;
-	}
+			else{
+				i = robo->pos[0] - 1;
+				j = robo->pos[1] - 1;
+			}
+
+			if(i >= min_i && j >= min_j){
+				retorno[0] = i;
+				retorno[1] = j;
+			}
+			break;
+		}
 	return retorno;
 }
 
 void move(Arena *arena, Maquina * robo, int direcao) {
 	int *celula = busca_celula(arena, robo, direcao);
-	int posicao;
+	int posicao = -1;
 	for(int i = 0; i < VET_MAX; i++){
 		if(arena->vetor_maq[i] == robo){
 			posicao = i;
@@ -374,9 +387,15 @@ void move(Arena *arena, Maquina * robo, int direcao) {
 		}
 	}
 
+	//debug
+	//printf("%d %d\n", robo->pos[0], robo->pos[1]);
+	//printf("%d %d\n", celula[0], celula[1]);
+	//printf("\n");
+
+  if(posicao == -1) Erro("(move)Robô não encontrado");
 	if(celula[0] != -1 && !arena->matriz[celula[0]][celula[1]].ocupado) {
 		fprintf(display, "%d %d %d %d %d\n",
-				posicao, robo->pos[0], robo->pos[1], celula[0], celula[1]);
+				posicao, robo->pos[1], robo->pos[0], celula[1], celula[0]);
 
 		arena->matriz[celula[0]][celula[1]].ocupado = 1;
 		arena->matriz[celula[0]][celula[1]].robo = robo;
@@ -384,6 +403,7 @@ void move(Arena *arena, Maquina * robo, int direcao) {
 		arena->matriz[robo->pos[0]][robo->pos[1]].robo = NULL;
 		robo->pos[1] = celula[1];
 		robo->pos[0] = celula[0];
+
 		if(arena->matriz[celula[0]][celula[1]].terreno == FLORESTA)
 			robo->ocupado += 1;
 		else if(arena->matriz[celula[0]][celula[1]].terreno == AGUA)
@@ -396,7 +416,7 @@ void remove_cristal(Arena *arena, Maquina *robo, int direcao) {
 	int *celula = busca_celula(arena, robo, direcao);
 	if(celula[0] != -1 && arena->matriz[celula[0]][celula[1]].cristais > 0) {
 		fprintf(display, "terreno %d %d plano\n",
-				celula[0], celula[1]);
+				celula[1], celula[0]);
 
 		robo->cristais +=arena->matriz[celula[0]][celula[1]].cristais;
 		arena->matriz[celula[0]][celula[1]].cristais = 0;
@@ -436,19 +456,19 @@ void ataca_robo(Arena *arena, Maquina *robo, int direcao) {
 }
 
 void Sistema(Arena *arena, int op, Maquina *robo) {
-  int direcao = desempilha(robo->pil).val.n;
-  switch (op) {
-    case 0:
-			move(arena, robo, direcao);
-			break;
-		case 1:
-			remove_cristal(arena, robo, direcao);
-			break;
-		case 2:
-			deposita_cristal(arena, robo, direcao);
-      break;
-		case 3:
-			ataca_robo(arena, robo, direcao);
-      break;
-  }
+	int direcao = desempilha(robo->pil).val.n;
+	switch (op) {
+	case 0:
+		move(arena, robo, direcao);
+		break;
+	case 1:
+		remove_cristal(arena, robo, direcao);
+		break;
+	case 2:
+		deposita_cristal(arena, robo, direcao);
+      	break;
+	case 3:
+		ataca_robo(arena, robo, direcao);
+      	break;
+	}
 }

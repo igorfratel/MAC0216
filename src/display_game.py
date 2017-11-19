@@ -11,9 +11,9 @@ pg.init()                                 # inicialização do sistema
 H, W = 15,15
 
 # largura da célula
-L = 20
+L = 30
 # altura da célula
-l = 2*L/sqrt(3)
+l = 1.32*L/sqrt(3)
 
 
 # cria a janela
