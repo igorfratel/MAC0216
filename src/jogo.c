@@ -1,5 +1,6 @@
 #include "arena.h"
 #include "programas.h"
+#include "gerador_terreno.c"
 
 extern FILE *display;
 int main() {
@@ -28,6 +29,8 @@ int main() {
 		printf("Insira o numero de robos em cada exercito (Minimo 1, maximo 5): ");
 		scanf("%d", &robos);
 	}
+
+	geraTerreno(exercitos, robos);
 
 	int fim = 0;
 	display = popen("./display_game.py", "w");

@@ -68,8 +68,8 @@ char *copiastr(char *dest, char *orig)
     return dest;
 }
 
-//funcoes swap e randomize para o shuffle do vetor
-void swap(int *a, int *b) {
+//funcoes troca e randomize para o shuffle do vetor
+void troca(int *a, int *b) {
     int temp = *a;
     *a = *b;
     *b = temp;
@@ -80,15 +80,12 @@ void randomize(int arr[], int n) {
     int i;
     for(i = n - 1; i > 0; i--) {
         int j = rand() % (i + 1);
-        swap(&arr[i], &arr[j]);
+        troca(&arr[i], &arr[j]);
     }
 }
 
-int main(){
-
-	int exercitos;
-	int robos;
-
+void geraTerreno(int exercitos, int robos){
+	/*
 	//numero de exercitos (bases)
 	printf("Insira o numero de exercitos (Minimo 2, maximo 5): ");
 	scanf("%d", &exercitos);
@@ -104,7 +101,7 @@ int main(){
 		printf("Insira o numero de robos em cada exercito (Minimo 1, maximo 5): ");
 		scanf("%d", &robos);
 	}
-
+	*/
 	int contador_1 = 1;
 	//pode ser modificado posteriormente
 	//int tamanho_arena = exercitos * robos * 20;
@@ -210,3 +207,4 @@ int main(){
 		contador_5++;
 	}
 }
+
