@@ -61,16 +61,16 @@ class Robô(pg.sprite.Sprite):
 
         # fronteiras do sprite
         l0,h0,l1,h1 = s.rect
-        if(s.equipe == "1"):
+        if(s.equipe == "0"):
             cor = (255,255,0)
+        elif(s.equipe == "1"):
+            cor = (204, 0, 102)
         elif(s.equipe == "2"):
-            cor =(204, 0, 102)
+            cor = (0, 0, 0)
         elif(s.equipe == "3"):
-            cor =(0, 0, 0)
-        elif(s.equipe == "4"):
             cor =(127, 0, 255)
-        else:
-            cor =(204, 0, 102)
+        elif(s.equipe == "4"):
+            cor =(255, 255, 255)
         pontos = (
             (x - L/3,   y-(2*l)/3),
             (x+L/3, y-(2*l)/3),

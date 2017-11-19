@@ -245,7 +245,7 @@ Maquina *cria_robo(Arena *arena, int equipe, INSTR * p) {
 		y = rand() % arena->y;
 	}
 	maquina = cria_maquina(p);
-  	maquina->equipe = equipe;
+	maquina->equipe = equipe;
 	maquina->arena = arena;
 	maquina->pos[0] = x;
 	maquina->pos[1] = y;
