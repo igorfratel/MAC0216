@@ -42,6 +42,18 @@ def parse_programs(*args):
                     arg = keys.pop(0)
                     if arg in tabsim:
                         arg = tabsim[arg]
+                if (arg == "CIMA" or arg == "MOV"):
+                    arg = "0"
+                elif (arg == "DSUP" or arg == "REC"):
+                    arg = "1"
+                elif (arg == "DINF" or arg == "DEQ"):
+                    arg = "2"
+                elif (arg == "BAIXO" or arg == "ATQ"):
+                    arg = "3"
+                elif (arg == "EINF"):
+                    arg = "4"
+                elif (arg == "ESUP"):
+                    arg = "5"
                 if op != "" and firstline:
                     out.write("  {%s, %s}\n"%(op,arg))
                     firstline = False
