@@ -87,7 +87,7 @@ void cria_arena(Arena *arena, int linhas, int colunas) {
 
 				case 'C': //cristal
 					arena->matriz[m][n].cristais = (int)vetoratributos[k][1] - 48;
-					arena->matriz[m][n].ocupado = 1;
+					//arena->matriz[m][n].ocupado = 1;
 					break;
 
 				case 'B': //base
@@ -394,8 +394,18 @@ void move(Arena *arena, Maquina * robo, int direcao) {
 
   if(posicao == -1) Erro("(move)Robô não encontrado");
 	if(celula[0] != -1 && !arena->matriz[celula[0]][celula[1]].ocupado) {
+
+		//alteracoes (19/11/2017)
 		fprintf(display, "%d %d %d %d %d\n",
 				posicao, robo->pos[1], robo->pos[0], celula[1], celula[0]);
+
+		if(arena->matriz[celula[0]][celula[1]].cristais) {
+			fprintf(display, "cristal %d %d %d\n", arena->matriz[celula[0]][celula[1]].cristais, celula[1], celula[0]);
+		}
+
+		if(arena->matriz[robo->pos[0]][robo->pos[1]].cristais){
+			fprintf(display, "cristal %d %d %d\n", arena->matriz[robo->pos[0]][robo->pos[1]].cristais, robo->pos[1], robo->pos[0]);
+		}
 
 		arena->matriz[celula[0]][celula[1]].ocupado = 1;
 		arena->matriz[celula[0]][celula[1]].robo = robo;
