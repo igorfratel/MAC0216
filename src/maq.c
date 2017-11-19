@@ -34,7 +34,8 @@ char *CODES[] = {
   "SAVE", //!!!
   "REST", //!!!
   "ATR", //$$
-  "SYS"
+  "SYS",
+  "PUSHCELL"
 };
 #else
 #  define D(X)
@@ -83,8 +84,9 @@ void exec_maquina(Maquina *m, int n) {
   arg.t = NUM; //O operando sempre vai ser um NUM
   arg.val.n = prg[ip.val.n].op; //Preenche o valor do operando
 	D(printf("%3d: %-4.4s %d\n     ", ip.val.n, CODES[opc], arg));
+  int *posicao;
 
-	switch (opc) {
+  switch (opc) {
 	  OPERANDO tmp;
     OPERANDO tmp2;
 	case PUSH:
@@ -340,17 +342,20 @@ void exec_maquina(Maquina *m, int n) {
     Sistema(m->arena, arg.val.n, m);
     break;
 
-  // case PUSHCELL:
-  //   tmp.t = NUM;
-  //
-  //   //Recebe como argumento uma direção, empilha a célula adjacente ao robô que corresponde a essa direção.
-  //   //Caso a célula não exista(por exemplo, se o robô estiver em uma borda), empilha -1.
-  //   int *posicao = busca_celula(m->arena, m, arg.val.n);
-  //   if(posicao[0] != -1) empilha(pil, m->arena[posicao[0], posicao[1]]);
-  //   else {
-  //     tmp.val.n = -1;
-  //     empilha(pil, tmp);
-  //   }
+  case PUSHCELL:
+    //Recebe como argumento uma direção, empilha a célula adjacente ao robô que corresponde a essa direção.
+    //Caso a célula não exista(por exemplo, se o robô estiver em uma borda), empilha -1.
+    posicao = busca_celula(m->arena, m, arg.val.n);
+    if(posicao[0] != -1) {
+      tmp.t = CELULA;
+      tmp.val.cel = m->arena->matriz[posicao[0]][posicao[1]];
+      empilha(pil, tmp);
+    }
+    else {
+      tmp.t = NUM;
+      tmp.val.n = -1;
+      empilha(pil, tmp);
+    }
 
   }
 
