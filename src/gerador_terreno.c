@@ -85,8 +85,11 @@ void randomize(int arr[], int n) {
     }
 }
 
-void geraTerreno(int exercitos, int robos){
-	/*
+int main(){
+	
+	int exercitos;
+	int robos;
+
 	//numero de exercitos (bases)
 	printf("Insira o numero de exercitos (Minimo 2, maximo 5): ");
 	scanf("%d", &exercitos);
@@ -102,7 +105,7 @@ void geraTerreno(int exercitos, int robos){
 		printf("Insira o numero de robos em cada exercito (Minimo 1, maximo 5): ");
 		scanf("%d", &robos);
 	}
-	*/
+	
 	int contador_1 = 1;
 	//pode ser modificado posteriormente
 	//int tamanho_arena = exercitos * robos * 20;
