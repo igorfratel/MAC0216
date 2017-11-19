@@ -18,7 +18,7 @@ void cria_arena(Arena *arena, int linhas, int colunas) {
 	arena->y = colunas;
 
   	arena->robos = 0;
- 
+
 	//Aloca as linhas da arena
 	arena->matriz = (Celula**)malloc(linhas*sizeof(Celula*));
 
@@ -134,7 +134,7 @@ void destroi_arena(Arena *arena) {
 }
 
 void mostra_arena(Arena *arena) {
-	
+
 	for(int x = 0; x < arena->x; x++) {
 		for(int y = 0; y < arena->y; y++) {
 		switch (arena->matriz[x][y].terreno) {
@@ -156,10 +156,10 @@ void mostra_arena(Arena *arena) {
 			}
 		}
 	}
-	
+
 	for(int i = 0, j = 0; i < arena->robos; j++) {
 		if(arena->vetor_maq[j] != NULL) {
-			fprintf(display, "robo %d\n", arena->vetor_maq[j]->imagem);
+			fprintf(display, "robo %d %d\n", arena->vetor_maq[j]->imagem, arena->vetor_maq[j]->equipe);
 			fprintf(display, "%d %d %d %d %d\n", i, arena->vetor_maq[j]->pos[1], arena->vetor_maq[j]->pos[0],
 					arena->vetor_maq[j]->pos[1], arena->vetor_maq[j]->pos[0]);
 			i++;

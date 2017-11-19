@@ -44,13 +44,14 @@ class Robô(pg.sprite.Sprite):
     """
     Representa um Robô, possui uma imagem
     """
-    def __init__(s, img):
+    def __init__(s, img, equipe):
         """
         Construtor, img é o nome do arquivo com a imagem
         """
         pg.sprite.Sprite.__init__(s)
         s.image = pg.image.load(img_folder + "pokemon" + img + ".png")
         s.rect = s.image.get_rect()
+        s.equipe = equipe
 
     def draw(s, i,j):
         """
@@ -60,8 +61,28 @@ class Robô(pg.sprite.Sprite):
 
         # fronteiras do sprite
         l0,h0,l1,h1 = s.rect
-
+        if(s.equipe == "1"):
+            cor = (255,255,0)
+        elif(s.equipe == "2"):
+            cor =(204, 0, 102)
+        elif(s.equipe == "3"):
+            cor =(0, 0, 0)
+        elif(s.equipe == "4"):
+            cor =(127, 0, 255)
+        else:
+            cor =(204, 0, 102)
+        pontos = (
+            (x - L/3,   y-(2*l)/3),
+            (x+L/3, y-(2*l)/3),
+            (x+(2*L)/3, y),
+            (x+L/3,   y+(2*l)/3),
+            (x-L/3, y+(2*l)/3),
+            (x-(2*L)/3, y),
+            )
+        pg.draw.polygon(scr, cor, pontos, 0)
+        pg.draw.lines(scr, (0,0,0), True, pontos, 2)
         # corrije a posição de acordo com o tamanho do sprite
+        # pg.draw.circle(scr, (123, 32, 12), (x, y), 20)
         s.rect.topleft = [x-l1/2,y-h1/2]
         # desenha
         scr.blit(s.image, s.rect)
@@ -188,7 +209,7 @@ for line in fileinput.input():
     # linha começando com 'rob', inclui um robô,
     # o segundo argumento na linha é a imagem
     if r[0] == 'robo':
-        robs.append(Robô(r[1]))
+        robs.append(Robô(r[1], r[2]))
 
     elif r[0] == 'cristal':
         cristais[int(r[1]) - 1].draw(int(r[2]), int(r[3]))
