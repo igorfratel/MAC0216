@@ -336,7 +336,7 @@ int *busca_celula(Arena *arena, Maquina *robo, int direcao) {
 			i = robo->pos[0] + 1;
 			j = robo->pos[1];
 
-			if (i < 15){
+			if (i < max_i){
 				retorno[0] = i;
 				retorno[1] = j;
 			}
@@ -352,7 +352,7 @@ int *busca_celula(Arena *arena, Maquina *robo, int direcao) {
 				j = robo->pos[1] - 1;
 			}
 
-			if(i >= min_i && j < max_j){
+			if(i < max_i && j >= min_j){
 				retorno[0] = i;
 				retorno[1] = j;
 			}
