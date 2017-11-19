@@ -281,9 +281,10 @@ void remove_exercito(Arena *arena, int equipe){
 }
 
 int *busca_celula(Arena *arena, Maquina *robo, int direcao) {
-	//aplicar
-	//int max_i = arena->y; //linha
-	//int max_j = arena->x; //coluna
+	int max_i = arena->x; //linha
+	int min_i = 0;
+	int max_j = arena->y; //coluna
+	int min_j = 0;
 
 	int *retorno = (int*)malloc(2 * sizeof(int));
 	retorno[0] = -1;
@@ -294,7 +295,7 @@ int *busca_celula(Arena *arena, Maquina *robo, int direcao) {
 	    	i = robo->pos[0] - 1;
 	    	j = robo->pos[1];
 
-	    	if(i >= 0) {
+	    	if(i >= min_i) {
 	      		retorno[0] = i;
 	      		retorno[1] = j;
 	    	}
@@ -310,7 +311,7 @@ int *busca_celula(Arena *arena, Maquina *robo, int direcao) {
 				j = robo->pos[1] + 1;
 			}
 
-			if(i >= 0 && j < 15){
+			if(i >= min_i && j < max_j){
 				retorno[0] = i;
 				retorno[1] = j;
 			}
@@ -326,7 +327,7 @@ int *busca_celula(Arena *arena, Maquina *robo, int direcao) {
 				j = robo->pos[1] + 1;
 			}
 
-			if(i < 15 && j < 15){
+			if(i < max_i && j < max_j){
 				retorno[0] = i;
 				retorno[1] = j;
 			}
@@ -351,7 +352,7 @@ int *busca_celula(Arena *arena, Maquina *robo, int direcao) {
 				j = robo->pos[1] - 1;
 			}
 
-			if(i >= 0 && j < 15){
+			if(i >= min_i && j < max_j){
 				retorno[0] = i;
 				retorno[1] = j;
 			}
@@ -367,7 +368,7 @@ int *busca_celula(Arena *arena, Maquina *robo, int direcao) {
 				j = robo->pos[1] - 1;
 			}
 
-			if(i >= 0 && j >= 0){
+			if(i >= min_i && j >= min_j){
 				retorno[0] = i;
 				retorno[1] = j;
 			}
@@ -387,9 +388,9 @@ void move(Arena *arena, Maquina * robo, int direcao) {
 	}
 
 	//debug
-	printf("%d %d\n", robo->pos[0], robo->pos[1]);
-	printf("%d %d\n", celula[0], celula[1]);
-	printf("\n");
+	//printf("%d %d\n", robo->pos[0], robo->pos[1]);
+	//printf("%d %d\n", celula[0], celula[1]);
+	//printf("\n");
 
   if(posicao == -1) Erro("(move)Robô não encontrado");
 	if(celula[0] != -1 && !arena->matriz[celula[0]][celula[1]].ocupado) {
