@@ -73,3 +73,11 @@ TERCEIRA FASE:
 		PUSH CIMA
 		SYS MOV
 	Isso torna os programas mais claros
+
+>display_game.py
+	Fizemos algumas modificações nas instruções recebidas por esse programa, de forma a facilitar o desenvolvimento.
+	Ele já conhece os arquivos de imagem das bases e as desenha com a instrução "base numero_arquivo x y".
+	A instrução "cristal quantidade x y", desenha até 3 cristais em uma posição especificada
+	A instrução "terreno x y tipo", desenha um terreno especificado na posição especificada, sendo que "tipo" pode ser
+	"plano", "floresta" ou "rio". Células não especificadas recebem automaticamente o tipo "plano"
+	O resto das instruções são iguais à versão anterior, "ri, oi, oj, di, dj".
