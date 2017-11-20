@@ -1,6 +1,6 @@
 Membros do grupo:
 	Igor Fratel Santana 9793565
-	Renan Costa Laíz 9779089
+	Renan Costa Laiz 9779089
 	Renan Tiago dos Santos Silva 9793606
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -87,15 +87,32 @@ TERCEIRA FASE:
 	Ela foi escrita para ser usada em conjunto com ATR, para empilhar a célula desejada e depois
 	receber algum atributo dela.
 
-Nota 1: Os robôs podem passar em cima dos cristais, uma vez que eles poderiam servir de "barreiras" quando os robôs já estivessem
+Vida: Cada robô começa com 10 pontos de vida, sempre que for atacado, perde um ponto. Ao zerar sua vida, o robô é eliminado da arena. 
+Se não houverem mais robôs, o exército é eliminado da arena.
+
+Obs 1: Os robôs podem passar em cima dos cristais, uma vez que eles poderiam servir de "barreiras" quando os robôs já estivessem
 carregados com um número de cristais suficiente.
-Nota 2: O nosso programa não permite receber programas dos jogadores no meio da partida, pelo motivo de que os cristais estão visíveis
+Obs 2: O nosso programa não permite receber programas dos jogadores no meio da partida, pelo motivo de que os cristais estão visíveis
 após o início do jogo, e mudar o programa já sabendo aonde estão os cristais perderia a graça do jogo, assim como não mostrar os
 cristais para os jogadores.
-Nota 3: Pergunta-se ao usuário duas vezes o número de exércitos quanto o número de robôs, tais perguntas servem para rodar o
+Obs 3: Pergunta-se ao usuário duas vezes o número de exércitos quanto o número de robôs, tais perguntas servem para rodar o
 gerador_terreno.c e o jogo.c. Decidimos por não unificar as perguntas em um único código pois pretendemos deixar a comunicação com o
 jogador a mais claro possível na quarta e última fase do projeto.
-Nota 4: Por definição, decidimos que a arena será de 15 x 15, sendo o número mínimo de exércitos igual
+Obs 4: Por definição, decidimos que a arena será de 15 x 15, sendo o número mínimo de exércitos igual
 a 2 e o máximo igual a 5, para permitir a boa fluidez e jogabilidade do jogo. Mais do que isso, definiu-se que os exércitos devem ter
 entre 1 e 5 robôs.
-Nota 5: O que define um robô pertencer a um exército é a cor do hexágono que aparece abaixo do robô, e não os personagens (pokemons) em si.
+Obs 5: O que define um robô pertencer a um exército é a cor do hexágono que aparece abaixo do robô, e não os personagens (pokemons) em si.
+
+PARA TESTAR:
+Dentro da pasta "programasteste" foram definidos alguns programas a serem inputados junto com um terreno apropriado para o teste.
+Vale ressaltar que, os terrenos gerados nessa seção foram gerados apenas para visualização, não possuem aleatoriedade de atributos
+como cristais e terrenos, são apenas programas de teste. Para rodá-los, basta colocá-los na pasta "src" e compilar o programa como
+especificado acima (não sendo necessário criação de uma arena, uma vez que o Terreno.txt para ambos os testes já está feito).
+
+cristais_e_robos: Dois exércitos, um robô em cada exército. Teste que visa mostrar como os robôs interagem com os cristais quando ambos
+dividem a mesma célula.
+
+recolhe_cristal: Dois exércitos, um robô em cada exército. Teste que visa mostrar como os robôs colhem os cristais.
+
+Os arquivos prog0.txt e prog1.txt também representam um teste simples, em que os robôs ficam em loop, não importando em qual arena eles
+estão.

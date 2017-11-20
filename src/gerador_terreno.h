@@ -7,6 +7,4 @@ void troca(int *a, int *b);
 
 void randomize(int arr[], int n);
 
-void geraTerreno(int exercitos, int robos);
-
 #endif
