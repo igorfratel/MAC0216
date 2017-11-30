@@ -4,6 +4,7 @@
 #define PILMAX 99
 #define MAXMEM 100
 #define TIMES_MAX 5
+#define MAXFRM 30
 
 
 typedef struct Celula Celula;
@@ -43,7 +44,12 @@ typedef enum {
   REST,
   ATR,
   SYS,
-  PUSHCELL
+  PUSHCELL,
+
+  STS,
+  RCS,
+  ENTRY,
+  LEAVE
 } OpCode;
 
 /* Tipos dos operandos */
@@ -117,8 +123,9 @@ struct Maquina {
   Pilha *exec;
   OPERANDO Mem[MAXMEM];
   INSTR *prog;
-  OPERANDO rbp; //!!!
+  OPERANDO ib; //!!!
   OPERANDO ip;
+  int bp[MAXFRM];
 };
 
 #endif

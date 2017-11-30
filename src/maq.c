@@ -35,7 +35,12 @@ char *CODES[] = {
   "REST", //!!!
   "ATR", //$$
   "SYS",
-  "PUSHCELL"
+  "PUSHCELL",
+
+  "STS",
+  "RCS",
+  "ENTRY",
+  "LEAVE"
 };
 #else
 #  define D(X)
@@ -68,12 +73,27 @@ void destroi_maquina(Maquina *m) {
   free(m);
 }
 
+int new_frame(Maquina *m, int n) {
+  int ibc = m->ib;
+  if (ibc < MAXFRM-1) {
+    m->bp[++m->ib] = n+ibc;
+    return m->ib;
+  }
+  return -1;
+}
+
+int del_frame(Maquina *m) {
+  if (m->ib > 0) return --m->ib;
+  return -1;
+}
+
 /* Alguns macros para facilitar a leitura do código */
 #define ip (m->ip)
 #define pil (m->pil)
 #define exec (m->exec)
 #define prg (m->prog)
-#define rbp (m->rbp)
+#define ib (m->ib)
+#define bp (m->bp)
 
 void exec_maquina(Maquina *m, int n) {
   int i;
@@ -161,7 +181,7 @@ void exec_maquina(Maquina *m, int n) {
   		  ip.val.n = arg.val.n;
   	 	  continue;
     }
-    else {
+    else if (tmp.t != NUM){
       empilha(pil, tmp); //Devolve a pilha no estado em que recebeu
       Erro("(JIT): Dado incompatível");
     }
@@ -172,26 +192,21 @@ void exec_maquina(Maquina *m, int n) {
 		  ip.val.n = arg.val.n;
 		  continue;
 	  }
-    else {
+    else if (tmp.t != NUM) {
       empilha(pil, tmp); //Devolve a pilha no estado em que recebeu
       Erro("(JIF): Dado incompatível");
     }
 	  break;
 	case CALL:
 	  empilha(exec, ip);
-	  empilha(exec, rbp); //!!! SAVE
-	  rbp.val.n = exec->topo - 1; //!!! SAVE
 	  ip.val.n = arg.val.n;
 	  continue;
 	case RET:
     tmp = desempilha(exec);
-    tmp2 = desempilha(exec);
-    if (tmp.t == NUM && tmp2.t == NUM) {
-	   rbp = tmp; //!!! REST
-	   ip = tmp2;
+    if (tmp.t == NUM) {
+	   ip = tmp;
     }
     else {
-      empilha(pil, tmp2);
       empilha(pil, tmp);
       Erro("(RET): Dados incompatíveis");
     }
@@ -269,31 +284,13 @@ void exec_maquina(Maquina *m, int n) {
     }
 	  break;
 	case STO:
-	  m->Mem[arg.val.n] = desempilha(pil);
+    m->Mem[arg.val.n + bp[ib]] = desempilha(pil);
 	  break;
 	case RCL:
-	  empilha(pil,m->Mem[arg.val.n]);
+    empilha(pil,m->Mem[arg.val.n + bp[ib]]);
 	  break;
-	case STL: //!!!
-	  exec->val[arg.val.n + rbp.val.n] = desempilha(pil);
-	  break;
-	case RCE: //!!!
-		empilha(pil, exec->val[arg.val.n + rbp.val.n]);
-		break;
-	case ALC: //!!! malloc
-		exec->topo = exec->topo + arg.val.n;
-		break;
-	case FRE: //!!! free
-		exec->topo = exec->topo - arg.val.n;
-		break;
-	case SAVE: //!!!
-		empilha(exec, rbp);
-		rbp.val.n = exec->topo - 1;
-		break;
-	case REST: //!!!
-		rbp = desempilha(exec);
-		break;
 	case END:
+    pil->topo = 0;
 	  return;
 	case PRN:
     tmp = desempilha(pil);
@@ -356,7 +353,13 @@ void exec_maquina(Maquina *m, int n) {
       tmp.val.n = -1;
       empilha(pil, tmp);
     }
-
+    break;
+  case ENTRY:
+    new_frame(m, arg.val.n);
+    break;
+  case LEAVE:
+    del_frame(m);
+    break;
   }
 
 	D(imprime(pil,5));

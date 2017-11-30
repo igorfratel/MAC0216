@@ -50,109 +50,10 @@ INSTR prog0[] = {
   ,{SYS, 0}
   ,{PUSH, 4}
   ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
   ,{END, 0}
 };
 INSTR prog1[] = {
   {PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{END, 0}
-};
-INSTR prog2[] = {
-  {PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
   ,{SYS, 0}
   ,{PUSH, 2}
   ,{SYS, 0}
@@ -205,8 +106,7 @@ INSTR prog2[] = {
 //Database contém todos os vetores de programas
 INSTR *database[] = {
   prog0,
-  prog1,
-  prog2
+  prog1
 };
 INSTR *devolve_programa(int prog_num) {
   //Recebe o número do programa e devolve o programa correspondente
