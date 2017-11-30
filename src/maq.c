@@ -58,8 +58,8 @@ Maquina *cria_maquina(INSTR *p) {
   m->ip.t = NUM;//@@
   m->ip.val.n = 0;//@@
   m->prog = p;
-  m->rbp.t = NUM;//@@
-  m->rbp.val.n = 0; //!!!
+  m->ib.t = NUM;//@@
+  m->ib.val.n = 0; //!!!
   m->ocupado = 0;
   m->vida = 10;
   m->imagem = imagem;
@@ -74,16 +74,16 @@ void destroi_maquina(Maquina *m) {
 }
 
 int new_frame(Maquina *m, int n) {
-  int ibc = m->ib;
+  int ibc = m->ib.val.n;
   if (ibc < MAXFRM-1) {
-    m->bp[++m->ib] = n+ibc;
-    return m->ib;
+    m->bp[++m->ib.val.n] = n+ibc;
+    return m->ib.val.n;
   }
   return -1;
 }
 
 int del_frame(Maquina *m) {
-  if (m->ib > 0) return --m->ib;
+  if (m->ib.val.n > 0) return --m->ib.val.n;
   return -1;
 }
 
@@ -284,10 +284,10 @@ void exec_maquina(Maquina *m, int n) {
     }
 	  break;
 	case STO:
-    m->Mem[arg.val.n + bp[ib]] = desempilha(pil);
+    m->Mem[arg.val.n + bp[ib.val.n]] = desempilha(pil);
 	  break;
 	case RCL:
-    empilha(pil,m->Mem[arg.val.n + bp[ib]]);
+    empilha(pil,m->Mem[arg.val.n + bp[ib.val.n]]);
 	  break;
 	case END:
     pil->topo = 0;
