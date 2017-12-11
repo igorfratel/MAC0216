@@ -8,7 +8,6 @@
 #include "types.h"
 #include "utils.h"
 #include "arena.h"
-  
 int yylex();
 void yyerror(char const *);
 int compila(FILE *, INSTR *);
@@ -85,7 +84,7 @@ Expr: NUMt {  AddInstr(PUSH, $1);}
 	/* 		 AddInstr(PUSH, s->val); */
 	/* 		 AddInstr(ATR, $3); */
  	/* 	 } */
-	| Chamada 
+	| Chamada
     | Expr ADDt Expr { AddInstr(ADD,  0);}
 	| Expr SUBt Expr { AddInstr(SUB,  0);}
 	| Expr MULt Expr { AddInstr(MUL,  0);}
@@ -114,11 +113,11 @@ Loop: WHILE OPEN  {salva_end(ip);}
 			  int ip2 = pega_end();
 			  AddInstr(JMP, pega_end());
 			  prog[ip2].op = ip;
-			}; 
+			};
 
 Bloco: ABRE Comandos FECHA ;
 
-Comandos: Comando 
+Comandos: Comando
     | Comandos Comando
 	;
 
@@ -146,7 +145,7 @@ Func: FUNC ID
 	  }
 	  ;
 
-Args: 
+Args:
 	| ID {
 	  	 putsym($1);
 	  }
@@ -169,7 +168,7 @@ Chamada: ID OPEN
 		   }
 		   AddInstr(ENTRY, lastval());
 		   /* Cópia dos parâmetros */
-		   while (parmcnt > 0) 
+		   while (parmcnt > 0)
 			 AddInstr( STO, --parmcnt);
 		   AddInstr(CALL, s->val);
 		 }

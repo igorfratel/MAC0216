@@ -1,114 +1,20 @@
-//Arquivo que conterá todos os programas dos robôs em jogo
+//Arquivo que conterá todos os arquivos de programa dos robôs
 //Será gerado pelo parser em python
-#include "programas.h"
-INSTR prog0[] = {
-  {PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{END, 0}
-};
-INSTR prog1[] = {
-  {PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{PUSH, 0}
-  ,{SYS, 0}
-  ,{PUSH, 2}
-  ,{SYS, 0}
-  ,{PUSH, 4}
-  ,{SYS, 0}
-  ,{END, 0}
-};
-//Database contém todos os vetores de programas
-INSTR *database[] = {
-  prog0,
-  prog1
+#include "programas.h" 
+
+INSTR p1[2000];
+int compilador(FILE *, INSTR *);
+//Database contém todos os nomes dos arquivos
+char *database[] = {
+"./programasteste/testes/fatorial", 
+"./programasteste/testes/fibo", 
+"./programasteste/testes/aux"
+
 };
 INSTR *devolve_programa(int prog_num) {
-  //Recebe o número do programa e devolve o programa correspondente
-  return database[prog_num];
+    //Recebe o número do programa e devolve o programa correspondente
+    FILE *p = fopen(database[prog_num], "r");
+    int res = compilador(p, p1);
+    if (res) return NULL;
+    return p1;
 }

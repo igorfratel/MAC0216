@@ -6,7 +6,7 @@ CFLAGS  = -Wall -std=gnu11
 
 default: jogo gerador compila
 
-jogo: jogo.c types.h utils.o pilha.o maq.o programas.o arena.o
+jogo: jogo.c compila.tab.o types.h utils.o pilha.o maq.o programas.o arena.o
 	$(CC) jogo.c $(CFLAGS) -o jogo types.h utils.o pilha.o maq.o programas.o arena.o
 
 utils: utils.c utils.h
@@ -21,14 +21,11 @@ maq: maq.c maq.h arena.o pilha.o utils.o types.o
 arena: arena.c arena.h types.h maq.o utils.o
 	$(CC) $(CFLAGS) -c arena.c
 
-programas: programas.c programas.h types.h maq.o
-	$(CC) $(CFLAGS) -c programas.c types.h maq.o
+programas: compila.tab.o lex.yy.o symrec.o acertos.o programas.c programas.h types.h maq.o
+	$(CC) $(CFLAGS) -lm -lfl -c programas.c types.h maq.o compila.tab.o
 
-gerador: gerador_terreno.c
-	$(CC) $(CFLAGS) gerador_terreno.c -o gerador_terreno
-
-compila: compila.tab.o lex.yy.o symrec.o acertos.o maq.o pilha.o motor.o utils.o arena.o
-	gcc -o $@ $^ -lm -lfl
+# compila: compila.tab.o lex.yy.o symrec.o acertos.o maq.o pilha.o motor.o utils.o arena.o
+	# gcc -o $@ $^ -lm -lfl
 
 compila.tab.o: compila.y
 	bison -d compila.y
@@ -38,13 +35,9 @@ lex.yy.o: compila.l
 	flex compila.l
 	gcc -c lex.yy.c
 
-motor.o: compila.tab.h maq.h
-	$(CC) $(CFLAGS) -c motor.c compila.tab.h maq.h
+gerador: gerador_terreno.c
+	$(CC) $(CFLAGS) gerador_terreno.c -o gerador_terreno
 
 
 clean:
 	rm -f *.o jogo lex.yy.c compila.tab.c compila.tab.h *~ compila
-
-
-
-

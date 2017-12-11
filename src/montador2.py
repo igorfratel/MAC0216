@@ -28,13 +28,13 @@ def parse_programs(*args):
             out.write(", \n")
         else:
             out.write("\n")
-            
+
     out.write(  "\n};\n"
             "INSTR *devolve_programa(int prog_num) {\n"
             "    //Recebe o número do programa e devolve o programa correspondente\n"
-            '    FILE *p = fopen(database[prog_num], "w")\n'
+            '    FILE *p = fopen(database[prog_num], "r");\n'
             "    int res = compilador(p, p1);\n"
-            "    if (res) return 1;\n"
+            "    if (res) return NULL;\n"
             "    return p1;\n}")
 
 parse_programs(sys.argv)
