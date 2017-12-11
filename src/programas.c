@@ -1,13 +1,13 @@
 //Arquivo que conterá todos os arquivos de programa dos robôs
 //Será gerado pelo parser em python
-#include "programas.h" 
+#include "programas.h"
 
 INSTR p1[2000];
 int compilador(FILE *, INSTR *);
 //Database contém todos os nomes dos arquivos
 char *database[] = {
-"./programasteste/testes/fatorial", 
-"./programasteste/testes/fibo", 
+"./programasteste/testes/fatorial",
+"./programasteste/testes/fibo",
 "./programasteste/testes/aux"
 
 };

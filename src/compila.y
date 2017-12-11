@@ -8,7 +8,7 @@
 #include "types.h"
 #include "utils.h"
 #include "arena.h"
-int yylex();
+extern int yylex();
 void yyerror(char const *);
 int compila(FILE *, INSTR *);
 static int ip  = 0;					/* ponteiro de instruções */

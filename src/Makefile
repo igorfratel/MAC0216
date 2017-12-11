@@ -4,10 +4,10 @@ CC = gcc
 # compiler flags:
 CFLAGS  = -Wall -std=gnu11
 
-default: jogo gerador compila
+default: jogo gerador
 
-jogo: jogo.c compila.tab.o types.h utils.o pilha.o maq.o programas.o arena.o
-	$(CC) jogo.c $(CFLAGS) -o jogo types.h utils.o pilha.o maq.o programas.o arena.o
+jogo: jogo.c acertos.o symrec.o compila.tab.o lex.yy.o types.h utils.o pilha.o maq.o programas.o arena.o
+	$(CC) jogo.c $(CFLAGS) -lfl -o jogo types.h utils.o pilha.o maq.o acertos.o symrec.o compila.tab.o lex.yy.o programas.o arena.o
 
 utils: utils.c utils.h
 	$(CC) $(CFLAGS) -c utils.c
@@ -21,12 +21,6 @@ maq: maq.c maq.h arena.o pilha.o utils.o types.o
 arena: arena.c arena.h types.h maq.o utils.o
 	$(CC) $(CFLAGS) -c arena.c
 
-programas: compila.tab.o lex.yy.o symrec.o acertos.o programas.c programas.h types.h maq.o
-	$(CC) $(CFLAGS) -lm -lfl -c programas.c types.h maq.o compila.tab.o
-
-# compila: compila.tab.o lex.yy.o symrec.o acertos.o maq.o pilha.o motor.o utils.o arena.o
-	# gcc -o $@ $^ -lm -lfl
-
 compila.tab.o: compila.y
 	bison -d compila.y
 	gcc -c compila.tab.c
@@ -34,6 +28,18 @@ compila.tab.o: compila.y
 lex.yy.o: compila.l
 	flex compila.l
 	gcc -c lex.yy.c
+
+programas: programas.c programas.h compila.tab.o compila.tab.h lex.yy.o types.h maq.o
+	$(CC) $(CFLAGS) -c programas.c
+
+#compila: compila.tab.o lex.yy.o symrec.o acertos.o maq.o pilha.o motor.o utils.o arena.o
+	#gcc -o $@ $^ -lm -lfl
+acertos: acertos.c acertos.h
+	$(CC) $(CFLAGS) -c acertos.c
+
+symrec: symrec.c symrec.h
+	$(CC) $(CFLAGS) -c symrec.c
+
 
 gerador: gerador_terreno.c
 	$(CC) $(CFLAGS) gerador_terreno.c -o gerador_terreno
