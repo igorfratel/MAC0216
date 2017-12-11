@@ -116,7 +116,7 @@ Cond: IF OPEN  Expr {
  		 }
         ELSE OPEN {
    	  	 	   salva_end(ip);
- 			   AddInstr(JIF,  0);
+ 			   AddInstr(JIT,  0);
   		 }
  		 CLOSE  Bloco {
  		   prog[pega_end()].op = ip;
