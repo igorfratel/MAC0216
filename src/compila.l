@@ -1,8 +1,8 @@
 D [0-9]
 L [a-zA-Z_]
 H [a-zA-Z_0-9]
-E [Ee][+-]?{D}+
-
+E [Ee][+-]?{D}+ 
+%option noyywrap
 %{
 #include <math.h>
 #include "compila.tab.h"

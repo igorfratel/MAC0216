@@ -15,6 +15,7 @@ static int ip  = 0;					/* ponteiro de instruções */
 static int mem = 6;					/* ponteiro da memória */
 static INSTR *prog;
 static int parmcnt = 0;		/* contador de parâmetros */
+int flag_else = 0;
 
 void AddInstr(OpCode op, int val) {
   prog[ip++] = (INSTR) {op, val};
@@ -100,41 +101,19 @@ Expr: NUMt {  AddInstr(PUSH, $1);}
 	| Expr NEt Expr  { AddInstr(NE,   0);}
 ;
 
-Cond: IF OPEN  Expr {
-  	  	 	   salva_end(ip);
-			   AddInstr(JIF,  0);
- 		 }
-		 CLOSE  Bloco {
-		   prog[pega_end()].op = ip;
-		 };
-     | IF OPEN  Expr {
-   	  	 	   salva_end(ip);
- 			   AddInstr(JIF,  0);
-  		 }
- 		 CLOSE  Bloco {
- 		   prog[pega_end()].op = ip;
- 		 }
-        ELSE OPEN {
-   	  	 	   salva_end(ip);
- 			   AddInstr(JIT,  0);
-  		 }
- 		 CLOSE  Bloco {
- 		   prog[pega_end()].op = ip;
- 		 }
-     | IF OPEN  Expr {
-   	  	 	   salva_end(ip);
- 			   AddInstr(JIF,  0);
-  		 }
- 		 CLOSE  Bloco {
- 		   prog[pega_end()].op = ip;
- 		 }
-     ELSE IF OPEN Expr {
-   	  	 	   salva_end(ip);
- 			   AddInstr(JIF,  0);
-  		 }
- 		 CLOSE  Bloco {
- 		   prog[pega_end()].op = ip;
- 		 }
+Cond: IF OPEN Expr {
+  	    salva_end(ip);
+	    AddInstr(JIF,  0);}
+	  CLOSE  Bloco {
+	    prog[pega_end()].op = ip;
+        flag_else = 1;}
+    | Else
+
+Else: ELSE {if(!flag_else){
+                salva_end(ip);
+                AddInstr(JIF,  0);
+            }}
+      Bloco {;}
 
 Loop: WHILE OPEN  {salva_end(ip);}
 	  		Expr  { salva_end(ip); AddInstr(JIF,0); }

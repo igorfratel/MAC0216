@@ -4,7 +4,7 @@ CC = gcc
 # compiler flags:
 CFLAGS  = -Wall -std=gnu11
 
-default: jogo gerador
+default: jogo gerador compila
 
 jogo: jogo.c acertos.o symrec.o compila.tab.o lex.yy.o types.h utils.o pilha.o maq.o programas.o arena.o
 	$(CC) jogo.c $(CFLAGS) -lfl -o jogo types.h utils.o pilha.o maq.o acertos.o symrec.o compila.tab.o lex.yy.o programas.o arena.o
@@ -32,8 +32,8 @@ lex.yy.o: compila.l
 programas: programas.c programas.h compila.tab.o compila.tab.h lex.yy.o types.h maq.o
 	$(CC) $(CFLAGS) -c programas.c
 
-#compila: compila.tab.o lex.yy.o symrec.o acertos.o maq.o pilha.o motor.o utils.o arena.o
-	#gcc -o $@ $^ -lm -lfl
+compila: compila.tab.o lex.yy.o symrec.o acertos.o maq.o pilha.o motor.o utils.o arena.o
+	gcc -o $@ $^ -lm -lfl
 acertos: acertos.c acertos.h
 	$(CC) $(CFLAGS) -c acertos.c
 
