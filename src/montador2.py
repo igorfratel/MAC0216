@@ -14,8 +14,7 @@ def parse_programs(*args):
 
     out.write('//Arquivo que conterá todos os arquivos de programa dos robôs\n'
           '//Será gerado pelo parser em python\n'
-          '#include "programas.h" \n'
-          '#include "compila.tab.h"\n\n')
+          '#include "programas.h" \n\n')
 
     out.write('INSTR p1[2000];\n'
               'int compilador(FILE *, INSTR *);\n')
@@ -29,7 +28,7 @@ def parse_programs(*args):
     out.write(  "\n};\n"
             "INSTR *devolve_programa(int prog_num) {\n"
             "    //Recebe o número do programa e devolve o programa correspondente\n"
-            '    FILE *p = fopen(database[prog_num], "w")'
+            '    FILE *p = fopen(database[prog_num], "w")\n'
             "    int res = compilador(p, p1);\n"
             "    if (res) return 1;\n"
             "    return p1;\n}")
