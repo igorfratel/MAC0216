@@ -23,9 +23,13 @@ def parse_programs(*args):
     out.write( "//Database contém todos os nomes dos arquivos\n"
                 "char *database[] = {\n")
 
-    for file in args[0][1:]:
-        out.write('"'+file+'"' + ", ")
-
+    for x in range(1, len(args[0])):
+        out.write('"'+args[0][x]+'"')
+        if(x != len(args[0]) - 1):
+            out.write(", \n")
+        else:
+            out.write("\n")
+            
     out.write(  "\n};\n"
             "INSTR *devolve_programa(int prog_num) {\n"
             "    //Recebe o número do programa e devolve o programa correspondente\n"
