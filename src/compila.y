@@ -15,7 +15,6 @@ static int ip  = 0;					/* ponteiro de instruções */
 static int mem = 6;					/* ponteiro da memória */
 static INSTR *prog;
 static int parmcnt = 0;		/* contador de parâmetros */
-int flag_else = 0;
 
 void AddInstr(OpCode op, int val) {
   prog[ip++] = (INSTR) {op, val};
@@ -105,15 +104,13 @@ Cond: IF OPEN Expr {
   	    salva_end(ip);
 	    AddInstr(JIF,  0);}
 	  CLOSE  Bloco {
-	    prog[pega_end()].op = ip;
-        flag_else = 1;}
-    | Else
+        AddInstr(JMP, ip);
+	    prog[pega_end()].op = ip;}
 
-Else: ELSE {if(!flag_else){
-                salva_end(ip);
-                AddInstr(JIF,  0);
-            }}
-      Bloco {;}
+Cond: Cond ELSE Bloco{
+        salva_end(ip);
+        AddInstr(JMP, ip);
+        prog[pega_end()].op = ip;}
 
 Loop: WHILE OPEN  {salva_end(ip);}
 	  		Expr  { salva_end(ip); AddInstr(JIF,0); }
