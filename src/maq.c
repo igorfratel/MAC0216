@@ -27,18 +27,17 @@ char *CODES[] = {
   "RCL",
   "END",
   "PRN",
-  "STL", //!!!
-  "RCE", //!!!
-  "FRE", //!!!
-  "ALC", //!!!
-  "SAVE", //!!!
-  "REST", //!!!
+  //"STL", //!!!
+  //"RCE", //!!!
+  //"FRE", //!!!
+  //"ALC", //!!!
+  //"SAVE", //!!!
+  //"REST", //!!!
   "ATR", //$$
   "SYS",
   "PUSHCELL",
-
-  "STS",
-  "RCS",
+  //"STS",
+  //"RCS",
   "ENTRY",
   "LEAVE"
 };
