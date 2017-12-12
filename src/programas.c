@@ -2,19 +2,23 @@
 //Será gerado pelo parser em python
 #include "programas.h"
 
-INSTR p1[2000];
+//INSTR comand[2000];
 int compilador(FILE *, INSTR *);
 //Database contém todos os nomes dos arquivos
 char *database[] = {
-"./programasteste/testes/fatorial",
-"./programasteste/testes/fibo",
-"./programasteste/testes/aux"
-
+"./programasteste/comandos/prog0.txt",
+"./programasteste/comandos/prog1.txt",
+"./programasteste/comandos/prog2.txt",
+"./programasteste/comandos/prog3.txt",
+"./programasteste/comandos/prog4.txt",
+//"./programasteste/testes/fibo",
+//"./programasteste/testes/aux"
 };
-INSTR *devolve_programa(int prog_num) {
-    //Recebe o número do programa e devolve o programa correspondente
-    FILE *p = fopen(database[prog_num], "r");
-    int res = compilador(p, p1);
+
+INSTR *devolve_programa(int prog_num, INSTR comand[]) {
+    //Recebe o número do programa e devolve o programa correspondente	
+	FILE *p = fopen(database[prog_num], "r");
+    int res = compilador(p, comand);
     if (res) return NULL;
-    return p1;
+    return comand;
 }

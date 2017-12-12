@@ -1,0 +1,6 @@
+n = 0;
+while (n < 100){
+	MOV_EINF;
+	MOV_DSUP;
+	n = n + 1;
+}

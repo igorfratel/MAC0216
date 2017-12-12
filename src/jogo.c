@@ -36,28 +36,34 @@ int main() {
 	Arena *minha_arena = (Arena*)malloc(sizeof(Arena));
 	cria_arena(minha_arena, 15, 15);
 
+	INSTR c0[20000];
+	INSTR c1[20000];
+	INSTR c2[20000];
+	INSTR c3[20000];
+	INSTR c4[20000];
+
 	switch(exercitos){
 		case 2:
-			p0 = devolve_programa(0);
-			p1 = devolve_programa(1);
+			p0 = devolve_programa(0, c0);
+			p1 = devolve_programa(1, c1);
 			insere_exercito(minha_arena, robos, p0);
 			insere_exercito(minha_arena, robos, p1);
 			break;
 
 		case 3:
-			p0 = devolve_programa(0);
-			p1 = devolve_programa(1);
-			p2 = devolve_programa(2);
+			p0 = devolve_programa(0, c0);
+			p1 = devolve_programa(1, c1);
+			p2 = devolve_programa(2, c2);
 			insere_exercito(minha_arena, robos, p0);
 			insere_exercito(minha_arena, robos, p1);
 			insere_exercito(minha_arena, robos, p2);
 			break;
 
 		case 4:
-			p0 = devolve_programa(0);
-			p1 = devolve_programa(1);
-			p2 = devolve_programa(2);
-			p3 = devolve_programa(3);
+			p0 = devolve_programa(0, c0);
+			p1 = devolve_programa(1, c1);
+			p2 = devolve_programa(2, c2);
+			p3 = devolve_programa(3, c3);
 			insere_exercito(minha_arena, robos, p0);
 			insere_exercito(minha_arena, robos, p1);
 			insere_exercito(minha_arena, robos, p2);
@@ -65,17 +71,18 @@ int main() {
 			break;
 
 		case 5:
-			p0 = devolve_programa(0);
-			p1 = devolve_programa(1);
-			p2 = devolve_programa(2);
-			p3 = devolve_programa(3);
-			p4 = devolve_programa(4);
+			p0 = devolve_programa(0, c0);
+			p1 = devolve_programa(1, c1);
+			p2 = devolve_programa(2, c2);
+			p3 = devolve_programa(3, c3);
+			p4 = devolve_programa(4, c4);
 			insere_exercito(minha_arena, robos, p0);
 			insere_exercito(minha_arena, robos, p1);
 			insere_exercito(minha_arena, robos, p2);
 			insere_exercito(minha_arena, robos, p3);
 			insere_exercito(minha_arena, robos, p4);
 			break;
+		
 	}
 
 	mostra_arena(minha_arena);
