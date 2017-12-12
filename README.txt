@@ -167,3 +167,14 @@ else {
 }
 Infelizmente tivemos problemas para implementar o else if, utilizando a solução que encontramos 
 para fazer com que o compilador o reconheça.
+
+COMO RODAR O JOGO:
+1. Criar o terreno, informando o número de exércitos e com quantos robôs cada exército deve ter através dos comandos:
+$ gcc gerador_terreno.c
+./a.out
+
+2. Modificar os arquivos progX.txt da pasta "comandos". Por exemplo, se são dois jogadores, os arquivos prog0.txt e prog1.txt devem ser alterados com o código de cada jogador. Se são 3 jogadores, os arquivos prog0.txt, prog1.txt e prog2.txt devem ser alterados e assim por diante. Não é preciso deletar nenhum arquivo dessa pasta, apenas editar os .txt em quantidade apropriada para o número de jogadores, sempre começando pelo prog0.txt. 
+
+3. Rodar o jogo em si, informando o número de exércitos e o de robôs que cada exército deve ter:
+$ make
+$ ./jogo
