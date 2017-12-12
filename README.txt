@@ -154,3 +154,15 @@ DEP_DINF - DEPOSITA CRISTAL NA CÉLULA INFERIOR DIREITA (em uma base inimiga)
 DEP_BAIXO - DEPOSITA CRISTAL NA CÉLULA DE BAIXO (em uma base inimiga)  
 DEP_EINF - DEPOSITA CRISTAL NA CÉLULA INFERIOR ESQUERDA (em uma base inimiga)  
 DEP_ESUP - DEPOSITA CRISTAL NA CÉLULA SUPERIOR ESQUERDA (em uma base inimiga)  
+
+Nessa fase, fizemos com que o compilador reconheça o condicional else
+de forma que seja reconhecida a sintaxe: 
+if(condição) {
+	código;
+	código;
+}
+else {
+	código;
+	código;
+}
+Infelizmente tivemos problemas para implementar o else if, utilizando a solução que encontramos para fazer com que o compilador o reconheça.
