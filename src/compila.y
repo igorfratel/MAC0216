@@ -37,7 +37,7 @@ void AddInstr(OpCode op, int val) {
 %token REC_CIMAt REC_DSUPt REC_DINFt REC_BAIXOt REC_EINFt REC_ESUPt
 %token MOV_CIMAt MOV_DSUPt MOV_DINFt MOV_BAIXOt MOV_EINFt MOV_ESUPt
 %token ATQ_CIMAt ATQ_DSUPt ATQ_DINFt ATQ_BAIXOt ATQ_EINFt ATQ_ESUPt
-%token DEQ_CIMAt DEQ_DSUPt DEQ_DINFt DEQ_BAIXOt DEQ_EINFt DEQ_ESUPt
+%token DEP_CIMAt DEP_DSUPt DEP_DINFt DEP_BAIXOt DEP_EINFt DEP_ESUPt
 %token EQt NEt LTt LEt GTt GEt ABRE FECHA SEP
 %token IF WHILE FUNC PRINT
 %token ELSE
@@ -94,7 +94,15 @@ Expr: NUMt {  AddInstr(PUSH, $1);}
     | Expr ADDt Expr { AddInstr(ADD,  0);}
 	| Expr SUBt Expr { AddInstr(SUB,  0);}
 	| Expr MULt Expr { AddInstr(MUL,  0);}
-	| Expr DIVt Expr { AddInstr(DIV,  0);}
+	| Expr DIVt Expr { AddInstr(DIV,  0);}	
+    | '-' Expr %prec NEG  { printf("  {CHS,  0},\n"); }
+	| OPEN Expr CLOSE
+	| Expr LTt Expr  { AddInstr(LT,   0);}
+	| Expr GTt Expr  { AddInstr(GT,   0);}
+	| Expr LEt Expr  { AddInstr(LE,   0);}
+	| Expr GEt Expr  { AddInstr(GE,   0);}
+	| Expr EQt Expr  { AddInstr(EQ,   0);}
+	| Expr NEt Expr  { AddInstr(NE,   0);}
 
 	| CRI_CIMAt  { AddInstr(PUSH, 0); AddInstr(ATR, 1);}
 	| CRI_DSUPt  { AddInstr(PUSH, 1); AddInstr(ATR, 1);}
@@ -124,21 +132,12 @@ Expr: NUMt {  AddInstr(PUSH, $1);}
 	| ATQ_EINFt  { AddInstr(PUSH, 4); AddInstr(SYS, 3);}
 	| ATQ_ESUPt  { AddInstr(PUSH, 5); AddInstr(SYS, 3);}
 
-	| DEQ_CIMAt  { AddInstr(PUSH, 0); AddInstr(SYS, 2);}
-	| DEQ_DSUPt  { AddInstr(PUSH, 1); AddInstr(SYS, 2);}
-	| DEQ_DINFt  { AddInstr(PUSH, 2); AddInstr(SYS, 2);}
-	| DEQ_BAIXOt { AddInstr(PUSH, 3); AddInstr(SYS, 2);}
-	| DEQ_EINFt  { AddInstr(PUSH, 4); AddInstr(SYS, 2);}
-	| DEQ_ESUPt  { AddInstr(PUSH, 5); AddInstr(SYS, 2);}
-	
-    | '-' Expr %prec NEG  { printf("  {CHS,  0},\n"); }
-	| OPEN Expr CLOSE
-	| Expr LTt Expr  { AddInstr(LT,   0);}
-	| Expr GTt Expr  { AddInstr(GT,   0);}
-	| Expr LEt Expr  { AddInstr(LE,   0);}
-	| Expr GEt Expr  { AddInstr(GE,   0);}
-	| Expr EQt Expr  { AddInstr(EQ,   0);}
-	| Expr NEt Expr  { AddInstr(NE,   0);}
+	| DEP_CIMAt  { AddInstr(PUSH, 0); AddInstr(SYS, 2);}
+	| DEP_DSUPt  { AddInstr(PUSH, 1); AddInstr(SYS, 2);}
+	| DEP_DINFt  { AddInstr(PUSH, 2); AddInstr(SYS, 2);}
+	| DEP_BAIXOt { AddInstr(PUSH, 3); AddInstr(SYS, 2);}
+	| DEP_EINFt  { AddInstr(PUSH, 4); AddInstr(SYS, 2);}
+	| DEP_ESUPt  { AddInstr(PUSH, 5); AddInstr(SYS, 2);}
 ;
 
 Cond: IF OPEN Expr {

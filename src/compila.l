@@ -20,28 +20,6 @@ while	{ return WHILE; }
 func|def { return FUNC; }
 print   { return PRINT; }
 
-
-{L}{H}* {
-  strncpy(yylval.cod, yytext, 30);
-  return ID;
-}
-
-[ \t\n]+	/* pula espacos em branco */
-
-#.*		/* comentarios simples */
-
-;		{ return EOL; }
-,		{ return SEP; }
-=		{ return ASGN; }
-[(]		{ return OPEN; }
-[)]		{ return CLOSE; }
-[{]		{ return ABRE; }
-[}]		{ return FECHA; }
-[+]		{ return ADDt; }
-[-]		{ return SUBt; }
-[*]		{ return MULt; }
-[/]		{ return DIVt; }
-
 CRI_CIMA  { return CRI_CIMAt; } 
 CRI_DSUP  { return CRI_DSUPt; }
 CRI_DINF  { return CRI_DINFt; }
@@ -70,13 +48,33 @@ ATQ_BAIXO { return ATQ_BAIXOt;}
 ATQ_EINF  { return ATQ_EINFt; }
 ATQ_ESUP  { return ATQ_ESUPt; }
 
-DEQ_CIMA  { return DEQ_CIMAt; }
-DEQ_DSUP  { return DEQ_DSUPt; }
-DEQ_DINF  { return DEQ_DINFt; }
-DEQ_BAIXO { return DEQ_BAIXOt;}
-DEQ_EINF  { return DEQ_EINFt; }
-DEQ_ESUP  { return DEQ_ESUPt; }
+DEP_CIMA  { return DEP_CIMAt; }
+DEP_DSUP  { return DEP_DSUPt; }
+DEP_DINF  { return DEP_DINFt; }
+DEP_BAIXO { return DEP_BAIXOt;}
+DEP_EINF  { return DEP_EINFt; }
+DEP_ESUP  { return DEP_ESUPt; }
 
+{L}{H}* {
+  strncpy(yylval.cod, yytext, 30);
+  return ID;
+}
+
+[ \t\n]+	/* pula espacos em branco */
+
+#.*		/* comentarios simples */
+
+;		{ return EOL; }
+,		{ return SEP; }
+=		{ return ASGN; }
+[(]		{ return OPEN; }
+[)]		{ return CLOSE; }
+[{]		{ return ABRE; }
+[}]		{ return FECHA; }
+[+]		{ return ADDt; }
+[-]		{ return SUBt; }
+[*]		{ return MULt; }
+[/]		{ return DIVt; }
 ==		{ return EQt; }
 !=		{ return NEt; }
 "<"		{ return LTt; }
