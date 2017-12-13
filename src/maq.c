@@ -314,7 +314,7 @@ void exec_maquina(Maquina *m, int n) {
 	case ATR:
     tmp = desempilha(pil);
     tmp2.t = NUM;
-    if (tmp.t == CELULA) { //É uma célula
+    if (tmp.t == CELULA && tmp.val.n != -1) { //É uma célula
       switch(arg.val.n) { //Qual argumento da célula você quer?
         case 0: //terreno
           tmp2.val.n = tmp.val.cel.terreno; //nota: caso seja uma base, retorna 3
@@ -327,6 +327,9 @@ void exec_maquina(Maquina *m, int n) {
           else tmp2.val.n = 0; // 0, c.c
       }
       empilha(pil, tmp2);
+    }
+    else if(tmp.val.n == -1) {
+      empilha(pil, tmp);
     }
     else { //Não é uma célula
       empilha(pil, tmp); //Devolve a pilha no estado original
@@ -342,13 +345,13 @@ void exec_maquina(Maquina *m, int n) {
     //Recebe como argumento uma direção, empilha a célula adjacente ao robô que corresponde a essa direção.
     //Caso a célula não exista(por exemplo, se o robô estiver em uma borda), empilha -1.
     posicao = busca_celula(m->arena, m, arg.val.n);
+    tmp.t = CELULA;
     if(posicao[0] != -1) {
-      tmp.t = CELULA;
+      tmp.val.n = 1;
       tmp.val.cel = m->arena->matriz[posicao[0]][posicao[1]];
       empilha(pil, tmp);
     }
     else {
-      tmp.t = NUM;
       tmp.val.n = -1;
       empilha(pil, tmp);
     }
