@@ -27,6 +27,20 @@ CRI_BAIXO { return CRI_BAIXOt;}
 CRI_EINF  { return CRI_EINFt; }
 CRI_ESUP  { return CRI_ESUPt; }
 
+INI_CIMA  { return INI_CIMAt; }
+INI_DSUP  { return INI_DSUPt; }
+INI_DINF  { return INI_DINFt; }
+INI_BAIXO { return INI_BAIXOt;}
+INI_EINF  { return INI_EINFt; }
+INI_ESUP  { return INI_ESUPt; }
+
+BASE_CIMA  { return BASE_CIMAt; }
+BASE_DSUP  { return BASE_DSUPt; }
+BASE_DINF  { return BASE_DINFt; }
+BASE_BAIXO { return BASE_BAIXOt;}
+BASE_EINF  { return BASE_EINFt; }
+BASE_ESUP  { return BASE_ESUPt; }
+
 REC_CIMA  { return REC_CIMAt; } 
 REC_DSUP  { return REC_DSUPt; }
 REC_DINF  { return REC_DINFt; }

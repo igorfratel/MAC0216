@@ -38,6 +38,8 @@ void AddInstr(OpCode op, int val) {
 %token MOV_CIMAt MOV_DSUPt MOV_DINFt MOV_BAIXOt MOV_EINFt MOV_ESUPt
 %token ATQ_CIMAt ATQ_DSUPt ATQ_DINFt ATQ_BAIXOt ATQ_EINFt ATQ_ESUPt
 %token DEP_CIMAt DEP_DSUPt DEP_DINFt DEP_BAIXOt DEP_EINFt DEP_ESUPt
+%token INI_CIMAt INI_DSUPt INI_DINFt INI_BAIXOt INI_EINFt INI_ESUPt
+%token BASE_CIMAt BASE_DSUPt BASE_DINFt BASE_BAIXOt BASE_EINFt BASE_ESUPt
 %token EQt NEt LTt LEt GTt GEt ABRE FECHA SEP
 %token IF WHILE FUNC PRINT
 %token ELSE
@@ -110,6 +112,20 @@ Expr: NUMt {  AddInstr(PUSH, $1);}
 	| CRI_BAIXOt { AddInstr(PUSH, 3); AddInstr(ATR, 1);}
 	| CRI_EINFt  { AddInstr(PUSH, 4); AddInstr(ATR, 1);}
 	| CRI_ESUPt  { AddInstr(PUSH, 5); AddInstr(ATR, 1);}
+
+	| INI_CIMAt   { AddInstr(PUSH, 0); AddInstr(ATR, 2);}
+	| INI_DSUPt   { AddInstr(PUSH, 1); AddInstr(ATR, 2);}
+	| INI_DINFt   { AddInstr(PUSH, 2); AddInstr(ATR, 2);}
+	| INI_BAIXOt  { AddInstr(PUSH, 3); AddInstr(ATR, 2);}
+	| INI_EINFt   { AddInstr(PUSH, 4); AddInstr(ATR, 2);}
+	| INI_ESUPt   { AddInstr(PUSH, 5); AddInstr(ATR, 2);}
+
+	| BASE_CIMAt  { AddInstr(PUSH, 0); AddInstr(ATR, 3);}
+	| BASE_DSUPt  { AddInstr(PUSH, 0); AddInstr(ATR, 3);}
+	| BASE_DINFt  { AddInstr(PUSH, 0); AddInstr(ATR, 3);}
+	| BASE_BAIXOt { AddInstr(PUSH, 0); AddInstr(ATR, 3);}
+	| BASE_EINFt  { AddInstr(PUSH, 0); AddInstr(ATR, 3);}
+	| BASE_ESUPt  { AddInstr(PUSH, 0); AddInstr(ATR, 3);}
 
 	| REC_CIMAt  { AddInstr(PUSH, 0);  AddInstr(SYS, 1);}
 	| REC_DSUPt  { AddInstr(PUSH, 1);  AddInstr(SYS, 1);}
