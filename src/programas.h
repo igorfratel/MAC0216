@@ -5,6 +5,6 @@
 #include "maq.h"
 #include "compila.tab.h"
 //Recebe o número do programa e retorna o programa correspondente
-INSTR *devolve_programa(int prog_num, INSTR comand[]);
+void devolve_programa(int prog_num, INSTR *commands);
 
 #endif

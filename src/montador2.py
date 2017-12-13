@@ -16,8 +16,7 @@ def parse_programs(*args):
           '//Será gerado pelo parser em python\n'
           '#include "programas.h" \n\n')
 
-    out.write('INSTR p1[2000];\n'
-              'int compilador(FILE *, INSTR *);\n')
+    out.write('int compilador(FILE *, INSTR *);\n')
 
     out.write( "//Database contém todos os nomes dos arquivos\n"
                 "char *database[] = {\n")
@@ -30,12 +29,10 @@ def parse_programs(*args):
             out.write("\n")
 
     out.write(  "\n};\n"
-            "INSTR *devolve_programa(int prog_num) {\n"
+            "void devolve_programa(int prog_num, INSTR *commands) {\n"
             "    //Recebe o número do programa e devolve o programa correspondente\n"
             '    FILE *p = fopen(database[prog_num], "r");\n'
-            "    int res = compilador(p, p1);\n"
-            "    if (res) return NULL;\n"
-            "    return p1;\n}")
+            "    compilador(p, commands);}\n")
 
 parse_programs(sys.argv)
 
