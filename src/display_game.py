@@ -234,7 +234,7 @@ for line in fileinput.input():
             robs[ri].draw(di,dj)
 
     # tempo de espera para atualização, apenas para testes
-    pg.time.wait(10)
+    pg.time.wait(100)
 
     atu()
 
